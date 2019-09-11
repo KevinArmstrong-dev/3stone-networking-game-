@@ -1,0 +1,18 @@
+Outline for classes, attributes, methods, etc.
+
+Board:
+-Spaces: Space[11][11]
+
+Space:
+-Occupied: bool
+-Row: int
+-Column: int
+
+Stone:
+-Space: Space
+-whoPlayed: Player
+
+Player: interface
+
+Client: Player
+Server: Player
