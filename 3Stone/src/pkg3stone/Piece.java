@@ -7,8 +7,11 @@ package pkg3stone;
 
 /**
  *
- * @author 1733408
+ * @author svitl
  */
-public enum StoneColor {
-    WHITE, BLACK;
+public enum Piece {
+    BLANK, 
+    WHITE, 
+    BLACK,
+    BARRED;
 }
