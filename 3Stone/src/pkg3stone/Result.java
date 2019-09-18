@@ -7,8 +7,9 @@ package pkg3stone;
 
 /**
  *
- * @author 1733408
+ * @author svitl
  */
-public enum PlayerType {
-    CLIENT, SERVER
+public class Result {
+    private int blackScore = 0;
+    private int whiteScore = 0;
 }

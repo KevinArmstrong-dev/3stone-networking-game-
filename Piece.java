@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pkg3stone;
+package game;
 
 /**
  *
- * @author 1733408
+ * @author svitl
  */
-public enum StoneColor {
-    WHITE, BLACK;
+public enum Piece {
+    BLANK, 
+    WHITE, 
+    BLACK,
+    BARRED;
 }

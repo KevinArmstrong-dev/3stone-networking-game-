@@ -7,11 +7,11 @@ package pkg3stone;
 
 /**
  *
- * @author 1733408
+ * @author svitl
  */
-public class ThreeStone {
-    public static void main(String[] args)
-    {
-        
-    }
+public enum Piece {
+    BLANK, 
+    WHITE, 
+    BLACK,
+    BARRED;
 }
