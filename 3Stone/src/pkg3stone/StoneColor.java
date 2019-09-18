@@ -9,6 +9,6 @@ package pkg3stone;
  *
  * @author 1733408
  */
-public class StoneColor {
-    
+public enum StoneColor {
+    WHITE, BLACK;
 }
