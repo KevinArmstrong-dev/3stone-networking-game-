@@ -33,6 +33,11 @@ public class Board {
         this.server = new Player(PlayerType.SERVER);
     }
     
+    public boolean checkIfSquare()
+    {
+        return this.rows == this.columns;
+    }
+    
     public void occupy(int row, int column, Stone stone)
     {
         this.spaces[row][column].occupy(stone);
@@ -46,6 +51,11 @@ public class Board {
     public void changeTurn(PlayerType type)
     {
         this.playerTurn = type;
+    }
+    
+    public PlayerType getTurn()
+    {
+        return this.playerTurn;
     }
     
     public void checkFor3Space()
@@ -71,11 +81,11 @@ public class Board {
                    {
                        if (spaces[i][j].getStone().getWhoPlayed() == PlayerType.CLIENT)
                        {
-                           this.client.addPoints(3);
+                           this.client.addPoints(1);
                        }
                        else
                        {
-                           this.server.addPoints(3);
+                           this.server.addPoints(1);
                        }
                    }
             }

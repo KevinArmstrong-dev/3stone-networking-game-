@@ -10,8 +10,8 @@ package pkg3stone;
  * @author 1733408
  */
 public class Space {
-    private int row;
-    private int column;
+    private final int row;
+    private final int column;
     private boolean isOccupied;
     private PlayerType whoOccupied;
     private Stone stone;

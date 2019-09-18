@@ -10,7 +10,7 @@ package pkg3stone;
  * @author 1733408
  */
 public class Player {
-    private final PlayerType type;
+    private PlayerType type;
     private int points;
     
     public Player(PlayerType type)
@@ -22,6 +22,11 @@ public class Player {
     public int getPoints()
     {
         return this.points;
+    }
+    
+    public PlayerType getPlayerType()
+    {
+        return this.type;
     }
     
     public void addPoints(int add)

@@ -10,8 +10,8 @@ package pkg3stone;
  * @author 1733408
  */
 public class Stone {
-    private PlayerType whoPlayed;
-    private StoneColor color;
+    private final PlayerType whoPlayed;
+    private final StoneColor color;
     
     public Stone(PlayerType who)
     {
