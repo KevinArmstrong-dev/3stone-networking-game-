@@ -24,8 +24,8 @@ public class Board implements Serializable
     private int columnOfLastStonePlayed = 0;
     
     private final int amountOfStones = 3;
-    private final int numberOfRows = 7;
-    private final int numberOfColumns = 7;
+    private final int numberOfRows = 11;
+    private final int numberOfColumns = 11;
     
     
     //Constructor
@@ -56,7 +56,7 @@ public class Board implements Serializable
     }
     
     //Method checks if it is legal to make a move into position(row, column) of the board,
-    //sets this position with value of Plaer
+    //sets this position with value of plaerColore 
     //sets the last stone played
     public boolean isPlayLegal(Piece player, int column, int row)
     {
@@ -114,15 +114,17 @@ public class Board implements Serializable
     }  
 
     //Method finds three stones in right diagonals
-    private Result FindThreeStonesInRightDiagonals()
+    private Result FindThreeStonesInRightDiagonals(Piece player)
     {
         Result result = new Result();
+        int countScore = 0;
+        
         for (int i = 0; i <= numberOfRows - amountOfStones; i++)
         {
             for (int j = amountOfStones - 1; j < numberOfColumns; j++)
             {
                 Piece firstPiece = pieces[i][j];
-                if (firstPiece == Piece.BLANK)
+                if (firstPiece != player)
                     continue;
                 int count = 0;
                 for (int k = 0; k < amountOfStones; k++)
@@ -134,22 +136,29 @@ public class Board implements Serializable
                 if (count == amountOfStones)
                 {
                     countScore++;
-                    return GetResultFromPiece(firstPiece);
                 }
             }
         }
-        return countScore;
+        
+        if(player == Piece.BLACK)
+            result.setBlackScore(countScore); 
+        else
+            result.setWhiteScore(countScore);
+        return result;
     }
 
     //Method finds three stones in left diagonals
-    private Result FindThreeStonesInLeftDiagonals()
+    private Result FindThreeStonesInLeftDiagonals(Piece player)
     {
+        Result result = new Result();
+        int countScore = 0;
+        
         for (int i = 0; i <= numberOfRows - amountOfStones; i++)
         {
             for (int j = 0; j <= numberOfColumns - amountOfStones; j++)
             {
                 Piece firstPiece = pieces[i][j];
-                if (firstPiece == Piece.BLANK)
+                if (firstPiece != player)
                     continue;
                 int count = 0;
                 for (int k = 0; k < amountOfStones; k++)
@@ -160,22 +169,29 @@ public class Board implements Serializable
                 }
                 if (count == amountOfStones)
                 {
-                    return GetResultFromPiece(firstPiece);
+                     countScore++;
                 }
             }
         }
-        return Result.NOWINNER;
+        if(player == Piece.BLACK)
+            result.setBlackScore(countScore); 
+        else
+            result.setWhiteScore(countScore);
+        return result;
     }
 
     //Method finds three stones in columns
-    private Result FindThreeStonesInColumns()
+    private Result FindThreeStonesInColumns(Piece player)
     {
+        Result result = new Result();
+        int countScore = 0;
+        
         for (int i = 0; i <= numberOfRows - amountOfStones; i++)
         {
             for (int j = 0; j < numberOfColumns; j++)
             {
                 Piece firstPiece = pieces[i][j];
-                if (firstPiece == Piece.BLANK)
+                if (firstPiece != player)
                     continue;
                 int count = 0;
                 for (int k = 0; k < amountOfStones; k++)
@@ -186,22 +202,30 @@ public class Board implements Serializable
                 }
                 if (count == amountOfStones)
                 {
-                    return GetResultFromPiece(firstPiece);
+                     countScore++;
                 }
             }
         }
-        return Result.NOWINNER;
+        
+        if(player == Piece.BLACK)
+            result.setBlackScore(countScore); 
+        else
+            result.setWhiteScore(countScore);
+        return result;
     }
 
     //Method finds three stones in rows
-    private Result FindThreeStonesInRows()
+    private Result FindThreeStonesInRows(Piece player)
     {
+        Result result = new Result();
+        int countScore = 0;
+        
         for (int i = 0; i < numberOfRows; i++)
         {
             for (int j = 0; j <= numberOfColumns - amountOfStones; j++)
             {
                 Piece firstPiece = pieces[i][j];
-                if (firstPiece == Piece.BLANK)
+                if (firstPiece != player)
                     continue;
                 int count = 0;
                 for (int k = 0; k < amountOfStones; k++)
@@ -212,23 +236,20 @@ public class Board implements Serializable
                 }
                 if (count == amountOfStones)
                 {
-                    return GetResultFromPiece(firstPiece);
+                    countScore++;
                 }
             }
         }
-        return Result.NOWINNER;
-    }
-
-    //Method returns Result depending on Piece
-    private static Result GetResultFromPiece(Piece piece)
-    {
-        if (piece == Piece.BLACK)
-            return Result.BLACK;
-        return Result.WHITE;
+        
+        if(player == Piece.BLACK)
+            result.setBlackScore(countScore); 
+        else
+            result.setWhiteScore(countScore);
+        return result;
     }
 
     //Method checks if the game is over
-    private boolean IfGameIsOver()
+    private boolean IsGameIsOver()
     {
         for(int i=0; i<numberOfRows; i++)
         {
@@ -243,4 +264,30 @@ public class Board implements Serializable
         return true;
     }
     
+   //overriding toString
+    public String toString()
+    {
+        String board = "";
+            for (int i = 0; i< this.pieces.length; i--)
+            {
+                for (int j = 0; j < this.pieces[i].length; j++)
+                {
+                    switch (this.pieces[i][j])
+                    {
+                        case BLACK:
+                            board += "B";
+                            break;
+                        case WHITE:
+                            board += "W";
+                            break;
+                        case BLANK:
+                            board += "O";
+                            break;
+                    }
+                    board += " ";
+                }
+                board += "\n\n";
+            }
+            return board;
+    }
 }
