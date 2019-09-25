@@ -14,6 +14,7 @@ public class Game {
     private IPlayer[] players;
     private Piece[] pieces;
     private Board board;
+    //private IPlayer turn;
 
     // constructor
     public Game(Client whitePlayer, Computer blackPlayer)
@@ -25,13 +26,26 @@ public class Game {
         pieces[0] = Piece.WHITE;
         pieces[1] = Piece.BLACK;
         board = new Board();
+        //turn = whitePlayer;
     }
 
     // play method that is responsible for the course of the game
     public Result Play()
     {
+        while (this.board.isGameOver() == false)
+        {
+            if (board.lastStonePlayed == Piece.WHITE)
+            {
+                this.players[1].ChooseMove(board);
+            }
+            else
+            {
+                this.players[0].ChooseMove(board);
+            }
+        }
         return null;
     }
+
 
     // return first player
     public IPlayer getFirstPlayer()

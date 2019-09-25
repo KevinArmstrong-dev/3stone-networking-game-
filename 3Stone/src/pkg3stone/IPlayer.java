@@ -11,6 +11,6 @@ package pkg3stone;
  */
 public interface IPlayer {
     
-    //ChooseMove(Board board);
+    public Move ChooseMove(Board board);
     
 }
