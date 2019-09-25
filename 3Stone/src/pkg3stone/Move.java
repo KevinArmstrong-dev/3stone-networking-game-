@@ -7,12 +7,15 @@ package pkg3stone;
 
 /**
  *
- * @author svitl, Tall_Optimist_GC
+ * @author 1733408
  */
-public class Client implements IPlayer 
-{   
-    public Move ChooseMove(Board board)
+public class Move {
+    private int row;
+    private int column;
+    
+    public Move(int r, int c)
     {
-        return new Move(1,1);
+        this.row = r;
+        this.column = c;
     }
 }

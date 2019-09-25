@@ -22,7 +22,7 @@ public class Board implements Serializable
     private int playerWhitePieces = 15;
     private int playerBlackPieces = 15;
     
-    private Piece lastStonePlayed = Piece.BLANK;
+    protected Piece lastStonePlayed = Piece.BLANK;
     private int rowOfLastStonePlayed = 0;
     private int columnOfLastStonePlayed = 0;
     
@@ -257,7 +257,7 @@ public class Board implements Serializable
     }
 
     //Method checks if the game is over
-    private boolean isGameOver()
+    protected boolean isGameOver()
     {
         if (playerWhitePieces == 0 && playerBlackPieces == 0)
             return true;

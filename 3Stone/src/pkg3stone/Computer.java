@@ -11,5 +11,8 @@ package pkg3stone;
  */
 public class Computer implements IPlayer
 {
-   
+   public Move ChooseMove(Board board)
+   {
+       return new Move(1,1);
+   }
 }
