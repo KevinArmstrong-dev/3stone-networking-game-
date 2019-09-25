@@ -10,6 +10,7 @@ package pkg3stone;
  * @author svitl
  */
 public class Result {
+    
     private int blackScore = 0;
     private int whiteScore = 0;
     
@@ -17,9 +18,18 @@ public class Result {
     {
         this.blackScore = number;
     }
+    public int getBlackScore()
+    {
+        return this.blackScore;
+    }
     
     public void setWhiteScore(int number)
     {
         this.whiteScore = number;
+    }
+    
+    public int getWhiteScore(int number)
+    {
+        return this.whiteScore;
     }
 }
