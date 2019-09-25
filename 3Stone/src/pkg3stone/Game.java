@@ -11,14 +11,14 @@ package pkg3stone;
  */
 public class Game {    
     
-    private Player[] players;
+    private IPlayer[] players;
     private Piece[] pieces;
     private Board board;
 
     // constructor
-    public Game(Player whitePlayer, Player blackPlayer)
+    public Game(Client whitePlayer, Computer blackPlayer)
     {
-        players = new Player[2];
+        players = new IPlayer[2];
         players[0] = whitePlayer;
         players[1] = blackPlayer;
         pieces = new Piece[2];
@@ -30,18 +30,18 @@ public class Game {
     // play method that is responsible for the course of the game
     public Result Play()
     {
-       return null;
+        return null;
     }
 
     // return first player
-    public Player getFirstPlayer()
+    public IPlayer getFirstPlayer()
     {
         return players[0];
     }
 
 
     // return second player
-    public Player getSecondPlayer()
+    public IPlayer getSecondPlayer()
     {
         return players[1];
     }
