@@ -9,8 +9,7 @@ package pkg3stone;
  *
  * @author svitl
  */
-public interface Player {
-    
-    int ChooseMove(Board board);
-    
+public class Computer implements IPlayer
+{
+   
 }

@@ -17,7 +17,10 @@ import java.io.ObjectOutputStream;
  */
 public class Board implements Serializable 
 {
-    private Piece[][] pieces;
+    private final Piece[][] pieces;
+    
+    private int playerWhitePieces = 15;
+    private int playerBlackPieces = 15;
     
     private Piece lastStonePlayed = Piece.BLANK;
     private int rowOfLastStonePlayed = 0;
@@ -48,9 +51,7 @@ public class Board implements Serializable
                 ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
                 ObjectInputStream ois = new ObjectInputStream(bais);
                 return (Board) ois.readObject();
-        } catch (IOException e) {
-                return null;
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
                 return null;
         }
     }
@@ -62,37 +63,44 @@ public class Board implements Serializable
     {
         if(column < 0 || column >= numberOfColumns || row < 0 || row >= numberOfRows)
             return false;
-        if(lastStonePlayed == Piece.BLANK && pieces[row][column] == Piece.BLANK)
-        {
-            pieces[row][column] = player;
-            setLastStonePlayed(player, column, row);
+        
+        if(player != Piece.WHITE && player != Piece.BLACK)
+            return false;
+        
+        if(lastStonePlayed == player)
+            return false;
+        
+        if(pieces[row][column] != Piece.BLANK)
+            return false;
+        
+        if(row == rowOfLastStonePlayed || column == columnOfLastStonePlayed)
             return true;
-        }
-        if(lastStonePlayed != player && pieces[row][column] == Piece.BLANK && (row == rowOfLastStonePlayed || column == columnOfLastStonePlayed))
-        {
-            pieces[row][column] = player;
-            setLastStonePlayed(player, column, row);
-            return true;
-        }
-        if(lastStonePlayed != player && pieces[row][column] == Piece.BLANK && (isFreePlaceInColumn(columnOfLastStonePlayed) == false && isFreePlaceInRow(rowOfLastStonePlayed) == false))
-        {
-            pieces[row][column] = player;
-            setLastStonePlayed(player, column, row);
-            return true;
-        }
-        return false;
+        
+        if(hasFreePlaceInColumn(columnOfLastStonePlayed) || hasFreePlaceInRow(rowOfLastStonePlayed))
+            return false;
+        return true;
     }
     
     //method sets the last stone played 
-    private void setLastStonePlayed(Piece player, int column, int row)
+    private void placeStone(Piece player, int column, int row)
     {
+        pieces[row][column] = player;
         lastStonePlayed = player;
         rowOfLastStonePlayed = row;
         columnOfLastStonePlayed = column;
+        
+        if(player == Piece.WHITE)
+        {
+            playerWhitePieces--;
+        }
+        else if(player == Piece.BLACK)
+        {
+            playerBlackPieces--;
+        }
     }
     
     //method checks if there is free space in the column
-    private boolean isFreePlaceInColumn(int column)
+    private boolean hasFreePlaceInColumn(int column)
     {
         for(int i=0; i<numberOfRows; i++)
         {
@@ -103,7 +111,7 @@ public class Board implements Serializable
     }
     
     //method checks if there is free space in the row    
-    private boolean isFreePlaceInRow(int row)
+    private boolean hasFreePlaceInRow(int row)
     {
         for(int j=0; j<numberOfColumns; j++)
         {
@@ -114,7 +122,7 @@ public class Board implements Serializable
     }  
 
     //Method finds three stones in right diagonals
-    private Result FindThreeStonesInRightDiagonals(Piece player)
+    private Result findThreeStonesInRightDiagonals(Piece player)
     {
         Result result = new Result();
         int countScore = 0;
@@ -148,7 +156,7 @@ public class Board implements Serializable
     }
 
     //Method finds three stones in left diagonals
-    private Result FindThreeStonesInLeftDiagonals(Piece player)
+    private Result findThreeStonesInLeftDiagonals(Piece player)
     {
         Result result = new Result();
         int countScore = 0;
@@ -181,7 +189,7 @@ public class Board implements Serializable
     }
 
     //Method finds three stones in columns
-    private Result FindThreeStonesInColumns(Piece player)
+    private Result findThreeStonesInColumns(Piece player)
     {
         Result result = new Result();
         int countScore = 0;
@@ -215,7 +223,7 @@ public class Board implements Serializable
     }
 
     //Method finds three stones in rows
-    private Result FindThreeStonesInRows(Piece player)
+    private Result findThreeStonesInRows(Piece player)
     {
         Result result = new Result();
         int countScore = 0;
@@ -249,45 +257,38 @@ public class Board implements Serializable
     }
 
     //Method checks if the game is over
-    private boolean IsGameIsOver()
+    private boolean isGameOver()
     {
-        for(int i=0; i<numberOfRows; i++)
-        {
-            for(int j=0; j<numberOfColumns; j++)
-            {
-                if (pieces[i][j] == Piece.BLANK)
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
+        if (playerWhitePieces == 0 && playerBlackPieces == 0)
+            return true;
+        else
+            return false;
     }
     
    //overriding toString
     public String toString()
     {
         String board = "";
-            for (int i = 0; i< this.pieces.length; i--)
+        for (int i = 0; i < this.pieces.length; i++)
+        {
+            for (int j = 0; j < this.pieces[i].length; j++)
             {
-                for (int j = 0; j < this.pieces[i].length; j++)
+                switch (this.pieces[i][j])
                 {
-                    switch (this.pieces[i][j])
-                    {
-                        case BLACK:
-                            board += "B";
-                            break;
-                        case WHITE:
-                            board += "W";
-                            break;
-                        case BLANK:
-                            board += "O";
-                            break;
-                    }
-                    board += " ";
+                    case BLACK:
+                        board += "B";
+                        break;
+                    case WHITE:
+                        board += "W";
+                        break;
+                    case BLANK:
+                        board += "O";
+                        break;
                 }
-                board += "\n\n";
+                board += " ";
             }
-            return board;
+            board += "\n";
+        }
+        return board;
     }
 }
