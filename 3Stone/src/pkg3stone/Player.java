@@ -7,30 +7,10 @@ package pkg3stone;
 
 /**
  *
- * @author 1733408
+ * @author svitl
  */
-public class Player {
-    private PlayerType type;
-    private int points;
+public interface Player {
     
-    public Player(PlayerType type)
-    {
-        this.type = type;
-        this.points = 0;
-    }
+    int ChooseMove(Board board);
     
-    public int getPoints()
-    {
-        return this.points;
-    }
-    
-    public PlayerType getPlayerType()
-    {
-        return this.type;
-    }
-    
-    public void addPoints(int add)
-    {
-        this.points += add;
-    }
 }
