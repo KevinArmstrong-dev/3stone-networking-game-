@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="pkg3stone">
+  <ClassDiagramComponents>
+    <Class name="Board" package="pkg3stone" visibility="public" xPosition="20.0" yPosition="62.0">
+      <Fields>
+        <Field name="pieces" type="Piece[][]" visibility="private" isFinal="true"/>
+        <Field name="playerWhitePieces" type="int" visibility="private"/>
+        <Field name="playerBlackPieces" type="int" visibility="private"/>
+        <Field name="lastStonePlayed" type="Piece" visibility="private"/>
+        <Field name="lastMove" type="Move" visibility="private"/>
+        <Field name="amountOfStones" type="int" visibility="private" isFinal="true"/>
+        <Field name="numberOfRows" type="int" visibility="public" isFinal="true"/>
+        <Field name="numberOfColumns" type="int" visibility="public" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="deepCopy" returnType="Board" visibility="public"/>
+        <Method name="getLastStonePlayed" returnType="Piece" visibility="protected"/>
+        <Method name="getPiece" returnType="Piece" visibility="public">
+          <Argument type="Move" name="m"/>
+        </Method>
+        <Method name="isPlayLegal" returnType="boolean" visibility="public">
+          <Argument type="Piece" name="player"/>
+          <Argument type="Move" name="move"/>
+        </Method>
+        <Method name="placeStone" returnType="void" visibility="public">
+          <Argument type="Piece" name="player"/>
+          <Argument type="Move" name="move"/>
+        </Method>
+        <Method name="hasFreePlaceInColumn" returnType="boolean" visibility="protected">
+          <Argument type="int" name="column"/>
+        </Method>
+        <Method name="hasFreePlaceInRow" returnType="boolean" visibility="protected">
+          <Argument type="int" name="row"/>
+        </Method>
+        <Method name="findThreeStonesInRightDiagonals" returnType="void" visibility="private">
+          <Argument type="Result" name="result"/>
+        </Method>
+        <Method name="findThreeStonesInLeftDiagonals" returnType="void" visibility="private">
+          <Argument type="Result" name="result"/>
+        </Method>
+        <Method name="findThreeStonesInColumns" returnType="void" visibility="private">
+          <Argument type="Result" name="result"/>
+        </Method>
+        <Method name="findThreeStonesInRows" returnType="void" visibility="private">
+          <Argument type="Result" name="result"/>
+        </Method>
+        <Method name="resultOfGame" returnType="Result" visibility="public"/>
+        <Method name="isGameOver" returnType="boolean" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Computer" package="pkg3stone" visibility="public" xPosition="507.0" yPosition="17.0">
+      <Fields>
+        <Field name="r" type="Random" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="ChooseMove" returnType="Move" visibility="public">
+          <Argument type="Board" name="board"/>
+        </Method>
+        <Method name="checkHorizontalAdjacent" returnType="Move" visibility="protected">
+          <Argument type="Board" name="board"/>
+          <Argument type="Move" name="move"/>
+        </Method>
+        <Method name="checkVerticalAdjacent" returnType="Move" visibility="protected">
+          <Argument type="Board" name="board"/>
+          <Argument type="Move" name="move"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ConsoleDisplay" package="pkg3stone" visibility="public" xPosition="860.0" yPosition="174.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="ShowBoard" returnType="void" visibility="public">
+          <Argument type="Board" name="board"/>
+        </Method>
+        <Method name="ShowResult" returnType="void" visibility="public">
+          <Argument type="Result" name="result"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ConsoleMain" package="pkg3stone" visibility="public" xPosition="1259.0" yPosition="29.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ConsolePlayer" package="pkg3stone" visibility="public" xPosition="344.0" yPosition="617.0">
+      <Fields>
+        <Field name="scan" type="Scanner" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="ChooseMove" returnType="Move" visibility="public">
+          <Argument type="Board" name="board"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Game" package="pkg3stone" visibility="public" xPosition="979.0" yPosition="704.0">
+      <Fields>
+        <Field name="display" type="IDisplay" visibility="private" isFinal="true"/>
+        <Field name="whitePlayer" type="IPlayer" visibility="private" isFinal="true"/>
+        <Field name="blackPlayer" type="IPlayer" visibility="private" isFinal="true"/>
+        <Field name="board" type="Board" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="IDisplay" name="display"/>
+          <Argument type="IPlayer" name="whitePlayer"/>
+          <Argument type="IPlayer" name="blackPlayer"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="MakePlayerMove" returnType="void" visibility="private">
+          <Argument type="IPlayer" name="player"/>
+          <Argument type="Piece" name="piece"/>
+        </Method>
+        <Method name="play" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Move" package="pkg3stone" visibility="public" xPosition="20.0" yPosition="714.0">
+      <Fields>
+        <Field name="row" type="int" visibility="private" isFinal="true"/>
+        <Field name="column" type="int" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="row"/>
+          <Argument type="int" name="column"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getRow" returnType="int" visibility="public"/>
+        <Method name="getColumn" returnType="int" visibility="public"/>
+        <Method name="isValidForBoard" returnType="boolean" visibility="package">
+          <Argument type="Board" name="b"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Result" package="pkg3stone" visibility="public" xPosition="1064.0" yPosition="407.0">
+      <Fields>
+        <Field name="blackScore" type="int" visibility="private"/>
+        <Field name="whiteScore" type="int" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="addBlackScore" returnType="void" visibility="public">
+          <Argument type="int" name="number"/>
+        </Method>
+        <Method name="getBlackScore" returnType="int" visibility="public"/>
+        <Method name="addWhiteScore" returnType="void" visibility="public">
+          <Argument type="int" name="number"/>
+        </Method>
+        <Method name="getWhiteScore" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Interface name="IDisplay" package="pkg3stone" visibility="public" xPosition="1259.0" yPosition="267.0">
+      <Methods>
+        <Method name="ShowBoard" returnType="void" visibility="public">
+          <Argument type="Board" name="board"/>
+        </Method>
+        <Method name="ShowResult" returnType="void" visibility="public">
+          <Argument type="Result" name="result"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="IPlayer" package="pkg3stone" visibility="public" xPosition="474.0" yPosition="806.0">
+      <Methods>
+        <Method name="ChooseMove" returnType="Move" visibility="package">
+          <Argument type="Board" name="board"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Enum name="Piece" package="pkg3stone" visibility="public" xPosition="782.0" yPosition="342.0">
+      <Literals>
+        <Literal name="BLANK"/>
+        <Literal name="WHITE"/>
+        <Literal name="BLACK"/>
+        <Literal name="BARRED"/>
+      </Literals>
+    </Enum>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="pkg3stone.Game" target="pkg3stone.Piece" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg3stone.IDisplay" target="pkg3stone.Result" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg3stone.Board" target="pkg3stone.Board" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="board" source="pkg3stone.Game" target="pkg3stone.Board" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg3stone.Board" target="pkg3stone.Result" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg3stone.ConsolePlayer" target="pkg3stone.Move" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg3stone.IDisplay" target="pkg3stone.Board" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="pkg3stone.Computer" target="pkg3stone.IPlayer"/>
+    <HasRelation name="blackPlayer" source="pkg3stone.Game" target="pkg3stone.IPlayer" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="pkg3stone.ConsolePlayer" target="pkg3stone.IPlayer"/>
+    <HasRelation name="whitePlayer" source="pkg3stone.Game" target="pkg3stone.IPlayer" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="lastMove" source="pkg3stone.Board" target="pkg3stone.Move" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg3stone.Computer" target="pkg3stone.Move" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="pkg3stone.ConsoleDisplay" target="pkg3stone.IDisplay"/>
+    <HasRelation name="display" source="pkg3stone.Game" target="pkg3stone.IDisplay" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg3stone.Move" target="pkg3stone.Board" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg3stone.Board" target="pkg3stone.Piece" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg3stone.IPlayer" target="pkg3stone.Move" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg3stone.ConsoleDisplay" target="pkg3stone.Board" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="lastStonePlayed" source="pkg3stone.Board" target="pkg3stone.Piece" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="pkg3stone.ConsoleDisplay" target="pkg3stone.Result" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

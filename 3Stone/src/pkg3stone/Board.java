@@ -61,6 +61,11 @@ public class Board implements Serializable
         }
     }
     
+    protected Piece getLastStonePlayed()
+    {
+        return this.lastStonePlayed;
+    }
+    
     /**
      *
      * @param m
@@ -117,7 +122,7 @@ public class Board implements Serializable
     }
     
     //method checks if there is free space in the column
-    private boolean hasFreePlaceInColumn(int column)
+    protected boolean hasFreePlaceInColumn(int column)
     {
         for(int i=0; i<numberOfRows; i++)
         {
@@ -128,7 +133,7 @@ public class Board implements Serializable
     }
     
     //method checks if there is free space in the row    
-    private boolean hasFreePlaceInRow(int row)
+    protected boolean hasFreePlaceInRow(int row)
     {
         for(int j=0; j<numberOfColumns; j++)
         {
