@@ -5,52 +5,63 @@
  */
 package pkg3stone;
 
+import java.util.Scanner;
+
 /**
  *
  * @author svitl
  */
 public class Game {    
     
-    private IPlayer[] players;
-    private Piece[] pieces;
-    private Board board;
+    private final IDisplay display;
+    private final IPlayer whitePlayer;
+    private final IPlayer blackPlayer;
+    private final Board board;
 
     // constructor
-    public Game(Client whitePlayer, Computer blackPlayer)
+    public Game(IDisplay display, IPlayer whitePlayer, IPlayer blackPlayer)
     {
-        players = new IPlayer[2];
-        players[0] = whitePlayer;
-        players[1] = blackPlayer;
-        pieces = new Piece[2];
-        pieces[0] = Piece.WHITE;
-        pieces[1] = Piece.BLACK;
-        board = new Board();
+        this.display = display;
+
+        this.whitePlayer = whitePlayer;
+        this.blackPlayer = blackPlayer;
+        
+        this.board = new Board();
     }
 
+    private void MakePlayerMove(IPlayer player, Piece piece)
+    {
+        Move move = null;
+        while(true)
+        {                
+            move = player.ChooseMove(board);
+            if(board.isPlayLegal(piece, move))
+                break;
+        }
+        board.placeStone(piece, move);
+        display.ShowBoard(board);
+    }
+    
     // play method that is responsible for the course of the game
-    public Result Play()
-    {
-        return null;
-    }
+    public void play()
+    {    
+        display.ShowBoard(board);
+        while(true)
+        {     
+            MakePlayerMove(whitePlayer, Piece.WHITE);
+            if(board.isGameOver())
+            {
+               break;
+            }    
 
-    // return first player
-    public IPlayer getFirstPlayer()
-    {
-        return players[0];
-    }
+            MakePlayerMove(blackPlayer, Piece.BLACK);
+            if(board.isGameOver())
+            {
+               break;
+            }    
+        }
 
-
-    // return second player
-    public IPlayer getSecondPlayer()
-    {
-        return players[1];
-    }
-
-    // the method to display board
-    private void DisplayBoard()
-    {
-        System.out.print(board.toString());
-    }
-    
-    
-}
+        Result result = board.resultOfGame(); 
+        display.ShowResult(result);
+    }      
+ }

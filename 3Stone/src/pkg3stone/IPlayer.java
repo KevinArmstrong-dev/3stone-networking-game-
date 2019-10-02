@@ -10,7 +10,5 @@ package pkg3stone;
  * @author svitl
  */
 public interface IPlayer {
-    
-    //ChooseMove(Board board);
-    
+    Move ChooseMove(Board board);
 }

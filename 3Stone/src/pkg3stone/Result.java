@@ -14,21 +14,21 @@ public class Result {
     private int blackScore = 0;
     private int whiteScore = 0;
     
-    public void setBlackScore(int number)
+    public void addBlackScore(int number)
     {
-        this.blackScore = number;
+        this.blackScore += number;
     }
     public int getBlackScore()
     {
         return this.blackScore;
     }
     
-    public void setWhiteScore(int number)
+    public void addWhiteScore(int number)
     {
-        this.whiteScore = number;
+        this.whiteScore += number;
     }
     
-    public int getWhiteScore(int number)
+    public int getWhiteScore()
     {
         return this.whiteScore;
     }

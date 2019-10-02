@@ -9,7 +9,17 @@ package pkg3stone;
  *
  * @author svitl
  */
-public class StonesMain {
-    
-    
+public interface IDisplay {
+
+    /**
+     *
+     * @param board
+     */
+    public void ShowBoard(Board board);
+
+    /**
+     *
+     * @param result
+     */
+    public void ShowResult(Result result);
 }
