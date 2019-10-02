@@ -16,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import networking.ClientPlayer;
 import networking.Server;
-import pkg3stone.Client;
 
 public class ConnectionFXMLController {
 

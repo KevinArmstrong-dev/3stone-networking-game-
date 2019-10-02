@@ -5,11 +5,33 @@
  */
 package pkg3stone;
 
+import java.util.Random;
+
 /**
  *
  * @author svitl
  */
 public class Computer implements IPlayer
 {
-   
+    private final Random r;
+
+    public Computer() {
+        this.r = new Random();
+    }
+    
+    /**
+     *
+     * @param board
+     * @return
+     */
+    @Override
+    public Move ChooseMove(Board board) {
+        
+        while(true)
+        {
+            Move move = new Move(r.nextInt(board.numberOfRows), r.nextInt(board.numberOfColumns));
+            if(board.getPiece(move) == Piece.BLANK)
+                return move;
+        }
+    }
 }
