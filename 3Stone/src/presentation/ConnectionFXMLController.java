@@ -14,6 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import networking.ClientPlayer;
+import networking.Server;
+import pkg3stone.Client;
 
 public class ConnectionFXMLController {
 
@@ -34,13 +37,14 @@ public class ConnectionFXMLController {
 
     @FXML // fx:id="serverIpLbl"
     private Label serverIpLbl; // Value injected by FXMLLoader
-    
+    private ClientPlayer client;
     private List<Pane> panes;
 
+    private Server server;
     @FXML
     void connectBtnHandler(ActionEvent event) {
-        System.out.println("the size of panes is " + panes.size());
-        //This hides the welcome Pane
+        client = new ClientPlayer(ipTxt.getText());
+    //This hides the welcome Pane
         panes.get(0).setVisible(false);
         
         //This displays the game window
@@ -56,6 +60,7 @@ public class ConnectionFXMLController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+        //server = new Server();
         assert connectBtn != null : "fx:id=\"connectBtn\" was not injected: check your FXML file 'ConnectionFXML.fxml'.";
         assert ipTxt != null : "fx:id=\"ipTxt\" was not injected: check your FXML file 'ConnectionFXML.fxml'.";
         assert exitBtn != null : "fx:id=\"exitBtn\" was not injected: check your FXML file 'ConnectionFXML.fxml'.";

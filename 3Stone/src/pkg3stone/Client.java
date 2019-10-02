@@ -11,5 +11,9 @@ package pkg3stone;
  */
 public class Client implements IPlayer 
 {
+
+    public Client(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
         
 }
