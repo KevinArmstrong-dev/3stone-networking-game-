@@ -5,8 +5,6 @@
  */
 package pkg3stone;
 
-import java.util.Scanner;
-
 /**
  *
  * @author svitl

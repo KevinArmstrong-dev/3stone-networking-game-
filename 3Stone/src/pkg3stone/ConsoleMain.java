@@ -16,8 +16,8 @@ public class ConsoleMain {
     {
         IDisplay display = new ConsoleDisplay();
         IPlayer whitePlayer = new ConsolePlayer();
-        //IPlayer blackPlayer = new Computer();
-        IPlayer blackPlayer = new ConsolePlayer();
+        IPlayer blackPlayer = new Computer();
+        //IPlayer blackPlayer = new ConsolePlayer();
         Game g = new Game(display, whitePlayer, blackPlayer);
         g.play();        
     }    

@@ -7,7 +7,7 @@ package pkg3stone;
 
 /**
  *
- * @author svitl
+ * @author svitl, Tall_Optimist_GC
  */
 public interface IDisplay {
 
