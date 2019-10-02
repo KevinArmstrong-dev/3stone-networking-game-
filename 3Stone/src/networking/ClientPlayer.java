@@ -73,8 +73,5 @@ public class ClientPlayer {
      
    }
    
-   public void clientMsg(String msg){
-       this.message = msg;
-   }
 
 }

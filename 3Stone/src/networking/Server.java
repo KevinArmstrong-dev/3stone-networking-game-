@@ -17,6 +17,7 @@ import java.net.SocketAddress;
  * @author 1638876
  */
 public class Server {
+    
    private static final int BUFSIZE = 32;
    
    public static void main(String[] args) throws IOException {
@@ -43,10 +44,13 @@ public class Server {
 
       // Receive until client closes connection, indicated by -1 return
       while ((recvMsgSize = in.read(receiveBuf)) != -1) {
+           
         out.write(receiveBuf, 0, recvMsgSize);
       }
 
       clntSock.close();  // Close the socket.  We are done with this client!
     }
   }
+   
+   
 }
