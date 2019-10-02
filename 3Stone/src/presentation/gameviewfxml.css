@@ -2,6 +2,20 @@
  * Empty Stylesheet file.
  */
 
-.mainFxmlClass {
+#stone{
+    -fx-background-color : wheat
+}
 
+#blackStone{
+     -fx-background-color : black;
+}
+
+#whiteStone{
+     -fx-background-color : white
+}
+.gameview{
+    -fx-background-color : skyblue
+}
+#titleLbl{
+    -fx-font-color : red
 }

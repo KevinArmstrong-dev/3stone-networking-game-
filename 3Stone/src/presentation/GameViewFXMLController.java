@@ -53,6 +53,7 @@ public class GameViewFXMLController {
         for(int row = 0; row < 11; row++){
             for(int col = 0; col < 11 ; col++){
                 Button stone= new Button("r"+row+"c"+col);
+                stone.setId("stone");
                 stone.setOnAction(event -> {
                     String pos =stone.getText();
                     this.testLbl.setText(pos);
@@ -65,6 +66,7 @@ public class GameViewFXMLController {
     
     public int[] coordinates(String btn){
         int[] btnCord = new int[2];
+        
         String[] temp = btn.split("c");
 
         

@@ -28,12 +28,17 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
          
         try {
-            // Load root layout from fxml file.
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameViewFXML.fxml"));
+//            // Load root layout from fxml file.
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameViewFXML.fxml"));
+//
+//           Parent root = loader.load();
+//           GameViewFXMLController controller = loader.getController();
+            
+           FXMLLoader loader = new FXMLLoader(getClass().getResource("RootFXML.fxml"));
 
            Parent root = loader.load();
-           GameViewFXMLController controller = loader.getController();
-            
+           RootFXMLController controller = loader.getController();
+          
            Scene scene = new Scene(root);
            primaryStage.setTitle("3 stone Game");
            primaryStage.setScene(scene);
