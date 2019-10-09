@@ -168,6 +168,33 @@ public class Board implements Serializable
             }
         }
     }
+    
+    private int findThreeStonesInRightDiagonalsString(Piece check, Board b)
+    {
+        int matches = 0;
+        for (int i = 0; i <= b.numberOfRows - b.amountOfStones; i++)
+        {
+            for (int j = b.amountOfStones - 1; j < b.numberOfColumns; j++)
+            {
+                Piece firstPiece = b.pieces[i][j];
+                int count = 0;
+                for (int k = 0; k < b.amountOfStones; k++)
+                {
+                    if (b.pieces[i + k][j - k] != firstPiece)
+                        break;
+                    count = count + 1;
+                }
+                if (count == b.amountOfStones)
+                {
+                    if(firstPiece == check)
+                    {
+                        matches++;
+                    }       
+                }
+            }
+        }
+        return matches;
+    }
 
     //Method finds three stones in left diagonals
     private void findThreeStonesInLeftDiagonals(Result result)
@@ -193,6 +220,34 @@ public class Board implements Serializable
                 }
             }
         }
+    }
+    
+    //Method finds three stones in left diagonals
+    private int findThreeStonesInLeftDiagonalsString(Piece check, Board b)
+    {
+        int matches = 0;
+        for (int i = 0; i <= b.numberOfRows - b.amountOfStones; i++)
+        {
+            for (int j = 0; j <= b.numberOfColumns - b.amountOfStones; j++)
+            {
+                Piece firstPiece = b.pieces[i][j];
+                int count = 0;
+                for (int k = 0; k < b.amountOfStones; k++)
+                {
+                    if (b.pieces[i + k][j + k] != firstPiece)
+                        break;
+                    count = count + 1;
+                }
+               if (count == b.amountOfStones)
+                {
+                    if(firstPiece == check)
+                    {
+                        matches++;
+                    }       
+                }
+            }
+        }
+        return matches;
     }
 
     //Method finds three stones in columns
@@ -220,6 +275,34 @@ public class Board implements Serializable
             }
         }
     }
+    
+    //Method finds three stones in columns
+    private int findThreeStonesInColumnsString(Piece check, Board b)
+    {
+        int matches = 0;
+        for (int i = 0; i <= b.numberOfRows - b.amountOfStones; i++)
+        {
+            for (int j = 0; j < b.numberOfColumns; j++)
+            {
+                Piece firstPiece = b.pieces[i][j];
+                int count = 0;
+                for (int k = 0; k < b.amountOfStones; k++)
+                {
+                    if (b.pieces[i + k][j] != firstPiece)
+                        break;
+                    count = count + 1;
+                }
+                if (count == b.amountOfStones)
+                {
+                    if(firstPiece == check)
+                    {
+                        matches++;
+                    }       
+                }
+            }
+        }
+        return matches;
+    }
 
     //Method finds three stones in rows
     private void findThreeStonesInRows(Result result)
@@ -245,6 +328,64 @@ public class Board implements Serializable
                 }
             }
         }
+    }
+    
+    //Method finds three stones in rows
+    private int findThreeStonesInRowsString(Piece check, Board b)
+    {
+        int matches = 0;
+        for (int i = 0; i < b.numberOfRows; i++)
+        {
+            for (int j = 0; j <= b.numberOfColumns - b.amountOfStones; j++)
+            {
+                Piece firstPiece = b.pieces[i][j];
+                int count = 0;
+                for (int k = 0; k < b.amountOfStones; k++)
+                {
+                    if (b.pieces[i][j + k] != firstPiece)
+                        break;
+                    count = count + 1;
+                }
+                if (count == b.amountOfStones)
+                {
+                    if(firstPiece == check)
+                    {
+                        matches++;
+                    }
+                }
+            }
+        }
+        return matches;
+    }
+    
+    protected int calculatePoints(Piece p, Move m)
+    {
+        Board b = this.deepCopy();
+        b.placeStone(p, m);
+        int maxPossible = 0;
+        maxPossible += this.findThreeStonesInRowsString(p,b);
+        maxPossible += this.findThreeStonesInColumnsString(p,b);
+        maxPossible += this.findThreeStonesInLeftDiagonalsString(p,b);
+        maxPossible += this.findThreeStonesInRightDiagonalsString(p,b);
+        return maxPossible;
+    }
+    
+    protected Move getIdealMove(Piece p)
+    {
+        Move idealMove = new Move(0,0);
+        int maxPoints = 0;
+        for (int i = 0;i < this.pieces.length;i++)
+        {
+            for (int j = 0;j < this.pieces[i].length;j++)
+            {
+                if (calculatePoints(p,new Move(i,j)) > maxPoints)
+                {
+                    maxPoints = calculatePoints(p,new Move(i,j));
+                    idealMove = new Move(i,j);
+                }
+            }
+        }
+        return idealMove;
     }
     
     /**
