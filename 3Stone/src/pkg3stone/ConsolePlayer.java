@@ -15,9 +15,16 @@ import java.util.Scanner;
 public class ConsolePlayer implements IPlayer 
 {
     private final Scanner scan;
+    private Piece color;
 
     public ConsolePlayer() {
         this.scan = new Scanner(System.in);
+    }
+    
+    //TODO
+    public void StartTheGame(Piece piece)
+    {
+        this.color = piece;
     }
     
     @Override
@@ -27,5 +34,6 @@ public class ConsolePlayer implements IPlayer
         String moveStr = scan.nextLine();  
         String[] coordinatsStr = moveStr.split(" ");
         return new Move(Integer.parseInt(coordinatsStr[0]),Integer.parseInt(coordinatsStr[1]));
-    }    
+    } 
+   
 }

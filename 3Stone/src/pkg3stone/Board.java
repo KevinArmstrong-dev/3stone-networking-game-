@@ -146,6 +146,10 @@ public class Board implements Serializable
             for (int j = amountOfStones - 1; j < numberOfColumns; j++)
             {
                 Piece firstPiece = pieces[i][j];
+                if(firstPiece != Piece.WHITE && firstPiece != Piece.BLACK)
+                {
+                    continue;
+                }
                 int count = 0;
                 for (int k = 0; k < amountOfStones; k++)
                 {
@@ -172,6 +176,10 @@ public class Board implements Serializable
             for (int j = 0; j <= numberOfColumns - amountOfStones; j++)
             {
                 Piece firstPiece = pieces[i][j];
+                if(firstPiece != Piece.WHITE && firstPiece != Piece.BLACK)
+                {
+                    continue;
+                }
                 int count = 0;
                 for (int k = 0; k < amountOfStones; k++)
                 {
@@ -198,6 +206,10 @@ public class Board implements Serializable
             for (int j = 0; j < numberOfColumns; j++)
             {
                 Piece firstPiece = pieces[i][j];
+                if(firstPiece != Piece.WHITE && firstPiece != Piece.BLACK)
+                {
+                    continue;
+                }
                 int count = 0;
                 for (int k = 0; k < amountOfStones; k++)
                 {
@@ -224,6 +236,10 @@ public class Board implements Serializable
             for (int j = 0; j <= numberOfColumns - amountOfStones; j++)
             {
                 Piece firstPiece = pieces[i][j];
+                if(firstPiece != Piece.WHITE && firstPiece != Piece.BLACK)
+                {
+                    continue;
+                }
                 int count = 0;
                 for (int k = 0; k < amountOfStones; k++)
                 {
