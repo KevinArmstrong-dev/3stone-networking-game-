@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="535.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="presentation.ConnectionFXMLController">
+    <stylesheets>
+        <URL value="@connectionfxml.css" />
+    </stylesheets>
+   <children>
+      <Label layoutX="200.0" layoutY="24.0" prefHeight="42.0" prefWidth="159.0" text="Welcome To 3 stones Game" />
+      <Label layoutX="70.0" layoutY="115.0" prefHeight="30.0" prefWidth="88.0" text="The server Ip is: " />
+      <Label fx:id="serverIpLbl" layoutX="208.0" layoutY="115.0" prefHeight="30.0" prefWidth="218.0" text="Server IP" />
+      <TextField fx:id="ipTxt" layoutX="139.0" layoutY="186.0" prefHeight="42.0" prefWidth="231.0" text="Enter server's Ip" />
+      <Button fx:id="connectBtn" layoutX="390.0" layoutY="305.0" mnemonicParsing="false" onAction="#connectBtnHandler" prefHeight="25.0" prefWidth="72.0" text="Connect" />
+      <Button fx:id="exitBtn" layoutX="57.0" layoutY="305.0" mnemonicParsing="false" onAction="#exitBtnHandler" prefHeight="25.0" prefWidth="88.0" text="Exit" />
+   </children>
+</AnchorPane>
