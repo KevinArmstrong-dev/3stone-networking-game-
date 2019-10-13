@@ -9,8 +9,6 @@ package pkg3stone;
  *
  * @author svitl
  */
-public interface IPlayer {
-        
-    void StartTheGame(Piece piece);
-    Move ChooseMove(Board board);
+public class Player {
+    
 }

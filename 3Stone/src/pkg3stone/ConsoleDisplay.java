@@ -18,7 +18,7 @@ public class ConsoleDisplay implements IDisplay{
 
     @Override
     public void ShowResult(Result result) {
-        System.out.println("Black - " + result.getBlackScore() + ". White - " + result.getWhiteScore());
+        System.out.println("Black - " + result.getBlackScore() + ". White - " + result.getWhiteScore() + ".");
     }
     
 }
