@@ -14,25 +14,26 @@ import pkg3stone.console.ConsoleDisplay;
 import pkg3stone.engine.Game;
 import pkg3stone.engine.Computer;
 import pkg3stone.network.NetworkServerPlayer;
+
 /**
  *
  * @author Svitlana Myronova
  */
 public class Server {
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        int port = 50000;
+
         try {
-            if(args.length < 1)
-            {
-                showHelp();
-                return;
-            }
-            
-            int port = Integer.parseInt(args[0]);
-            
+            port = Integer.parseInt(args[0]);
+        } catch (Exception ex) {
+            System.out.println("Port number is not provided. Will use port " + port);
+        }
+
+        try {
             IDisplay display = new ConsoleDisplay();
             IPlayer whitePlayer = new NetworkServerPlayer(port);
             IPlayer blackPlayer = new Computer();
@@ -42,15 +43,6 @@ public class Server {
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }
 
-    private static void showHelp()
-    {
-        System.out.println("Please provide port number.");
-    }
-    
-    private static void playGame(int port)
-    {
     }
 }

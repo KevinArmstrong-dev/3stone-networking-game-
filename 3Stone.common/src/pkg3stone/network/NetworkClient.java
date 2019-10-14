@@ -27,31 +27,26 @@ public class NetworkClient {
     private OutputStream out;
 
     private Piece currentColor;
-    
+
     /**
      * Creates NetworkClient object and connects to requested server
+     *
      * @param hostServer
      * @param port
      */
-    public NetworkClient(String hostServer, int port) {
-        try {
-            // Create socket that is connected to server on specified port
-            this.socket = new Socket(hostServer, port);
+    public NetworkClient(String hostServer, int port) throws IOException {
+        // Create socket that is connected to server on specified port
+        this.socket = new Socket(hostServer, port);
 
-            this.in = socket.getInputStream();
-            this.out = socket.getOutputStream();
-        } catch (IOException ex) {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.in = socket.getInputStream();
+        this.out = socket.getOutputStream();
     }
-    
-    public Piece getCurrentColor()
-    {
+
+    public Piece getCurrentColor() {
         return this.currentColor;
     }
-    
-    public void waitStartTheGameMessage()
-    {
+
+    public void waitStartTheGameMessage() {
         try {
             StartTheGameMessage startTheGameMessage = StartTheGameMessage.read(in);
             this.currentColor = startTheGameMessage.getCurrentColor();
@@ -59,9 +54,8 @@ public class NetworkClient {
             Logger.getLogger(NetworkClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public MoveMessage readMoveMessage()
-    {
+
+    public MoveMessage readMoveMessage() {
         try {
             return MoveMessage.read(in);
         } catch (IOException ex) {
@@ -69,9 +63,8 @@ public class NetworkClient {
         }
         return null;
     }
-    
-    public void write(MoveMessage moveMessage)
-    {
+
+    public void write(MoveMessage moveMessage) {
         try {
             moveMessage.write(out);
         } catch (IOException ex) {
