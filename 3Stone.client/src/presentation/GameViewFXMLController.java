@@ -3,6 +3,7 @@
  */
 package presentation;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -98,7 +99,7 @@ public class GameViewFXMLController {
         }
     }
 
-    public void connectToServer(String address, int port) {
+    public void connectToServer(String address, int port) throws IOException {
         this.networkClient = new NetworkClient(address, port);
         this.networkClient.waitStartTheGameMessage();
     }
