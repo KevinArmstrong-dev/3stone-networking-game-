@@ -23,28 +23,30 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
 
         try {
-//            // Load root layout from fxml file.
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameViewFXML.fxml"));
-//
-//           Parent root = loader.load();
-//           GameViewFXMLController controller = loader.getController();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("RootFXML.fxml"));
-
-            Parent root = loader.load();
-            RootFXMLController controller = loader.getController();
-
-            Scene scene = new Scene(root);
-            primaryStage.setTitle("3 stone Game");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-            //rootLayout = (AnchorPane) loader.load();
-
+            showConnectionForm(primaryStage);
         } catch (IOException ex) {
             // errorAlert("initRootLayout()");
             System.out.print("Error in the lodader");
             Platform.exit();
         }
+    }
+
+    /**
+     * Shows connection form;
+     *
+     * @param primaryStage
+     * @throws IOException
+     */
+    public void showConnectionForm(Stage primaryStage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ConnectionFXML.fxml"));
+        Parent root = loader.load();
+        ConnectionFXMLController controller = loader.getController();
+        controller.setPrimaryStage(primaryStage);
+
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("3 stone Game");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     /**

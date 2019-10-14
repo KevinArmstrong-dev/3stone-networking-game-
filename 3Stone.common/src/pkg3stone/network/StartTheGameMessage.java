@@ -22,6 +22,11 @@ public class StartTheGameMessage {
     {
         this.currentColor = currentColor;
     }
+
+    public Piece getCurrentColor()
+    {
+        return this.currentColor;
+    }
     
     public void write(OutputStream os) throws IOException
     {

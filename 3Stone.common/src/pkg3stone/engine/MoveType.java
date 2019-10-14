@@ -12,7 +12,8 @@ package pkg3stone.engine;
 public enum MoveType {
     PROPOSED(0),
     ILLEGAL(1),
-    CONFIRMED(2);
+    CONFIRMED(2),
+    LAST_MOVE(3);
     
     private final int value;
     

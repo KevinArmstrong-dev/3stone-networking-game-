@@ -17,31 +17,30 @@ import pkg3stone.engine.Piece;
  * @author svitl
  */
 //class for testing purpose only
-public class ConsolePlayer extends AbstractPlayer 
-{
+public class ConsolePlayer extends AbstractPlayer {
+
     private final Scanner scan;
 
+    /**
+     *
+     */
     public ConsolePlayer() {
         this.scan = new Scanner(System.in);
     }
-    
+
     @Override
-    public Move chooseMove(Board board)
-    {
+    public Move chooseMove(Board board) {
         System.out.println("Choose the move");
-        String moveStr = scan.nextLine();  
+        String moveStr = scan.nextLine();
         String[] coordinatsStr = moveStr.split(" ");
-        return new Move(Integer.parseInt(coordinatsStr[0]),Integer.parseInt(coordinatsStr[1]));
-    } 
+        return new Move(Integer.parseInt(coordinatsStr[0]), Integer.parseInt(coordinatsStr[1]));
+    }
 
     @Override
     public void moveOutcome(MoveType moveType, Move move) {
-        if(moveType == MoveType.ILLEGAL)
-        {
+        if (moveType == MoveType.ILLEGAL) {
             System.out.println("Your move is illegal.");
-        }
-        else if(moveType == MoveType.CONFIRMED)
-        {
+        } else if (moveType == MoveType.CONFIRMED) {
             System.out.println("Your move is confirmed.");
         }
     }
@@ -49,5 +48,10 @@ public class ConsolePlayer extends AbstractPlayer
     @Override
     public void close() {
         scan.close();
+    }
+
+    @Override
+    public void lastMove(Piece lastStonePlayed, Move lastMove) {
+        System.out.println("Last stone: " + lastStonePlayed + " move:" + lastMove.getRow() + "x" + lastMove.getColumn());
     }
 }
