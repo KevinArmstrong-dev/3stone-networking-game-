@@ -1,16 +1,22 @@
 /**
  * Sample Skeleton for 'ConnectionFXML.fxml' Controller Class
  */
-
 package presentation;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class ConnectionFXMLController {
 
@@ -32,9 +38,28 @@ public class ConnectionFXMLController {
     @FXML // fx:id="serverPortTxt"
     private TextField serverPortTxt; // Value injected by FXMLLoader
 
+    private Stage primaryStage;
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
     @FXML
     void connectBtnHandler(ActionEvent event) {
-        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameViewFXML.fxml"));
+            Parent root = loader.load();
+            GameViewFXMLController controller = loader.getController();
+
+            controller.connectToServer(serverAddressTxt.getText(), Integer.parseInt(serverPortTxt.getText()));
+
+            Scene scene = new Scene(root);
+            this.primaryStage.setScene(scene);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            Platform.exit();
+        }
+
     }
 
     @FXML

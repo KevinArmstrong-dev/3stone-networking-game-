@@ -26,6 +26,8 @@ public class NetworkClient {
     private InputStream in;
     private OutputStream out;
 
+    private Piece currentColor;
+    
     /**
      * Creates NetworkClient object and connects to requested server
      * @param hostServer
@@ -43,14 +45,19 @@ public class NetworkClient {
         }
     }
     
-    public StartTheGameMessage readStartTheGameMessage()
+    public Piece getCurrentColor()
+    {
+        return this.currentColor;
+    }
+    
+    public void waitStartTheGameMessage()
     {
         try {
-            return StartTheGameMessage.read(in);
+            StartTheGameMessage startTheGameMessage = StartTheGameMessage.read(in);
+            this.currentColor = startTheGameMessage.getCurrentColor();
         } catch (IOException ex) {
             Logger.getLogger(NetworkClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
     }
     
     public MoveMessage readMoveMessage()

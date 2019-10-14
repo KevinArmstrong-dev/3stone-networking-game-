@@ -43,6 +43,13 @@ public interface IPlayer {
     void moveOutcome(MoveType moveType, Move move);
 
     /**
+     *
+     * @param lastStonePlayed
+     * @param lastMove
+     */
+    void lastMove(Piece lastStonePlayed, Move lastMove);
+
+    /**
      * Needs to be called to cleanup resources created by this player.
      */
     void close();

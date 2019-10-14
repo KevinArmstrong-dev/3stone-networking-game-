@@ -54,6 +54,10 @@ public class Computer extends AbstractPlayer
     }
 
     @Override
+    public void lastMove(Piece lastStonePlayed, Move lastMove) {
+    }
+
+    @Override
     public void close() {
     }
 }
