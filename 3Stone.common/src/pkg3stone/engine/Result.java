@@ -13,6 +13,19 @@ public class Result {
     
     private int blackScore = 0;
     private int whiteScore = 0;
+
+    /**
+     * Default constructor. Initialized Result to 0,0
+     */
+    public Result()
+    {
+        this(0, 0);
+    }
+    
+    public Result(int whiteScore, int blackScore) {
+        this.whiteScore = whiteScore;
+        this.blackScore = blackScore;
+    }
     
     public void addBlackScore(int number)
     {
@@ -31,5 +44,10 @@ public class Result {
     public int getWhiteScore()
     {
         return this.whiteScore;
+    }
+    
+    public String toString()
+    {
+        return "White:" + this.whiteScore + " Black:" + this.blackScore;
     }
 }

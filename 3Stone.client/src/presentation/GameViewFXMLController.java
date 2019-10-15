@@ -6,18 +6,27 @@ package presentation;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import pkg3stone.engine.Move;
-import pkg3stone.engine.MoveType;
 import pkg3stone.engine.Piece;
-import pkg3stone.network.MoveMessage;
+import pkg3stone.engine.Result;
+import pkg3stone.network.INetworkClientClient;
 import pkg3stone.network.NetworkClient;
 
-public class GameViewFXMLController {
+public class GameViewFXMLController implements INetworkClientClient {
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -30,6 +39,7 @@ public class GameViewFXMLController {
 
     private Piece[][] pieces;
     private Button[][] buttons;
+    private Button lastPlacedStone;
 
     private NetworkClient networkClient;
 
@@ -45,38 +55,12 @@ public class GameViewFXMLController {
     }
 
     private void onButtonClicked(Button button, int row, int col) {
-        //Propose move to server
-        MoveMessage moveMessage = new MoveMessage(MoveType.PROPOSED, new Move(row, col));
-        networkClient.write(moveMessage);
-
-        //Read server responce
-        moveMessage = networkClient.readMoveMessage();
-
-        if (moveMessage.getMoveType() == MoveType.ILLEGAL) {
-            //TODO: show error here
-            return;
-        }
-        if( moveMessage.getMoveType() != MoveType.CONFIRMED)
-        {
-            throw new IllegalStateException("Wrong responce received");
-        }
-
-        if (networkClient.getCurrentColor() == Piece.WHITE) {
-            button.setText("W");
-        } else {
-            button.setText("B");
-        }
-       
-        //Read move of other player
-        moveMessage = networkClient.readMoveMessage();
-        if (moveMessage.getMoveType() != MoveType.LAST_MOVE) {
-            throw new IllegalStateException("Reeived wrong move message");
-        }
-        Button otherPlayerButton = this.buttons[moveMessage.getMove().getRow()][moveMessage.getMove().getColumn()];
-        if (networkClient.getCurrentColor() == Piece.WHITE) {
-            otherPlayerButton.setText("B");
-        } else {
-            otherPlayerButton.setText("W");
+        try {
+            Move move = new Move(row, col);
+            networkClient.makeMove(move, this);
+        } catch (IOException ex) {
+            Logger.getLogger(GameViewFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            Platform.exit();
         }
     }
 
@@ -101,6 +85,61 @@ public class GameViewFXMLController {
 
     public void connectToServer(String address, int port) throws IOException {
         this.networkClient = new NetworkClient(address, port);
-        this.networkClient.waitStartTheGameMessage();
+    }
+
+    @Override
+    public void placeStone(Piece piece, Move move) {
+        if (this.lastPlacedStone != null) {
+            this.lastPlacedStone.setBorder(Border.EMPTY);
+        }
+
+        Button button = this.buttons[move.getRow()][move.getColumn()];
+        switch (piece) {
+            case BLANK:
+                button.setText(" ");
+                break;
+            case WHITE:
+                button.setText("W");
+                break;
+            case BLACK:
+                button.setText("B");
+                break;
+            case BARRED:
+                button.setText("X");
+                break;
+        }
+        button.setDisable(true);
+
+        this.lastPlacedStone = button;
+        this.lastPlacedStone.setBorder(new Border(new BorderStroke(Color.GREEN,
+                BorderStrokeStyle.SOLID, new CornerRadii(10), new BorderWidths(3))));
+    }
+
+    @Override
+    public void reportIllegalMove(Move move) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Your move is illegal");
+        alert.setHeaderText("Your move is illegal");
+        alert.setContentText("Your move is illegal");
+        alert.showAndWait();
+    }
+
+    @Override
+    public void reportResult(Result result) {
+        disableAllButtons();
+
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Game is over");
+        alert.setHeaderText("Game is over");
+        alert.setContentText("Game is over. Result: " + result);
+        alert.showAndWait();
+    }
+
+    private void disableAllButtons() {
+        for (Button[] row : this.buttons) {
+            for (Button b : row) {
+                b.setDisable(true);
+            }
+        }
     }
 }

@@ -8,18 +8,16 @@ package pkg3stone.network;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pkg3stone.engine.AbstractPlayer;
 import pkg3stone.engine.Board;
-import pkg3stone.engine.IPlayer;
 import pkg3stone.engine.Move;
 import pkg3stone.engine.MoveType;
 import pkg3stone.engine.Piece;
+import pkg3stone.engine.Result;
 
 /**
  *
@@ -46,49 +44,56 @@ public class NetworkServerPlayer extends AbstractPlayer {
     }
 
     @Override
-    public void startTheGame(Piece piece) {
+    public void startTheGame(Piece piece) throws Exception {
         super.startTheGame(piece);
-        try {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Waiting player connection");
-            connectedClientSocket = serverSocket.accept();     // Get client connection
-            clientIn = connectedClientSocket.getInputStream();
-            clientOut = connectedClientSocket.getOutputStream();
 
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending startTheGame");
-            StartTheGameMessage startTheGameMessage = new StartTheGameMessage(piece);
-            startTheGameMessage.write(clientOut);
+        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Waiting player connection");
+        connectedClientSocket = serverSocket.accept();     // Get client connection
+        clientIn = connectedClientSocket.getInputStream();
+        clientOut = connectedClientSocket.getOutputStream();
 
-        } catch (IOException ex) {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending startTheGame");
+        StartTheGameMessage startTheGameMessage = new StartTheGameMessage(piece);
+        startTheGameMessage.write(clientOut);
     }
 
     @Override
-    public Move chooseMove(Board board) {
-        try {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Waiting the MoveMessge from client");
-            MoveMessage moveMessage = MoveMessage.read(clientIn);
-            if (moveMessage.getMoveType() != MoveType.PROPOSED) {
-                Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, "Wrong moveType received");
-                return null;
-            }
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Got MoveMessge from client: {0}", moveMessage.getMove());
-            return moveMessage.getMove();
-        } catch (IOException ex) {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, null, ex);
+    public Move chooseMove(Board board) throws IOException {
+        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Waiting the MoveMessge from client");
+        MoveMessage moveMessage = MoveMessage.read(clientIn);
+        if (moveMessage.getMoveType() != MoveType.PROPOSED) {
+            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, "Wrong moveType received");
             return null;
         }
+        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Got MoveMessge from client: {0}", moveMessage.getMove());
+        return moveMessage.getMove();
     }
 
     @Override
-    public void moveOutcome(MoveType moveType, Move move) {
-        try {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending moveOutcome");
-            MoveMessage mm = new MoveMessage(moveType, move);
-            mm.write(clientOut);
-        } catch (IOException ex) {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, null, ex);
+    public void moveOutcome(MoveType moveType, Move move) throws IOException {
+        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending moveOutcome");
+        MoveMessage mm = new MoveMessage(moveType, getCurrentColor(), move);
+        mm.write(clientOut);
+    }
+
+    @Override
+    public void prepareMove(Board board) throws IOException {
+        if (board.getLastMove() != null) {
+            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending last move");
+            MoveMessage mvoeMessage = new MoveMessage(MoveType.LAST_MOVE_AND_CONTINUE, board.getLastStonePlayed(), board.getLastMove());
+            mvoeMessage.write(clientOut);
         }
+    }
+
+    @Override
+    public void gameOver(Board board, Result result) throws IOException {
+        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending game over");
+        MoveMessage mm = new MoveMessage(MoveType.LAST_MOVE_AND_GAME_OVER, board.getLastStonePlayed(), board.getLastMove());
+        mm.write(clientOut);
+
+        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending result");
+        ResultMessage resultMessage = new ResultMessage(result);
+        resultMessage.write(clientOut);
     }
 
     @Override
@@ -98,17 +103,6 @@ public class NetworkServerPlayer extends AbstractPlayer {
             clientOut.close();
             connectedClientSocket.close();
             serverSocket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    public void lastMove(Piece lastStonePlayed, Move lastMove) {
-        try {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending last move");
-            MoveMessage mm = new MoveMessage(MoveType.LAST_MOVE, lastMove);
-            mm.write(clientOut);
         } catch (IOException ex) {
             Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, null, ex);
         }

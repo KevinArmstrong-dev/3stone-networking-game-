@@ -29,7 +29,7 @@ public class Server {
 
         try {
             port = Integer.parseInt(args[0]);
-        } catch (Exception ex) {
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
             System.out.println("Port number is not provided. Will use port " + port);
         }
 
@@ -37,10 +37,9 @@ public class Server {
             IDisplay display = new ConsoleDisplay();
             IPlayer whitePlayer = new NetworkServerPlayer(port);
             IPlayer blackPlayer = new Computer();
-            //IPlayer blackPlayer = new ConsolePlayer();
             Game g = new Game(display, whitePlayer, blackPlayer);
             g.play();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
 

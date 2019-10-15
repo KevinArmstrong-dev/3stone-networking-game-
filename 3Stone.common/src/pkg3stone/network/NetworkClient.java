@@ -9,11 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.SocketException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import pkg3stone.engine.Board;
 import pkg3stone.engine.Move;
+import pkg3stone.engine.MoveType;
 import pkg3stone.engine.Piece;
 
 /**
@@ -22,9 +19,9 @@ import pkg3stone.engine.Piece;
  */
 public class NetworkClient {
 
-    private Socket socket;
-    private InputStream in;
-    private OutputStream out;
+    private final Socket socket;
+    private final InputStream in;
+    private final OutputStream out;
 
     private Piece currentColor;
 
@@ -33,6 +30,7 @@ public class NetworkClient {
      *
      * @param hostServer
      * @param port
+     * @throws java.io.IOException
      */
     public NetworkClient(String hostServer, int port) throws IOException {
         // Create socket that is connected to server on specified port
@@ -40,35 +38,68 @@ public class NetworkClient {
 
         this.in = socket.getInputStream();
         this.out = socket.getOutputStream();
+
+        waitStartTheGameMessage();
+    }
+
+    /**
+     * Executes one move by player
+     *
+     * @param move
+     * @param client
+     * @throws IOException
+     */
+    public void makeMove(Move move, INetworkClientClient client) throws IOException {
+        //Propose move to server
+        MoveMessage moveMessage = new MoveMessage(MoveType.PROPOSED, getCurrentColor(), move);
+        write(moveMessage);
+
+        //Read server responce
+        moveMessage = readMoveMessage();
+
+        if (moveMessage.getMoveType() == MoveType.ILLEGAL) {
+            client.reportIllegalMove(move);
+            return;
+        }
+        if (moveMessage.getMoveType() != MoveType.CONFIRMED) {
+            throw new IllegalStateException("Wrong responce received");
+        }
+
+        client.placeStone(this.currentColor, move);
+
+        //Read move of other player
+        moveMessage = readMoveMessage();
+        if (moveMessage.getMoveType() != MoveType.LAST_MOVE_AND_CONTINUE
+                && moveMessage.getMoveType() != MoveType.LAST_MOVE_AND_GAME_OVER) {
+            throw new IllegalStateException("Reeived wrong move message");
+        }
+        client.placeStone(moveMessage.getPiece(), moveMessage.getMove());
+
+        if(moveMessage.getMoveType() == MoveType.LAST_MOVE_AND_CONTINUE)
+            return;
+        
+        ResultMessage resultMessage = readResultMessage();
+        client.reportResult(resultMessage.getResult());
     }
 
     public Piece getCurrentColor() {
         return this.currentColor;
     }
 
-    public void waitStartTheGameMessage() {
-        try {
-            StartTheGameMessage startTheGameMessage = StartTheGameMessage.read(in);
-            this.currentColor = startTheGameMessage.getCurrentColor();
-        } catch (IOException ex) {
-            Logger.getLogger(NetworkClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private void waitStartTheGameMessage() throws IOException {
+        StartTheGameMessage startTheGameMessage = StartTheGameMessage.read(in);
+        this.currentColor = startTheGameMessage.getCurrentColor();
     }
 
-    public MoveMessage readMoveMessage() {
-        try {
-            return MoveMessage.read(in);
-        } catch (IOException ex) {
-            Logger.getLogger(NetworkClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    private MoveMessage readMoveMessage() throws IOException {
+        return MoveMessage.read(in);
     }
 
-    public void write(MoveMessage moveMessage) {
-        try {
-            moveMessage.write(out);
-        } catch (IOException ex) {
-            Logger.getLogger(NetworkClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private ResultMessage readResultMessage() throws IOException {
+        return ResultMessage.read(in);
+    }
+
+    private void write(MoveMessage moveMessage) throws IOException {
+        moveMessage.write(out);
     }
 }

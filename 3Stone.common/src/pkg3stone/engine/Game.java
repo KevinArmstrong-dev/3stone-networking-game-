@@ -26,10 +26,8 @@ public class Game {
         this.board = new Board();
     }
 
-    private void makePlayerMove(IPlayer player) {
-        if (board.getLastMove() != null) {
-            player.lastMove(board.getLastStonePlayed(), board.getLastMove());
-        }
+    private void makePlayerMove(IPlayer player) throws Exception {
+        player.prepareMove(board);
 
         Move move = null;
         while (true) {
@@ -46,8 +44,9 @@ public class Game {
 
     /**
      * play method that is responsible for the course of the game
+     * @throws java.lang.Exception
      */
-    public void play() {
+    public void play() throws Exception {
         display.ShowBoard(board);
 
         whitePlayer.startTheGame(Piece.WHITE);
@@ -58,7 +57,7 @@ public class Game {
             if (board.isGameOver()) {
                 break;
             }
-            
+
             makePlayerMove(blackPlayer);
             if (board.isGameOver()) {
                 break;
@@ -67,6 +66,9 @@ public class Game {
 
         Result result = board.resultOfGame();
         display.ShowResult(result);
+
+        whitePlayer.gameOver(board, result);
+        blackPlayer.gameOver(board, result);
 
         whitePlayer.close();
         blackPlayer.close();
