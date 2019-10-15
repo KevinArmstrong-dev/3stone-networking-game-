@@ -7,11 +7,11 @@
 }
 
 #blackStone{
-     -fx-background-color : black;
+     -fx-background-color : #000000
 }
 
 #whiteStone{
-     -fx-background-color : white
+     -fx-background-color : red;
 }
 .gameview{
     -fx-background-color : skyblue

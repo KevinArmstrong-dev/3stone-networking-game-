@@ -1,6 +1,4 @@
-/**
- * Sample Skeleton for 'GameViewFXML.fxml' Controller Class
- */
+
 package presentation;
 
 import java.io.IOException;
@@ -9,6 +7,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -26,8 +25,11 @@ import pkg3stone.engine.Result;
 import pkg3stone.network.INetworkClientClient;
 import pkg3stone.network.NetworkClient;
 
+
 public class GameViewFXMLController implements INetworkClientClient {
 
+  // Real programmers use logging, not System.out.println
+//    private final static Logger LOG = LoggerFactory.getLogger(GameViewFXMLController.class);
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -41,6 +43,14 @@ public class GameViewFXMLController implements INetworkClientClient {
     private Button[][] buttons;
     private Button lastPlacedStone;
 
+    @FXML // fx:id="exitButton"
+    private Button exitButton; // Value injected by FXMLLoader
+
+    @FXML
+    void exitButtonHandle(ActionEvent event) {
+        System.out.println("Closing the Game");
+        Platform.exit();
+    }
     private NetworkClient networkClient;
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -72,7 +82,7 @@ public class GameViewFXMLController implements INetworkClientClient {
 
                 int savedRow = row;
                 int savedCol = col;
-                Button stone = new Button("");
+                Button stone = new Button("        ");
                 stone.setOnAction(event -> {
                     onButtonClicked(stone, savedRow, savedCol);
                 });
@@ -96,16 +106,19 @@ public class GameViewFXMLController implements INetworkClientClient {
         Button button = this.buttons[move.getRow()][move.getColumn()];
         switch (piece) {
             case BLANK:
-                button.setText(" ");
+                button.setText("        ");
+                button.setId("stone");
                 break;
             case WHITE:
-                button.setText("W");
+                button.setText("  W  ");
+                button.setId("whiteStone");
                 break;
             case BLACK:
-                button.setText("B");
+                button.setText("  B  ");
+                button.setId("blackStone");
                 break;
             case BARRED:
-                button.setText("X");
+                button.setText("  X  ");
                 break;
         }
         button.setDisable(true);
