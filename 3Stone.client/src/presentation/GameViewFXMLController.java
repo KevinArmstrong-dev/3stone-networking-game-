@@ -83,6 +83,7 @@ public class GameViewFXMLController implements INetworkClientClient {
                 int savedRow = row;
                 int savedCol = col;
                 Button stone = new Button("        ");
+                stone.setId("stone");
                 stone.setOnAction(event -> {
                     onButtonClicked(stone, savedRow, savedCol);
                 });

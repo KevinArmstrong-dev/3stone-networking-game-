@@ -3,7 +3,8 @@
  */
 
 #stone{
-    -fx-background-color : wheat
+    -fx-color : wheat;
+    -fx-border:solid 3px black;
 }
 
 #blackStone{
@@ -11,11 +12,15 @@
 }
 
 #whiteStone{
-     -fx-background-color : red;
+     -fx-background-color :#e6e6e6;
 }
 .gameview{
     -fx-background-color : skyblue
 }
 #titleLbl{
     -fx-font-color : red
+}
+
+#exit:hover{
+    -fx-background-color :red;
 }
