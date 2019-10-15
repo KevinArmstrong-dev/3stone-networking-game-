@@ -125,7 +125,7 @@ public class GameViewFXMLController implements INetworkClientClient {
         button.setDisable(true);
 
         this.lastPlacedStone = button;
-        this.lastPlacedStone.setBorder(new Border(new BorderStroke(Color.GREEN,
+        this.lastPlacedStone.setBorder(new Border(new BorderStroke(Color.RED,
                 BorderStrokeStyle.SOLID, new CornerRadii(10), new BorderWidths(3))));
     }
 
