@@ -11,8 +11,8 @@ import java.util.Random;
  *
  * @author svitl
  */
-public class Computer extends AbstractPlayer
-{
+public class Computer extends AbstractPlayer {
+
     private final Random r;
 
     /**
@@ -21,31 +21,19 @@ public class Computer extends AbstractPlayer
     public Computer() {
         this.r = new Random();
     }
-        
-    /*@Override
-    public Move chooseMove(Board board) {
-        
-        while(true)
-        {
-            Move move = new Move(r.nextInt(board.numberOfRows), r.nextInt(board.numberOfColumns));
-            if(board.getPiece(move) == Piece.BLANK)
-                return move;
-        }
-    }*/
-    
-    /**
-     *
-     * @param board
-     * @return
-     */
+
+    @Override
+    public void prepareMove(Board board) {
+    }
+
     @Override     //simple version for testing
     public Move chooseMove(Board board) {
-        
-        while(true)
-        {
+
+        while (true) {
             Move move = new Move(r.nextInt(board.numberOfRows), r.nextInt(board.numberOfColumns));
-            if(board.getPiece(move) == Piece.BLANK)
+            if (board.getPiece(move) == Piece.BLANK) {
                 return move;
+            }
         }
     }
 
@@ -54,7 +42,7 @@ public class Computer extends AbstractPlayer
     }
 
     @Override
-    public void lastMove(Piece lastStonePlayed, Move lastMove) {
+    public void gameOver(Board board, Result result) {
     }
 
     @Override

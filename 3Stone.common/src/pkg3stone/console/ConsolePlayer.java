@@ -11,6 +11,7 @@ import pkg3stone.engine.Board;
 import pkg3stone.engine.Move;
 import pkg3stone.engine.MoveType;
 import pkg3stone.engine.Piece;
+import pkg3stone.engine.Result;
 
 /**
  *
@@ -26,6 +27,11 @@ public class ConsolePlayer extends AbstractPlayer {
      */
     public ConsolePlayer() {
         this.scan = new Scanner(System.in);
+    }
+
+    @Override
+    public void prepareMove(Board board) {
+        System.out.println("Last stone: " + board.getLastStonePlayed() + " move:" + board.getLastMove());
     }
 
     @Override
@@ -46,12 +52,11 @@ public class ConsolePlayer extends AbstractPlayer {
     }
 
     @Override
-    public void close() {
-        scan.close();
+    public void gameOver(Board board, Result result) {
     }
 
     @Override
-    public void lastMove(Piece lastStonePlayed, Move lastMove) {
-        System.out.println("Last stone: " + lastStonePlayed + " move:" + lastMove.getRow() + "x" + lastMove.getColumn());
+    public void close() {
+        scan.close();
     }
 }

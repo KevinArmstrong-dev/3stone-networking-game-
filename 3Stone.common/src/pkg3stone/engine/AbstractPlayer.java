@@ -13,7 +13,7 @@ public abstract class AbstractPlayer implements IPlayer {
     private Piece currentColor;
     
     @Override
-    public void startTheGame(Piece piece)
+    public void startTheGame(Piece piece) throws Exception
     {
         this.currentColor = piece;
     }

@@ -35,4 +35,9 @@ public class Move {
             return false;
         return true;
     }
+    
+    public String toString()
+    {
+        return "[" + this.row + ":" + this.column + "]";
+    }
 }
