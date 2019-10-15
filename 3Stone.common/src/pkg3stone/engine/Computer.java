@@ -28,10 +28,11 @@ public class Computer extends AbstractPlayer {
 
     @Override     //simple version for testing
     public Move chooseMove(Board board) {
-
+        //return board.getIdealMove(board, Piece.BLACK);
+        
         while (true) {
-            //Move move = new Move(r.nextInt(board.numberOfRows), r.nextInt(board.numberOfColumns));
-            Move move = board.getIdealMove(board, Piece.BLACK);
+            Move move = new Move(r.nextInt(board.numberOfRows), r.nextInt(board.numberOfColumns));
+            //Move move = board.getIdealMove(board, Piece.BLACK);
             if (board.getPiece(move) == Piece.BLANK) {
                 return move;
             }

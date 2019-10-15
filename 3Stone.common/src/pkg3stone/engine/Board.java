@@ -41,6 +41,19 @@ public class Board implements Serializable {
         //place in the center of the board is barred
         this.pieces[numberOfRows / 2][numberOfColumns / 2] = Piece.BARRED;
     }
+    
+    public Board(Board b)
+    {
+        this.pieces = new Piece[b.numberOfRows][b.numberOfColumns];
+        for (int i = 0;i < b.pieces.length;i++)
+        {
+            for (int j = 0;j < b.pieces[i].length;j++)
+            {
+                this.pieces[i][j] = b.pieces[i][j];
+            }
+        }
+        this.pieces[b.numberOfRows / 2][b.numberOfColumns / 2] = Piece.BARRED;
+    }
 
     /**
      * Returns last played stone
@@ -369,20 +382,17 @@ public class Board implements Serializable {
     
     protected int calculatePoints(Board bShallow, Piece p, Move m)
     {
-        Board b = bShallow.deepCopy();
-        /*
+        Board b = new Board(bShallow);
         if (!b.isPlayLegal(p, m))
         {
             return -1;
         }
-        */
         b.placeStone(p, m);
         int maxPossible = 0;
         maxPossible += this.findThreeStonesInRowsString(p,b);
         maxPossible += this.findThreeStonesInColumnsString(p,b);
         maxPossible += this.findThreeStonesInLeftDiagonalsString(p,b);
         maxPossible += this.findThreeStonesInRightDiagonalsString(p,b);
-        System.out.println("It calculates the max points");
         return maxPossible;
     }
     
@@ -390,9 +400,9 @@ public class Board implements Serializable {
     {
         Move idealMove = new Move(0,0);
         int maxPoints = 0;
-        for (int i = 0;i < this.pieces.length;i++)
+        for (int i = 0;i < b.pieces.length;i++)
         {
-            for (int j = 0;j < this.pieces[i].length;j++)
+            for (int j = 0;j < b.pieces[i].length;j++)
             {
                 if (calculatePoints(b,p,new Move(i,j)) > maxPoints && !(calculatePoints(b,p,new Move(i,j)) < 0))
                 {
