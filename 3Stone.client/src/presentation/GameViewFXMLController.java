@@ -84,6 +84,7 @@ public class GameViewFXMLController implements INetworkClientClient {
                 int savedCol = col;
                 Button stone = new Button("        ");
                 stone.setId("stone");
+                stone.getStyleClass().add("allStone");
                 stone.setOnAction(event -> {
                     onButtonClicked(stone, savedRow, savedCol);
                 });
@@ -117,6 +118,7 @@ public class GameViewFXMLController implements INetworkClientClient {
             case BLACK:
                 button.setText("  B  ");
                 button.setId("blackStone");
+                button.getStyleClass().add("black");
                 break;
             case BARRED:
                 button.setText("  X  ");

@@ -5,12 +5,16 @@
 #stone{
     -fx-color : wheat;
     -fx-border:solid 3px black;
+    -fx-background-radius:50px;
 }
 
 #blackStone{
-     -fx-background-color : #000000
+    
+      -fx-background-image:url("/img/black.jpg")
 }
-
+.stone{
+      -fx-background-image:url("/img/black.jpg")
+}
 #whiteStone{
      -fx-background-color :#e6e6e6;
 }
@@ -23,4 +27,10 @@
 
 #exit:hover{
     -fx-background-color :red;
+}
+.allStone:hover{
+    -fx-background-color:#4b42f5;
+}
+#AnchorPane{
+    -fx-background-image:url("/img/bgtest.jpg");
 }

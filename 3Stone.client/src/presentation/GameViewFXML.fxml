@@ -13,7 +13,7 @@
         <URL value="@gameviewfxml.css" />
     </stylesheets>
    <children>
-      <GridPane fx:id="gameGrid" gridLinesVisible="true" layoutX="47.0" layoutY="50.0" prefHeight="285.0" prefWidth="480.0" stylesheets="@gameviewfxml.css">
+      <GridPane fx:id="gameGrid" gridLinesVisible="true" layoutX="47.0" layoutY="50.0" prefHeight="285.0" prefWidth="480.0" style="-fx-background-color: lightblue;" stylesheets="@gameviewfxml.css">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
@@ -42,6 +42,6 @@
          </rowConstraints>
       </GridPane>
       <Label layoutX="227.0" layoutY="4.0" prefHeight="25.0" prefWidth="119.0" stylesheets="@gameviewfxml.css" text="3 stone Game" />
-      <Button fx:id="exitButton" layoutX="553.0" layoutY="299.0" mnemonicParsing="false" onAction="#exitButtonHandle" prefHeight="36.0" prefWidth="57.0" text="Exit" />
+      <Button id="exit" fx:id="exitButton" layoutX="553.0" layoutY="299.0" mnemonicParsing="false" onAction="#exitButtonHandle" prefHeight="36.0" prefWidth="57.0" stylesheets="@gameviewfxml.css" text="Exit" />
    </children>
 </AnchorPane>
