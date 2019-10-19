@@ -85,7 +85,7 @@ public class Computer extends AbstractPlayer {
     private Move blockRight(Board board) {
         Move lastMove = board.getLastMove();
 
-        if (lastMove.getColumn() + 1 < board.numberOfColumns && lastMove.getColumn() + 1 > 0) {
+        if (lastMove.getColumn()-1  > 0) {
             Move tempMove = new Move(lastMove.getColumn() - 1, lastMove.getRow());
             if (board.getPiece(tempMove) == Piece.BLANK) {
                 System.out.println("Play here " + tempMove);
@@ -135,15 +135,16 @@ public class Computer extends AbstractPlayer {
      * @return 
      */
     private Move bestPlaceToBlock(Board board) {
+
         Move left = blockLeft(board);
         Move right = blockRight(board);
         Move up = blockUp(board);
 
         if (left != null && board.isPlayLegal(Piece.BLACK, left)) {
             return left;
-        } else if (left != null && board.isPlayLegal(Piece.BLACK, right)) {
+        } else if (right != null && board.isPlayLegal(Piece.BLACK, right)) {
             return right;
-        } else if (left != null && board.isPlayLegal(Piece.BLACK, up)) {
+        } else if (up != null && board.isPlayLegal(Piece.BLACK, up)) {
             return up;
         } else {
             return null;

@@ -24,10 +24,12 @@ import pkg3stone.engine.Result;
 import pkg3stone.network.INetworkClientClient;
 import pkg3stone.network.NetworkClient;
 
+/**
+ * 
+ * @author KEVIN
+ */
 public class GameViewFXMLController implements INetworkClientClient {
 
-    // Real programmers use logging, not System.out.println
-//    private final static Logger LOG = LoggerFactory.getLogger(GameViewFXMLController.class);
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
