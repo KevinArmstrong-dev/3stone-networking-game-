@@ -1,4 +1,3 @@
-
 package presentation;
 
 import java.io.IOException;
@@ -25,10 +24,9 @@ import pkg3stone.engine.Result;
 import pkg3stone.network.INetworkClientClient;
 import pkg3stone.network.NetworkClient;
 
-
 public class GameViewFXMLController implements INetworkClientClient {
 
-  // Real programmers use logging, not System.out.println
+    // Real programmers use logging, not System.out.println
 //    private final static Logger LOG = LoggerFactory.getLogger(GameViewFXMLController.class);
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -114,6 +112,7 @@ public class GameViewFXMLController implements INetworkClientClient {
             case WHITE:
                 button.setText("  W  ");
                 button.setId("whiteStone");
+                button.getStyleClass().add("white");
                 break;
             case BLACK:
                 button.setText("  B  ");
@@ -122,6 +121,7 @@ public class GameViewFXMLController implements INetworkClientClient {
                 break;
             case BARRED:
                 button.setText("  X  ");
+                button.setId("barred");
                 break;
         }
         button.setDisable(true);
