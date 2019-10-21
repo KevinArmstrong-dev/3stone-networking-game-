@@ -5,6 +5,8 @@
  */
 package pkg3stone.console;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pkg3stone.engine.Computer;
 import pkg3stone.engine.Game;
 import pkg3stone.engine.IDisplay;
@@ -24,6 +26,10 @@ public class ConsoleMain {
         IPlayer blackPlayer = new Computer();
         //IPlayer blackPlayer = new ConsolePlayer();
         Game g = new Game(display, whitePlayer, blackPlayer);
-        g.play();        
+        try {        
+            g.play();
+        } catch (Exception ex) {
+            Logger.getLogger(ConsoleMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
 }
