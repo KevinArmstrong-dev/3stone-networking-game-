@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="3Stone">
+  <ClassDiagramComponents>
+    <Class name="ConnectionFXMLController" package="presentation" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="resources" type="ResourceBundle" visibility="private"/>
+        <Field name="location" type="URL" visibility="private"/>
+        <Field name="serverAddressTxt" type="TextField" visibility="private"/>
+        <Field name="connectBtn" type="Button" visibility="private"/>
+        <Field name="exitBtn" type="Button" visibility="private"/>
+        <Field name="serverPortTxt" type="TextField" visibility="private"/>
+        <Field name="primaryStage" type="Stage" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="setPrimaryStage" returnType="void" visibility="public">
+          <Argument type="Stage" name="primaryStage"/>
+        </Method>
+        <Method name="connectBtnHandler" returnType="void" visibility="package">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="exitBtnHandler" returnType="void" visibility="package">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="initialize" returnType="void" visibility="package"/>
+      </Methods>
+    </Class>
+    <Class name="GameViewFXMLController" package="presentation" visibility="public" xPosition="362.0" yPosition="20.0">
+      <Fields>
+        <Field name="resources" type="ResourceBundle" visibility="private"/>
+        <Field name="location" type="URL" visibility="private"/>
+        <Field name="gameGrid" type="GridPane" visibility="private"/>
+        <Field name="pieces" type="Piece[][]" visibility="private"/>
+        <Field name="buttons" type="Button[][]" visibility="private"/>
+        <Field name="lastPlacedStone" type="Button" visibility="private"/>
+        <Field name="exitButton" type="Button" visibility="private"/>
+        <Field name="networkClient" type="NetworkClient" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="exitButtonHandle" returnType="void" visibility="package">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="initialize" returnType="void" visibility="package"/>
+        <Method name="testGrid" returnType="void" visibility="private"/>
+        <Method name="onButtonClicked" returnType="void" visibility="private">
+          <Argument type="Button" name="button"/>
+          <Argument type="int" name="row"/>
+          <Argument type="int" name="col"/>
+        </Method>
+        <Method name="initGrid" returnType="void" visibility="private"/>
+        <Method name="connectToServer" returnType="void" visibility="public">
+          <Argument type="String" name="address"/>
+          <Argument type="int" name="port"/>
+        </Method>
+        <Method name="placeStone" returnType="void" visibility="public">
+          <Argument type="Piece" name="piece"/>
+          <Argument type="Move" name="move"/>
+        </Method>
+        <Method name="reportIllegalMove" returnType="void" visibility="public">
+          <Argument type="Move" name="move"/>
+        </Method>
+        <Method name="reportResult" returnType="void" visibility="public">
+          <Argument type="Result" name="result"/>
+        </Method>
+        <Method name="disableAllButtons" returnType="void" visibility="private"/>
+      </Methods>
+    </Class>
+    <Class name="MainApp" package="presentation" visibility="public" xPosition="727.0" yPosition="20.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="start" returnType="void" visibility="public">
+          <Argument type="Stage" name="primaryStage"/>
+        </Method>
+        <Method name="showConnectionForm" returnType="void" visibility="public">
+          <Argument type="Stage" name="primaryStage"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations/>
+</ClassDiagram>
