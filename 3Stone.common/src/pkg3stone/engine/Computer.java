@@ -5,6 +5,7 @@
  */
 package pkg3stone.engine;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 public class Computer extends AbstractPlayer {
 
     private final Random r;
-
+    
     /**
      * Initializes computer logic
      */
@@ -30,15 +31,24 @@ public class Computer extends AbstractPlayer {
 
     @Override     //simple version for testing
     public Move chooseMove(Board board) {
-        Move block = bestPlaceToBlock(board);
-
+       // Move block = bestPlaceToBlock(board);
+       ArrayList<Integer> forbiddenI;
+       ArrayList<Integer> forbiddenJ;
+       
         while (true) {
-            if (block != null) {
+            /*if (block != null) {
                 Logger.getLogger(Game.class.getName()).log(Level.INFO, "Tried To Block");
                 return block;
-            }
-            Move move = new Move(r.nextInt(board.numberOfRows), r.nextInt(board.numberOfColumns));
-            if (board.getPiece(move) == Piece.BLANK) {
+            }*/
+            
+            int row = r.nextInt(board.numberOfRows);
+            int column = r.nextInt(board.numberOfColumns);
+            
+            forbiddenI = board.findTwoWhiteStonesInRows();
+            forbiddenJ = board.findTwoWhiteStonesInColumns();
+                        
+            Move move = new Move(row, column);
+            if (board.getPiece(move) == Piece.BLANK && !forbiddenI.contains(row) && !forbiddenJ.contains(column)) {
                 return move;
             }
         }
@@ -55,14 +65,14 @@ public class Computer extends AbstractPlayer {
     @Override
     public void close() {
     }
-
+    
     /**
      *
      * @author Kevin Armstrong
      * @param board
      * @return tempMove
      */
-    private Move blockLeft(Board board) {
+   /* private Move blockLeft(Board board) {
         Move lastMove = board.getLastMove();
 
         if (lastMove.getColumn() + 1 < board.numberOfColumns) {
@@ -107,7 +117,7 @@ public class Computer extends AbstractPlayer {
      * @param board
      * @return 
      */
-    private Move blockUp(Board board) {
+    /*private Move blockUp(Board board) {
         Move lastMove = board.getLastMove();
 
         if (lastMove.getRow() + 1 < board.numberOfRows) {
@@ -134,7 +144,7 @@ public class Computer extends AbstractPlayer {
      * @param board
      * @return 
      */
-    private Move bestPlaceToBlock(Board board) {
+    /*private Move bestPlaceToBlock(Board board) {
 
         Move left = blockLeft(board);
         Move right = blockRight(board);
@@ -149,5 +159,5 @@ public class Computer extends AbstractPlayer {
         } else {
             return null;
         }
-    }
+    }*/
 }

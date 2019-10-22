@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -30,6 +31,8 @@ public class Board implements Serializable {
     private final int amountOfStones = 3;
     public final int numberOfRows = 11;
     public final int numberOfColumns = 11;
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    private final int twoWhiteStones = 2;
 
     //Constructor
     public Board() {
@@ -301,4 +304,63 @@ public class Board implements Serializable {
         }
         return board;
     }
+    
+    
+    
+    
+    
+    
+    
+    //Method finds two white stones in rows
+    public ArrayList<Integer> findTwoWhiteStonesInRows() {
+        ArrayList<Integer> iOccupied = new ArrayList<Integer>();
+       
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j <= numberOfColumns - twoWhiteStones; j++) {
+                Piece firstPiece = pieces[i][j];
+                if (firstPiece != Piece.WHITE) {
+                    continue;
+                }
+                int count = 0;
+                for (int k = 0; k < twoWhiteStones; k++) {
+                    if (pieces[i][j + k] != firstPiece) {
+                        break;
+                    }
+                    count = count + 1;
+                }
+                if (count == twoWhiteStones) {
+                    iOccupied.add(i);
+                }
+            }
+        }
+        return iOccupied;
+    }
+    
+    //Method finds two white stones in columns
+    public ArrayList<Integer> findTwoWhiteStonesInColumns() {
+        ArrayList<Integer> jOccupied = new ArrayList<Integer>();
+        
+        for (int i = 0; i <= numberOfRows - twoWhiteStones; i++) {
+            for (int j = 0; j < numberOfColumns; j++) {
+                Piece firstPiece = pieces[i][j];
+                if (firstPiece != Piece.WHITE) {
+                    continue;
+                }
+                int count = 0;
+                for (int k = 0; k < twoWhiteStones; k++) {
+                    if (pieces[i + k][j] != firstPiece) {
+                        break;
+                    }
+                    count = count + 1;
+                }
+                if (count == twoWhiteStones) {
+                    jOccupied.add(j);
+                }
+            }
+        }
+        return jOccupied;
+    }
+    
+   
+    
 }
