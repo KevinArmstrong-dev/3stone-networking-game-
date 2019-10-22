@@ -28,7 +28,7 @@ public class Computer extends AbstractPlayer {
     public void prepareMove(Board board) {
     }
 
-    @Override     //simple version for testing
+    @Override     
     public Move chooseMove(Board board) {
         Move block = bestPlaceToBlock(board);
 
@@ -57,7 +57,8 @@ public class Computer extends AbstractPlayer {
     }
 
     /**
-     *
+     *This Method will scan the board from left to right, to find 
+     * a legal spot to play
      * @author Kevin Armstrong
      * @param board
      * @return tempMove
@@ -81,7 +82,14 @@ public class Computer extends AbstractPlayer {
         }
         return null;
     }
-
+    
+    /**
+     * This method will scan the board from right to left in order to find 
+     * a spot to block
+     * 
+     * @param board
+     * @return 
+     */
     private Move blockRight(Board board) {
         Move lastMove = board.getLastMove();
 
@@ -103,6 +111,7 @@ public class Computer extends AbstractPlayer {
     }
 
     /**
+     * This method will look for a place to block on the x-axis
      * 
      * @param board
      * @return 

@@ -44,3 +44,7 @@
     -fx-background-color: #e7e7e7;
     -fx-color: black;
 }
+
+#barred{
+    -fx-background-color: plum;
+}

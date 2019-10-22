@@ -15,7 +15,7 @@ import pkg3stone.engine.Piece;
 
 /**
  *
- * @author KEVIN
+ * 
  */
 public class NetworkClient {
 

@@ -19,7 +19,7 @@
         <URL value="@gameviewfxml.css" />
     </stylesheets>
     <children>
-        <GridPane fx:id="gameGrid" gridLinesVisible="true" layoutX="47.0" layoutY="50.0" prefHeight="285.0" prefWidth="480.0" style="-fx-background-color: grey;" stylesheets="@gameviewfxml.css">
+        <GridPane fx:id="gameGrid" gridLinesVisible="true" layoutX="22.0" layoutY="39.0" prefHeight="290.0" prefWidth="486.0" style="-fx-background-color: grey;" stylesheets="@gameviewfxml.css">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
@@ -61,5 +61,10 @@
             </textFill>
         </Label>
         <Button id="exit" fx:id="exitButton" layoutX="553.0" layoutY="299.0" mnemonicParsing="false" onAction="#exitButtonHandle" prefHeight="36.0" prefWidth="57.0" stylesheets="@gameviewfxml.css" text="Exit" />
+      <Label fx:id="scoreLbl" layoutX="528.0" layoutY="38.0" prefHeight="25.0" prefWidth="78.0" style="-fx-background-color: white;" text="Score" />
+      <Label fx:id="white" layoutX="526.0" layoutY="78.0" prefHeight="17.0" prefWidth="41.0" style="-fx-background-color: white;" text="White" />
+      <Label fx:id="blackL" layoutX="526.0" layoutY="114.0" prefHeight="17.0" prefWidth="41.0" style="-fx-background-color: white;" text="Black" />
+      <Label fx:id="whiteLbl" layoutX="589.0" layoutY="78.0" style="-fx-background-color: white;" text="0" />
+      <Label fx:id="blackLbl" layoutX="589.0" layoutY="114.0" style="-fx-background-color: white;" text="0" />
     </children>
 </AnchorPane>

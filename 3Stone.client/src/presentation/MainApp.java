@@ -11,6 +11,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -45,6 +46,9 @@ public class MainApp extends Application {
 
         Scene scene = new Scene(root);
         primaryStage.setTitle("3 stone Game");
+        primaryStage.getIcons().add(
+                new Image(MainApp.class
+                        .getResourceAsStream("/img/images.jpg")));
         primaryStage.setScene(scene);
         primaryStage.show();
     }

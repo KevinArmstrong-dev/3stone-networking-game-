@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -25,6 +26,8 @@ import pkg3stone.network.INetworkClientClient;
 import pkg3stone.network.NetworkClient;
 
 /**
+ * This controller will display the grid, which has the same dimension as the board.
+ * This controller will be displayed if the client was able to connect to a server
  * 
  * @author KEVIN
  */
@@ -35,7 +38,21 @@ public class GameViewFXMLController implements INetworkClientClient {
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
+    @FXML // fx:id="blackLbl"
+    private Label blackLbl; // Value injected by FXMLLoader
+     
+    @FXML // fx:id="white"
+    private Label white; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="scoreLbl"
+    private Label scoreLbl; // Value injected by FXMLLoader
 
+    @FXML // fx:id="black"
+    private Label blackL; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="whiteLbl"
+    private Label whiteLbl; // Value injected by FXMLLoader
+    
     @FXML // fx:id="gameGrid"
     private GridPane gameGrid; // Value injected by FXMLLoader
 
@@ -56,7 +73,7 @@ public class GameViewFXMLController implements INetworkClientClient {
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert gameGrid != null : "fx:id=\"gameGrid\" was not injected: check your FXML file 'GameViewFXML.fxml'.";
-
+         assert whiteLbl != null : "fx:id=\"whiteLbl\" was not injected: check your FXML file 'GameViewFXML.fxml'.";
         initGrid();
     }
 
@@ -73,8 +90,14 @@ public class GameViewFXMLController implements INetworkClientClient {
             Platform.exit();
         }
     }
-
+    
+    /**
+     * This helper method helps in populating the grid with buttons
+     * IT attaches event listeners on the buttons as it is being created
+     * 
+     */
     private void initGrid() {
+         
         this.buttons = new Button[11][11];
 
         for (int row = 0; row < 11; row++) {
@@ -93,6 +116,12 @@ public class GameViewFXMLController implements INetworkClientClient {
                 this.buttons[row][col] = stone;
             }
         }
+        
+                   whiteLbl.setVisible(false);
+        blackLbl.setVisible(false);
+        scoreLbl.setVisible(false);
+        blackL.setVisible(false);
+         white.setVisible(false);
     }
 
     public void connectToServer(String address, int port) throws IOException {
@@ -142,17 +171,34 @@ public class GameViewFXMLController implements INetworkClientClient {
         alert.showAndWait();
     }
 
+    /**
+     * 
+     * @param result 
+     */
     @Override
     public void reportResult(Result result) {
         disableAllButtons();
-
+        
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Game is over");
         alert.setHeaderText("Game is over");
         alert.setContentText("Game is over. Result: " + result);
         alert.showAndWait();
+        
+        whiteLbl.setVisible(true);
+        blackLbl.setVisible(true);
+        scoreLbl.setVisible(true);
+        blackL.setVisible(true);
+         white.setVisible(true);
+         whiteLbl.setText(result.getWhiteScore()+"");
+         blackLbl.setText(result.getBlackScore()+"");
+         
     }
 
+    /**
+     * This method when called will disable all the buttons
+     * inside the grid
+     */
     private void disableAllButtons() {
         for (Button[] row : this.buttons) {
             for (Button b : row) {
