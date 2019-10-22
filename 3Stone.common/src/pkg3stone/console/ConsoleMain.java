@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pkg3stone.console;
 
 import java.util.logging.Level;
@@ -13,12 +8,17 @@ import pkg3stone.engine.IDisplay;
 import pkg3stone.engine.IPlayer;
 
 /**
- *
- * @author svitl
+ * ConsoleMain Class
+ * 
+ * @author Svitlana Myronova
  */
 public class ConsoleMain {
     
-    
+    /**
+     * Main method of console app
+     * 
+     * @param args
+     */
     public static void main(String[] args)
     {
         IDisplay display = new ConsoleDisplay();

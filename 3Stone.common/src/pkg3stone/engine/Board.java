@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pkg3stone.engine;
 
 import java.io.Serializable;
@@ -14,8 +9,9 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
 /**
- *
- * @author svitl
+ * Board Class
+ * 
+ * @author Svitlana Myronova
  */
 public class Board implements Serializable {
 
@@ -31,7 +27,9 @@ public class Board implements Serializable {
     public final int numberOfRows = 11;
     public final int numberOfColumns = 11;
 
-    //Constructor
+    /**
+     * Constructor
+     */
     public Board() {
         this.pieces = new Piece[numberOfRows][numberOfColumns];
         for (Piece[] row : this.pieces) {
@@ -45,7 +43,7 @@ public class Board implements Serializable {
     /**
      * Returns last played stone
      *
-     * @return
+     * @return Piece
      */
     public Piece getLastStonePlayed() {
         return this.lastStonePlayed;
@@ -54,13 +52,17 @@ public class Board implements Serializable {
     /**
      * Returns last move
      *
-     * @return
+     * @return Move
      */
     public Move getLastMove() {
         return this.lastMove;
     }
 
-    //Method returns a deep copy of the Board object
+    /**
+     * Method returns a deep copy of the Board object
+     * 
+     * @return Board
+     */
     public Board deepCopy() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -76,17 +78,22 @@ public class Board implements Serializable {
     }
 
     /**
-     *
-     * @param m
-     * @return
+     * Method takes Move and returns Piece
+     * 
+     * @param m Move
+     * @return Piece
      */
     public Piece getPiece(Move m) {
         return pieces[m.getRow()][m.getColumn()];
     }
 
-    //Method checks if it is legal to make a move into position(row, column) of the board,
-    //sets this position with value of plaerColore 
-    //sets the last stone played
+    /**
+     * Method checks if it is legal to make a move into position(row, column) of the board,
+     *
+     * @param player
+     * @param move
+     * @return true or false
+     */
     public boolean isPlayLegal(Piece player, Move move) {
         if (!move.isValidForBoard(this)) {
             return false;
@@ -115,8 +122,13 @@ public class Board implements Serializable {
         }
         return true;
     }
-
-    //method sets the last stone played 
+    
+    /**
+     * Method sets the last stone played
+     *
+     * @param player
+     * @param move
+     */
     public void placeStone(Piece player, Move move) {
         pieces[move.getRow()][move.getColumn()] = player;
         lastStonePlayed = player;
@@ -129,7 +141,12 @@ public class Board implements Serializable {
         }
     }
 
-    //method checks if there is free space in the column
+    /**
+     * Method checks if there is free space in the column
+     *
+     * @param column
+     * @return true or false
+     */
     private boolean hasFreePlaceInColumn(int column) {
         for (int i = 0; i < numberOfRows; i++) {
             if (pieces[i][column] == Piece.BLANK) {
@@ -139,7 +156,12 @@ public class Board implements Serializable {
         return false;
     }
 
-    //method checks if there is free space in the row    
+    /**
+     * Method checks if there is free space in the row
+     *
+     * @param row
+     * @return true or false
+     */
     private boolean hasFreePlaceInRow(int row) {
         for (int j = 0; j < numberOfColumns; j++) {
             if (pieces[row][j] == Piece.BLANK) {
@@ -149,7 +171,11 @@ public class Board implements Serializable {
         return false;
     }
 
-    //Method finds three stones in right diagonals
+    /**
+     * Method finds three stones in right diagonals and counts the result in right diagonals
+     *
+     * @param result
+     */
     private void findThreeStonesInRightDiagonals(Result result) {
         for (int i = 0; i <= numberOfRows - amountOfStones; i++) {
             for (int j = amountOfStones - 1; j < numberOfColumns; j++) {
@@ -175,7 +201,11 @@ public class Board implements Serializable {
         }
     }
 
-    //Method finds three stones in left diagonals
+    /**
+     * Method finds three stones in left diagonals and counts the result in left diagonals
+     *
+     * @param result
+     */
     private void findThreeStonesInLeftDiagonals(Result result) {
         for (int i = 0; i <= numberOfRows - amountOfStones; i++) {
             for (int j = 0; j <= numberOfColumns - amountOfStones; j++) {
@@ -202,13 +232,10 @@ public class Board implements Serializable {
     }
 
     /**
-     * 
-     * @return 
+     * Method finds three stones in columns and counts the result in columns
+     *
+     * @param result
      */
-    public Piece[][] getPieces(){
-        return pieces;
-    }
-    //Method finds three stones in columns
     private void findThreeStonesInColumns(Result result) {
         for (int i = 0; i <= numberOfRows - amountOfStones; i++) {
             for (int j = 0; j < numberOfColumns; j++) {
@@ -234,7 +261,11 @@ public class Board implements Serializable {
         }
     }
 
-    //Method finds three stones in rows
+    /**
+     * Method finds three stones in rows and counts the result in rows
+     *
+     * @param result
+     */
     private void findThreeStonesInRows(Result result) {
         for (int i = 0; i < numberOfRows; i++) {
             for (int j = 0; j <= numberOfColumns - amountOfStones; j++) {
@@ -259,10 +290,20 @@ public class Board implements Serializable {
             }
         }
     }
+    
+     /**
+     * Getter for Piece[][]
+     * 
+     * @return Piece[][]
+     */
+    public Piece[][] getPieces(){
+        return pieces;
+    }
 
     /**
-     *
-     * @return
+     * Returns result of the game
+     * 
+     * @return Result
      */
     public Result resultOfGame() {
         Result result = new Result();
@@ -273,7 +314,11 @@ public class Board implements Serializable {
         return result;
     }
 
-    //Method checks if the game is over
+    /**
+     * Checks if the Game is over
+     *
+     * @return true or false
+     */
     public boolean isGameOver() {
         if (playerWhitePieces == 0 && playerBlackPieces == 0) {
             return true;
@@ -282,7 +327,10 @@ public class Board implements Serializable {
         }
     }
 
-    //overriding toString
+    /**
+     * Override toString method
+     * @return String
+     */
     @Override
     public String toString() {
         String board = "";
