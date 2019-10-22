@@ -201,6 +201,13 @@ public class Board implements Serializable {
         }
     }
 
+    /**
+     * 
+     * @return 
+     */
+    public Piece[][] getPieces(){
+        return pieces;
+    }
     //Method finds three stones in columns
     private void findThreeStonesInColumns(Result result) {
         for (int i = 0; i <= numberOfRows - amountOfStones; i++) {
