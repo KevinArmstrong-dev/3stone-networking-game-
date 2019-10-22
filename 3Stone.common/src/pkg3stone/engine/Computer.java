@@ -5,8 +5,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author svitl
+ * Computer Class
+ * 
+ * @author Svitlana Myronova
  */
 public class Computer extends AbstractPlayer {
 
@@ -19,11 +20,22 @@ public class Computer extends AbstractPlayer {
         this.r = new Random();
     }
 
+    /**
+     * Called by Game to ask to prepare for new chooseMove call
+     *
+     * @param board
+     */
     @Override
     public void prepareMove(Board board) {
     }
 
-    @Override     //simple version for testing
+    /**
+     * Method called by Game to ask about next move
+     *
+     * @param board
+     * @return Move
+     */
+    @Override    
     public Move chooseMove(Board board) {
         Move block = bestPlaceToBlock(board);
 
@@ -42,20 +54,36 @@ public class Computer extends AbstractPlayer {
         }
     }
 
+    /**
+     * Called by Game if Move returned by chooseMove is illegal for current game
+     * state.
+     *
+     * @param moveType
+     * @param move
+     */
     @Override
     public void moveOutcome(MoveType moveType, Move move) {
     }
 
+    /**
+     * Called by Game to notify about game result
+     * @param board
+     * @param result
+     */
     @Override
     public void gameOver(Board board, Result result) {
     }
 
+    /**
+     * Needs to be called to cleanup resources created by this player.
+     */
     @Override
     public void close() {
     }
 
     /**
-     *
+     * Blocks player from the left side
+     * 
      * @author Kevin Armstrong
      * @param board
      * @return tempMove
@@ -80,6 +108,13 @@ public class Computer extends AbstractPlayer {
         return null;
     }
 
+    /**
+     * Blocks player from the right side
+     * 
+     * @author Kevin Armstrong
+     * @param board
+     * @return tempMove
+     */
     private Move blockRight(Board board) {
         Move lastMove = board.getLastMove();
 
@@ -101,10 +136,13 @@ public class Computer extends AbstractPlayer {
     }
 
     /**
-     *
+     * Blocks player from the top
+     * 
+     * @author Kevin Armstrong
      * @param board
-     * @return
+     * @return tempMove
      */
+
     private Move blockUp(Board board) {
         Move lastMove = board.getLastMove();
 
@@ -131,7 +169,7 @@ public class Computer extends AbstractPlayer {
      *
      * @author Kevin Armstrong
      * @param board
-     * @return
+     * @return Move
      */
     private Move bestPlaceToBlock(Board board) {
 
@@ -150,6 +188,14 @@ public class Computer extends AbstractPlayer {
         }
     }
 
+    /**
+     * Chooses the better move
+     *
+     * @author Kevin Armstrong
+     * @param board
+     * @param move
+     * @return int
+     */
     private int betterMove(Board board, Move move){
         int count1  = betterMoveAcross(board, move);
         int count2 = betterMoveUpDown(board, move);
