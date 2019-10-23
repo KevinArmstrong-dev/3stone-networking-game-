@@ -142,8 +142,7 @@ public class Computer extends AbstractPlayer {
      * @param board
      * @return tempMove
      */
-
-    private Move blockUp(Board board) {
+     private Move blockUp(Board board) {
         Move lastMove = board.getLastMove();
 
         if (lastMove.getRow() + 1 < board.numberOfRows) {
@@ -210,7 +209,7 @@ public class Computer extends AbstractPlayer {
      * @param move
      * @return int
      */
-    private int betterMoveAcross(Board board, Move goodMove) {
+     private int betterMoveAcross(Board board, Move goodMove) {
         Move lastMove = board.getLastMove();
         int countBlack = 0;
 

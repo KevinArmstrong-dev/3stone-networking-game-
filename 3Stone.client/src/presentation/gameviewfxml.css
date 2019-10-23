@@ -14,8 +14,14 @@
 .stone{
     -fx-background-image:url("/img/black.jpg")
 }
+#barred{
+    -fx-color:red;
+    -fx-border:solid 3px black;
+    -fx-background-radius:50px;
+}
+
 #whiteStone{
-    -fx-color :#e6e6e6;
+    -fx-color :#e6e6e6; 
 }
 .gameview{
     -fx-background-color : skyblue

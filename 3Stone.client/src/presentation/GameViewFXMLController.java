@@ -8,9 +8,12 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -100,6 +103,9 @@ public class GameViewFXMLController implements INetworkClientClient {
                 this.buttons[row][col] = stone;
             }
         }
+        //this.buttons[5][5].setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+        this.buttons[5][5].setId("barred");
+        this.buttons[5][5].setDisable(true);
     }
 
     /**
@@ -143,7 +149,7 @@ public class GameViewFXMLController implements INetworkClientClient {
                 break;
             case BARRED:
                 button.setText("  X  ");
-                button.setId("barred");
+                button.setId("barred");                
                 break;
         }
         button.setDisable(true);
