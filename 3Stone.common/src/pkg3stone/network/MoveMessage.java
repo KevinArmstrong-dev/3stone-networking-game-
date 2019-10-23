@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pkg3stone.network;
 
 import java.io.IOException;
@@ -13,6 +8,7 @@ import pkg3stone.engine.MoveType;
 import pkg3stone.engine.Piece;
 
 /**
+ * MoveMessage Class
  *
  * @author Svitlana Myronova
  */
@@ -37,7 +33,7 @@ public class MoveMessage {
     /**
      * Returns stored moveType information
      *
-     * @return
+     * @return MoveType
      */
     public MoveType getMoveType() {
         return this.moveType;
@@ -46,7 +42,7 @@ public class MoveMessage {
     /**
      * Returns stored piece
      *
-     * @return
+     * @return Piece
      */
     public Piece getPiece() {
         return this.piece;
@@ -55,7 +51,7 @@ public class MoveMessage {
     /**
      * Returns stored move;
      *
-     * @return
+     * @return Move
      */
     public Move getMove() {
         return this.move;
@@ -78,6 +74,7 @@ public class MoveMessage {
      * Reads MoveMessage object from input stream
      *
      * @param is
+     * @return MoveMessage
      * @throws IOException
      */
     static MoveMessage read(InputStream is) throws IOException {

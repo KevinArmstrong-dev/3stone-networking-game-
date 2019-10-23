@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pkg3stone.engine;
 
 /**
+ * Piece Enum
  *
- * @author svitl
+ * @author Svitlana Myronova
  */
 public enum Piece {
     BLANK(0), 
@@ -17,16 +13,32 @@ public enum Piece {
     
     private final int value;
     
+    /**
+     * Constructor
+     * 
+     * @param value
+     */
     private Piece(int value)
     {
         this.value = value;
     }
     
+    /**
+     * Value getter
+     *
+     * @return
+     */
     public int getValue()
     {
         return this.value;
     }
     
+    /**
+     * Get Piece from the value
+     *
+     * @param value
+     * @return Piece
+     */
     static public Piece fromValue(int value)
     {
         for(Piece t : Piece.values())

@@ -6,8 +6,9 @@
 package pkg3stone.engine;
 
 /**
- *
- * @author svitl
+ * Game Class
+ * 
+ * @author Svitlana Myronova
  */
 public class Game {
 
@@ -16,7 +17,13 @@ public class Game {
     private final IPlayer blackPlayer;
     private final Board board;
 
-    // constructor
+    /**
+     * Constructor
+     * 
+     * @param display
+     * @param whitePlayer
+     * @param blackPlayer
+     */
     public Game(IDisplay display, IPlayer whitePlayer, IPlayer blackPlayer) {
         this.display = display;
 
@@ -26,6 +33,12 @@ public class Game {
         this.board = new Board();
     }
 
+    /**
+     * Make a one move
+     * 
+     * @param player
+     * @throws Exception
+     */
     private void makePlayerMove(IPlayer player) throws Exception {
         player.prepareMove(board);
 
@@ -43,7 +56,8 @@ public class Game {
     }
 
     /**
-     * play method that is responsible for the course of the game
+     * Play method that is responsible for the course of the game
+     * 
      * @throws java.lang.Exception
      */
     public void play() throws Exception {

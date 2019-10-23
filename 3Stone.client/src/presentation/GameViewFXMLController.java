@@ -25,8 +25,9 @@ import pkg3stone.network.INetworkClientClient;
 import pkg3stone.network.NetworkClient;
 
 /**
+ * GameViewFXMLController Class
  * 
- * @author KEVIN
+ * @author Kevin Armstrong
  */
 public class GameViewFXMLController implements INetworkClientClient {
 
@@ -46,7 +47,7 @@ public class GameViewFXMLController implements INetworkClientClient {
     @FXML // fx:id="exitButton"
     private Button exitButton; // Value injected by FXMLLoader
 
-    @FXML
+    @FXML // Handler on exit button
     void exitButtonHandle(ActionEvent event) {
         System.out.println("Closing the Game");
         Platform.exit();
@@ -60,10 +61,13 @@ public class GameViewFXMLController implements INetworkClientClient {
         initGrid();
     }
 
-    private void testGrid() {
-        this.pieces = new Piece[11][11];
-    }
-
+    /**
+     * Action on a click button
+     *
+     * @param button
+     * @param row
+     * @param col
+     */
     private void onButtonClicked(Button button, int row, int col) {
         try {
             Move move = new Move(row, col);
@@ -74,6 +78,9 @@ public class GameViewFXMLController implements INetworkClientClient {
         }
     }
 
+    /**
+     * Initialize Grid
+     */
     private void initGrid() {
         this.buttons = new Button[11][11];
 
@@ -95,10 +102,23 @@ public class GameViewFXMLController implements INetworkClientClient {
         }
     }
 
+    /**
+     * Connect to server
+     *
+     * @param address
+     * @param port
+     * @throws IOException
+     */
     public void connectToServer(String address, int port) throws IOException {
         this.networkClient = new NetworkClient(address, port);
     }
 
+    /**
+     * Method will be called to place the stone on the board
+     *
+     * @param piece
+     * @param move
+     */
     @Override
     public void placeStone(Piece piece, Move move) {
         if (this.lastPlacedStone != null) {
@@ -133,6 +153,11 @@ public class GameViewFXMLController implements INetworkClientClient {
                 BorderStrokeStyle.SOLID, new CornerRadii(10), new BorderWidths(3))));
     }
 
+    /**
+     * Method will be called to report about an illegal move
+     *
+     * @param move
+     */
     @Override
     public void reportIllegalMove(Move move) {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -142,6 +167,11 @@ public class GameViewFXMLController implements INetworkClientClient {
         alert.showAndWait();
     }
 
+    /**
+     * Method will be called to report result
+     *
+     * @param result
+     */
     @Override
     public void reportResult(Result result) {
         disableAllButtons();
@@ -153,6 +183,9 @@ public class GameViewFXMLController implements INetworkClientClient {
         alert.showAndWait();
     }
 
+    /**
+     * Disable all buttons
+     */
     private void disableAllButtons() {
         for (Button[] row : this.buttons) {
             for (Button b : row) {

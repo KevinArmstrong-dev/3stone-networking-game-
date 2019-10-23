@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pkg3stone.network;
 
 import java.io.IOException;
@@ -14,8 +9,9 @@ import pkg3stone.engine.MoveType;
 import pkg3stone.engine.Piece;
 
 /**
+ * NetworkClient Class
  *
- * @author KEVIN
+ * @author Kevin Armstrong
  */
 public class NetworkClient {
 
@@ -82,24 +78,50 @@ public class NetworkClient {
         client.reportResult(resultMessage.getResult());
     }
 
+    /**
+     * Current control getter
+     *
+     * @return
+     */
     public Piece getCurrentColor() {
         return this.currentColor;
     }
 
+    /**
+     * Wait start the Game message
+     *
+     * @throws IOException
+     */
     private void waitStartTheGameMessage() throws IOException {
         StartTheGameMessage startTheGameMessage = StartTheGameMessage.read(in);
         this.currentColor = startTheGameMessage.getCurrentColor();
     }
 
+    /**
+     * Read MoveMessage
+     *
+     * @throws IOException
+     */
     private MoveMessage readMoveMessage() throws IOException {
         return MoveMessage.read(in);
     }
 
+    /**
+     * Read ResultMessage
+     *
+     * @throws IOException
+     */
     private ResultMessage readResultMessage() throws IOException {
         return ResultMessage.read(in);
     }
 
-    private void write(MoveMessage moveMessage) throws IOException {
+    /**
+     * Write MoveMessage
+     *
+     * @param moveMessage
+     * @throws IOException
+     */
+    public void write(MoveMessage moveMessage) throws IOException {
         moveMessage.write(out);
     }
 }
