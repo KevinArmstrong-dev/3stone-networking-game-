@@ -117,11 +117,6 @@ public class GameViewFXMLController implements INetworkClientClient {
             }
         }
         
-                   whiteLbl.setVisible(false);
-        blackLbl.setVisible(false);
-        scoreLbl.setVisible(false);
-        blackL.setVisible(false);
-         white.setVisible(false);
     }
 
     public void connectToServer(String address, int port) throws IOException {
@@ -184,12 +179,7 @@ public class GameViewFXMLController implements INetworkClientClient {
         alert.setHeaderText("Game is over");
         alert.setContentText("Game is over. Result: " + result);
         alert.showAndWait();
-        
-        whiteLbl.setVisible(true);
-        blackLbl.setVisible(true);
-        scoreLbl.setVisible(true);
-        blackL.setVisible(true);
-         white.setVisible(true);
+
          whiteLbl.setText(result.getWhiteScore()+"");
          blackLbl.setText(result.getBlackScore()+"");
          
