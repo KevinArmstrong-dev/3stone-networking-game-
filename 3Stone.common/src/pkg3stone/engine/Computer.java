@@ -82,7 +82,7 @@ public class Computer extends AbstractPlayer {
     }
 
     /**
-     * Blocks player from the left side
+     * Block player from the left side
      * 
      * @author Kevin Armstrong
      * @param board
@@ -109,7 +109,7 @@ public class Computer extends AbstractPlayer {
     }
 
     /**
-     * Blocks player from the right side
+     * Block player from the right side
      * 
      * @author Kevin Armstrong
      * @param board
@@ -136,7 +136,7 @@ public class Computer extends AbstractPlayer {
     }
 
     /**
-     * Blocks player from the top
+     * Block player from the top
      * 
      * @author Kevin Armstrong
      * @param board
@@ -189,7 +189,7 @@ public class Computer extends AbstractPlayer {
     }
 
     /**
-     * Chooses the better move
+     * Choose the better move
      *
      * @author Kevin Armstrong
      * @param board
@@ -201,6 +201,15 @@ public class Computer extends AbstractPlayer {
         int count2 = betterMoveUpDown(board, move);
         return count1>count2?count1:count2;
     }
+    
+    /**
+     * Find the better move in the row
+     *
+     * @author Kevin Armstrong
+     * @param board
+     * @param move
+     * @return int
+     */
     private int betterMoveAcross(Board board, Move goodMove) {
         Move lastMove = board.getLastMove();
         int countBlack = 0;
@@ -228,7 +237,13 @@ public class Computer extends AbstractPlayer {
         return -404;
     }
     
-     private int betterMoveUpDown(Board board, Move goodMove) {
+    /**
+     * Find better move in the column
+     * @param board
+     * @param goodMove
+     * @return
+     */
+    private int betterMoveUpDown(Board board, Move goodMove) {
         Move lastMove = board.getLastMove();
         int countBlack = 0;
 
@@ -255,7 +270,6 @@ public class Computer extends AbstractPlayer {
             }
         }
         return -404;
-    }
-    
+    }    
     
 }
