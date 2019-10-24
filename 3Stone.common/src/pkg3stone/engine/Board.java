@@ -1,31 +1,25 @@
 package pkg3stone.engine;
 
-import java.io.Serializable;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
  * Board Class
- * 
+ *
  * @author Svitlana Myronova
  */
-public class Board implements Serializable {
+public class Board {
 
     private final Piece[][] pieces;
 
     private int playerWhitePieces = 15;
     private int playerBlackPieces = 15;
 
-    private Piece lastStonePlayed = Piece.BLANK;
-    private Move lastMove;
-
     private final int amountOfStones = 3;
     public final int numberOfRows = 11;
     public final int numberOfColumns = 11;
+
+    private ArrayList<Move> playedMoves = new ArrayList<>();
 
     /**
      * Constructor
@@ -41,45 +35,38 @@ public class Board implements Serializable {
     }
 
     /**
-     * Returns last played stone
+     * Get Wite stone
      *
-     * @return Piece
+     * @return
      */
-    public Piece getLastStonePlayed() {
-        return this.lastStonePlayed;
+    public int getPlayerWhitePieces(){
+        return this.playerWhitePieces;
     }
-
+            
+    /**
+     * Get Black stone
+     *
+     * @return
+     */
+    public int getPlayerBlackPieces(){
+        return this.playerBlackPieces;
+    }
+    
     /**
      * Returns last move
      *
      * @return Move
      */
     public Move getLastMove() {
-        return this.lastMove;
-    }
-
-    /**
-     * Method returns a deep copy of the Board object
-     * 
-     * @return Board
-     */
-    public Board deepCopy() {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject(this);
-
-            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-            ObjectInputStream ois = new ObjectInputStream(bais);
-            return (Board) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
+        if (this.playedMoves.isEmpty()) {
             return null;
         }
+        return this.playedMoves.get(this.playedMoves.size() - 1);
     }
 
     /**
      * Method takes Move and returns Piece
-     * 
+     *
      * @param m Move
      * @return Piece
      */
@@ -88,7 +75,8 @@ public class Board implements Serializable {
     }
 
     /**
-     * Method checks if it is legal to make a move into position(row, column) of the board,
+     * Method checks if it is legal to make a move into position(row, column) of
+     * the board,
      *
      * @param player
      * @param move
@@ -103,26 +91,29 @@ public class Board implements Serializable {
             return false;
         }
 
-        if (lastStonePlayed == player) {
-            return false;
-        }
-
         if (getPiece(move) != Piece.BLANK) {
             return false;
         }
 
-        if (lastMove != null) {
-            if (move.getRow() == lastMove.getRow() || move.getColumn() == lastMove.getColumn()) {
-                return true;
-            }
+        Move lastMove = getLastMove();
+        if (lastMove == null) {
+            return true;
+        }
 
-            if (hasFreePlaceInColumn(lastMove.getColumn()) || hasFreePlaceInRow(lastMove.getRow())) {
-                return false;
-            }
+        if (getPiece(lastMove) == player) {
+            return false;
+        }
+
+        if (move.getRow() == lastMove.getRow() || move.getColumn() == lastMove.getColumn()) {
+            return true;
+        }
+
+        if (hasFreePlaceInColumn(lastMove.getColumn()) || hasFreePlaceInRow(lastMove.getRow())) {
+            return false;
         }
         return true;
     }
-    
+
     /**
      * Method sets the last stone played
      *
@@ -131,14 +122,32 @@ public class Board implements Serializable {
      */
     public void placeStone(Piece player, Move move) {
         pieces[move.getRow()][move.getColumn()] = player;
-        lastStonePlayed = player;
-        lastMove = move;
 
         if (player == Piece.WHITE) {
             playerWhitePieces--;
         } else if (player == Piece.BLACK) {
             playerBlackPieces--;
         }
+
+        this.playedMoves.add(move);
+    }
+
+    void undoLastMove() {
+        if (this.playedMoves.isEmpty()) {
+            return;
+        }
+
+        Move lastMove = getLastMove();
+        Piece lastPiecePlayed = getPiece(lastMove);
+
+        if (lastPiecePlayed == Piece.WHITE) {
+            playerWhitePieces++;
+        } else if (lastPiecePlayed == Piece.BLACK) {
+            playerBlackPieces++;
+        }
+
+        this.pieces[lastMove.getRow()][lastMove.getColumn()] = Piece.BLANK;
+        this.playedMoves.remove(this.playedMoves.size() - 1);
     }
 
     /**
@@ -172,7 +181,8 @@ public class Board implements Serializable {
     }
 
     /**
-     * Method finds three stones in right diagonals and counts the result in right diagonals
+     * Method finds three stones in right diagonals and counts the result in
+     * right diagonals
      *
      * @param result
      */
@@ -202,7 +212,8 @@ public class Board implements Serializable {
     }
 
     /**
-     * Method finds three stones in left diagonals and counts the result in left diagonals
+     * Method finds three stones in left diagonals and counts the result in left
+     * diagonals
      *
      * @param result
      */
@@ -290,19 +301,19 @@ public class Board implements Serializable {
             }
         }
     }
-    
-     /**
+
+    /**
      * Getter for Piece[][]
-     * 
+     *
      * @return Piece[][]
      */
-    public Piece[][] getPieces(){
+    public Piece[][] getPieces() {
         return pieces;
     }
 
     /**
      * Returns result of the game
-     * 
+     *
      * @return Result
      */
     public Result resultOfGame() {
@@ -329,6 +340,7 @@ public class Board implements Serializable {
 
     /**
      * Override toString method
+     *
      * @return String
      */
     @Override

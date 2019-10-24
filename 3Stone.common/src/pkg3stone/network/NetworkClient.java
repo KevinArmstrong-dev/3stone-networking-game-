@@ -7,6 +7,7 @@ import java.net.Socket;
 import pkg3stone.engine.Move;
 import pkg3stone.engine.MoveType;
 import pkg3stone.engine.Piece;
+import pkg3stone.engine.Result;
 
 /**
  * NetworkClient Class
@@ -44,38 +45,48 @@ public class NetworkClient {
      * @param move
      * @param client
      * @throws IOException
-     */
+     */                                                         
     public void makeMove(Move move, INetworkClientClient client) throws IOException {
-        //Propose move to server
-        MoveMessage moveMessage = new MoveMessage(MoveType.PROPOSED, getCurrentColor(), move);
-        write(moveMessage);
-
-        //Read server responce
-        moveMessage = readMoveMessage();
-
-        if (moveMessage.getMoveType() == MoveType.ILLEGAL) {
-            client.reportIllegalMove(move);
-            return;
+        //Propose move to server                                                           
+        {
+            MoveMessage moveMessage = new MoveMessage(MoveType.PROPOSED, getCurrentColor(), move);
+            write(moveMessage);
         }
-        if (moveMessage.getMoveType() != MoveType.CONFIRMED) {
-            throw new IllegalStateException("Wrong responce received");
+
+        {
+            //Read server responce
+            MoveMessage moveMessage = readMoveMessage();
+
+            if (moveMessage.getMoveType() == MoveType.ILLEGAL) {
+                client.reportIllegalMove(move);
+                return;
+            }
+            if (moveMessage.getMoveType() != MoveType.CONFIRMED) {
+                throw new IllegalStateException("Wrong responce received");
+            }
         }
 
         client.placeStone(this.currentColor, move);
 
-        //Read move of other player
-        moveMessage = readMoveMessage();
-        if (moveMessage.getMoveType() != MoveType.LAST_MOVE_AND_CONTINUE
-                && moveMessage.getMoveType() != MoveType.LAST_MOVE_AND_GAME_OVER) {
-            throw new IllegalStateException("Reeived wrong move message");
-        }
-        client.placeStone(moveMessage.getPiece(), moveMessage.getMove());
+        {
+            //Read move of other player and current result
+            MoveMessageWithResult moveMessageWithResult = readMoveMessageWithResult();
+            client.updateResult(moveMessageWithResult.getResult(), moveMessageWithResult.getBlackStones(), moveMessageWithResult.getWhiteStones());
+            
+            if (moveMessageWithResult.getMoveType() != MoveType.LAST_MOVE_AND_CONTINUE
+                    && moveMessageWithResult.getMoveType() != MoveType.LAST_MOVE_AND_GAME_OVER) {
+                throw new IllegalStateException("Reeived wrong move message");
+            }
+            client.placeStone(moveMessageWithResult.getPiece(), moveMessageWithResult.getMove());
 
-        if(moveMessage.getMoveType() == MoveType.LAST_MOVE_AND_CONTINUE)
-            return;
-        
-        ResultMessage resultMessage = readResultMessage();
-        client.reportResult(resultMessage.getResult());
+            if(moveMessageWithResult.getMoveType() == MoveType.LAST_MOVE_AND_CONTINUE)
+                return;
+        }
+
+        {
+            ResultMessage resultMessage = readResultMessage();
+            client.reportResult(resultMessage.getResult());
+        }
     }
 
     /**
@@ -104,6 +115,15 @@ public class NetworkClient {
      */
     private MoveMessage readMoveMessage() throws IOException {
         return MoveMessage.read(in);
+    }
+    
+    /**
+     * Read MoveMessageWithResult
+     *
+     * @throws IOException
+     */
+    private MoveMessageWithResult readMoveMessageWithResult() throws IOException {
+        return MoveMessageWithResult.read(in);
     }
 
     /**
