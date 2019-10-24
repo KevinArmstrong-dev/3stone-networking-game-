@@ -9,7 +9,7 @@ import pkg3stone.engine.Result;
 
 /**
  * ConsolePlayer Class
- * 
+ *
  * @author Svitlana Myronova
  */
 //class for testing purpose only
@@ -31,7 +31,10 @@ public class ConsolePlayer extends AbstractPlayer {
      */
     @Override
     public void prepareMove(Board board) {
-        System.out.println("Last stone: " + board.getLastStonePlayed() + " move:" + board.getLastMove());
+        Move lastMove = board.getLastMove();
+        if (lastMove != null) {
+            System.out.println("Last stone: " + board.getPiece(lastMove) + " move:" + lastMove);
+        }
     }
 
     /**
@@ -66,6 +69,7 @@ public class ConsolePlayer extends AbstractPlayer {
 
     /**
      * Called by Game to notify about game result
+     *
      * @param board
      * @param result
      */

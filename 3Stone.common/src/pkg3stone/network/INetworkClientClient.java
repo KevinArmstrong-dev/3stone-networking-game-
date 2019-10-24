@@ -32,4 +32,11 @@ public interface INetworkClientClient {
      * @param result
      */
     public void reportResult(Result result);
+    
+    /**
+     * Method will be called to update result
+     *
+     * @param result
+     */
+    public void updateResult(Result result, int blackStones, int whiteStones);
 }

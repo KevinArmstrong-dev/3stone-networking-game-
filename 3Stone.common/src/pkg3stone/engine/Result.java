@@ -69,6 +69,15 @@ public class Result {
         return this.whiteScore;
     }
     
+    public int getScoreForPiece(Piece piece)
+    {
+        if(piece == Piece.WHITE)
+            return this.whiteScore - this.blackScore;
+        if(piece == Piece.BLACK)
+            return this.blackScore - this.whiteScore;
+        throw new IllegalArgumentException("");
+    }
+    
     /**
      * Override toString method
      * @return String

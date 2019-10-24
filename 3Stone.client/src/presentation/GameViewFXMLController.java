@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -39,6 +40,18 @@ public class GameViewFXMLController implements INetworkClientClient {
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
+    
+    @FXML // fx:id="whiteScoreLbl"
+    private Label whiteScoreLbl; // Value injected by FXMLLoader
+
+    @FXML // fx:id="blackScoreLbl"
+    private Label blackScoreLbl; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="whiteStonesLbl"
+    private Label whiteStonesLbl; // Value injected by FXMLLoader
+
+    @FXML // fx:id="blackStonesLbl"
+    private Label blackStonesLbl; // Value injected by FXMLLoader
 
     @FXML // fx:id="gameGrid"
     private GridPane gameGrid; // Value injected by FXMLLoader
@@ -62,7 +75,7 @@ public class GameViewFXMLController implements INetworkClientClient {
         assert gameGrid != null : "fx:id=\"gameGrid\" was not injected: check your FXML file 'GameViewFXML.fxml'.";
 
         initGrid();
-    }
+    }     
 
     /**
      * Action on a click button
@@ -119,6 +132,19 @@ public class GameViewFXMLController implements INetworkClientClient {
         this.networkClient = new NetworkClient(address, port);
     }
 
+    /**
+     * Method will be called to show result
+     *
+     * @param result
+     */
+    @Override
+    public void updateResult(Result result, int whiteStones, int blackStones){
+        this.whiteScoreLbl.setText(""+result.getWhiteScore()); 
+        this.blackScoreLbl.setText(""+result.getBlackScore());
+        this.whiteStonesLbl.setText(""+whiteStones); 
+        this.blackStonesLbl.setText(""+blackStones);
+    }   
+    
     /**
      * Method will be called to place the stone on the board
      *
