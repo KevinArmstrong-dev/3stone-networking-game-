@@ -37,6 +37,8 @@ public class Server {
             IPlayer blackPlayer = new SmartComputer();
             Game g = new Game(display, whitePlayer, blackPlayer);
             g.play();
+            g.Restart();
+            g.play();
         } catch (Exception ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }

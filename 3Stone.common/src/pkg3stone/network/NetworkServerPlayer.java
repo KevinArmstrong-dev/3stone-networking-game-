@@ -145,4 +145,15 @@ public class NetworkServerPlayer extends AbstractPlayer {
             Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void closeClient(){
+        try {
+            clientIn.close();
+             clientOut.close();
+            connectedClientSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 }

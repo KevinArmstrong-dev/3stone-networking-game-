@@ -54,7 +54,8 @@ public class GameViewFXMLController implements INetworkClientClient {
 
     @FXML // fx:id="gameGrid"
     private GridPane gameGrid; // Value injected by FXMLLoader
-
+    String playing; 
+    int portUsed = 50000; 
     private Piece[][] pieces;
     private Button[][] buttons;
     private Button lastPlacedStone;
@@ -68,6 +69,7 @@ public class GameViewFXMLController implements INetworkClientClient {
     
     @FXML // Handler on exit button
     void exitButtonHandle(ActionEvent event) {
+        networkClient.closeConnection();
         System.out.println("Closing the Game");
         Platform.exit();
     }
@@ -80,6 +82,12 @@ public class GameViewFXMLController implements INetworkClientClient {
 
     @FXML
     void handleRestartBtn(ActionEvent event) {
+        try{
+         this.networkClient = new NetworkClient(playing, portUsed);
+        }catch(IOException ex){
+             Logger.getLogger(GameViewFXMLController.class.getName()).log(Level.SEVERE, "Failed to restart", ex);
+        }
+         
         gameCount+=1;
          gamesPlayedlbl.setText(gameCount+ "");
         gameGrid.getChildren().clear();
@@ -148,6 +156,8 @@ public class GameViewFXMLController implements INetworkClientClient {
      */
     public void connectToServer(String address, int port) throws IOException {
         this.networkClient = new NetworkClient(address, port);
+        String playing = address;
+        portUsed = port;
     }
 
     /**

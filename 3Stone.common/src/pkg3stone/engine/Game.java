@@ -15,7 +15,7 @@ public class Game {
     private final IDisplay display;
     private final IPlayer whitePlayer;
     private final IPlayer blackPlayer;
-    private final Board board;
+    private Board board;
 
     /**
      * Constructor
@@ -83,9 +83,12 @@ public class Game {
 
         whitePlayer.gameOver(board, result);
         blackPlayer.gameOver(board, result);
-        board.resetBoard();//adde
-        whitePlayer.close();
-        blackPlayer.close();
+       // whitePlayer.close();
+       // blackPlayer.close();
+    }
+    
+    public void Restart(){
+       this.board = new Board();
     }
     
 }
