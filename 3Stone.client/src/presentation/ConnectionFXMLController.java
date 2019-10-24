@@ -1,4 +1,3 @@
-
 package presentation;
 
 import java.io.IOException;
@@ -16,9 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-/*
- * This controller will display the window to the client
- * to connect to a server
+/**
+ * ConnectionFXMLController Class
  *
  * @author Kevin Armstrong
  */

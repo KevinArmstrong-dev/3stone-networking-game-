@@ -28,7 +28,7 @@ public class Computer extends AbstractPlayer {
     @Override
     public void prepareMove(Board board) {
     }
-     
+
     /**
      * Method called by Game to ask about next move
      *
@@ -82,8 +82,6 @@ public class Computer extends AbstractPlayer {
     }
 
     /**
-     *This Method will scan the board from left to right, to find 
-     * a legal spot to play
      * Block player from the left side
      * 
      * @author Kevin Armstrong
@@ -109,10 +107,9 @@ public class Computer extends AbstractPlayer {
         }
         return null;
     }
-    
+
     /**
-     * This method will scan the board from right to left in order to find 
-     * a spot to block
+     * Block player from the right side
      * 
      * @author Kevin Armstrong
      * @param board
@@ -139,14 +136,9 @@ public class Computer extends AbstractPlayer {
     }
 
     /**
-<<<<<<< HEAD
-     * This method will look for a place to block on the x-axis
-     * 
-=======
      * Block player from the top
      * 
      * @author Kevin Armstrong
->>>>>>> fda27c1378b6f1cedbf2ac6730b091881ea652d3
      * @param board
      * @return tempMove
      */
