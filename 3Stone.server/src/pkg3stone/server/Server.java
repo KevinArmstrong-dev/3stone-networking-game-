@@ -19,7 +19,7 @@ public class Server {
 
     /**
      * Main method of the Server Class
-     * 
+     *
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -36,9 +36,10 @@ public class Server {
             IPlayer whitePlayer = new NetworkServerPlayer(port);
             IPlayer blackPlayer = new SmartComputer();
             Game g = new Game(display, whitePlayer, blackPlayer);
-            g.play();
-            g.Restart();
-            g.play();
+            while (true) {
+                g.play();
+                g.Restart();
+            }
         } catch (Exception ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }

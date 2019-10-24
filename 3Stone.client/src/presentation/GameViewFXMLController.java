@@ -93,6 +93,9 @@ public class GameViewFXMLController implements INetworkClientClient {
         gameGrid.getChildren().clear();
         initGrid();
         enableAllButtons();
+        
+        restartBtn.setDisable(true);
+        restartBtn.setStyle("-fx-color: red");
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -101,6 +104,8 @@ public class GameViewFXMLController implements INetworkClientClient {
      
         initGrid();
        gamesPlayedlbl.setText(gameCount+ "");
+       restartBtn.setDisable(true);
+        restartBtn.setStyle("-fx-color: red");
     }
 
     /**
@@ -241,6 +246,8 @@ public class GameViewFXMLController implements INetworkClientClient {
         alert.setHeaderText("Game is over");
         alert.setContentText("Game is over. Result: " + result);
         alert.showAndWait();
+        restartBtn.setDisable(false);
+        restartBtn.setStyle("-fx-background-color: #00ff00");
     }
 
     /**
