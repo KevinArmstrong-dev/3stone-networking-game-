@@ -49,4 +49,12 @@ public enum Piece {
         return BLANK;
     }
 
+    public Piece getOpposite()
+    {
+        if(this == WHITE)
+            return BLACK;
+        if(this == BLACK)
+            return WHITE;
+        throw new IllegalStateException("Piece state does not have opposite.");
+    }
 }

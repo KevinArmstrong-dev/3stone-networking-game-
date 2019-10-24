@@ -7,6 +7,7 @@ import pkg3stone.engine.IPlayer;
 import pkg3stone.console.ConsoleDisplay;
 import pkg3stone.engine.Game;
 import pkg3stone.engine.Computer;
+import pkg3stone.engine.SmartComputer;
 import pkg3stone.network.NetworkServerPlayer;
 
 /**
@@ -33,7 +34,7 @@ public class Server {
         try {
             IDisplay display = new ConsoleDisplay();
             IPlayer whitePlayer = new NetworkServerPlayer(port);
-            IPlayer blackPlayer = new Computer();
+            IPlayer blackPlayer = new SmartComputer();
             Game g = new Game(display, whitePlayer, blackPlayer);
             g.play();
         } catch (Exception ex) {

@@ -21,8 +21,15 @@
 }
 
 #whiteStone{
-    -fx-color :#e6e6e6; 
+    -fx-color: white; 
+    -fx-background-radius:50px;
 }
+
+#blackStone{
+    -fx-color: black; 
+    -fx-background-radius:50px;
+}
+
 .gameview{
     -fx-background-color : skyblue
 }

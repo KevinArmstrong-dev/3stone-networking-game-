@@ -3,6 +3,7 @@ package pkg3stone.network;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import pkg3stone.engine.Board;
 import pkg3stone.engine.Move;
 import pkg3stone.engine.MoveType;
 import pkg3stone.engine.Piece;
@@ -13,12 +14,14 @@ import pkg3stone.engine.Result;
  *
  * @author Svitlana Myronova
  */
-public class MoveMessage {
+public class MoveMessageWithResult {
 
     private final MoveType moveType;
     private final Piece piece;
     private final Move move;
-    
+    private final Result result;
+    private final int blackStones;
+    private final int whiteStones;
 
     /**
      * Creates MoveMessage object;
@@ -26,10 +29,13 @@ public class MoveMessage {
      * @param moveType
      * @param move
      */
-    public MoveMessage(MoveType moveType, Piece piece, Move move) {
+    public MoveMessageWithResult(MoveType moveType, Piece piece, Move move, Result result, int blackStones, int whiteStones) {
         this.moveType = moveType;
         this.piece = piece;
         this.move = move;
+        this.result = result;
+        this.blackStones = blackStones;
+        this.whiteStones = whiteStones;
     }
 
     /**
@@ -42,6 +48,15 @@ public class MoveMessage {
     }
 
     /**
+     * Get move
+     * 
+     * @return move
+     */
+    public Move getMove() {
+        return this.move;
+    }
+    
+    /**
      * Returns stored piece
      *
      * @return Piece
@@ -51,14 +66,32 @@ public class MoveMessage {
     }
 
     /**
-     * Returns stored move;
+     * Returns result;
      *
-     * @return Move
+     * @return Result
      */
-    public Move getMove() {
-        return this.move;
+    public Result getResult() {
+        return this.result;
     }
-
+    
+    /**
+     * Get blackStones
+     *
+     * @return
+     */
+    public int getBlackStones(){
+        return this.blackStones;
+    }
+    
+    /**
+     * Get whiteStones
+     *
+     * @return
+     */
+    public int getWhiteStones(){
+        return this.whiteStones;
+    }
+    
     /**
      * Writes current message into output stream
      *
@@ -70,7 +103,11 @@ public class MoveMessage {
         os.write(this.piece.getValue());
         os.write(this.move.getRow());
         os.write(this.move.getColumn());
-    }
+        os.write(this.result.getBlackScore());
+        os.write(this.result.getWhiteScore());
+        os.write(this.blackStones);
+        os.write(this.whiteStones);
+    } 
 
     /**
      * Reads MoveMessage object from input stream
@@ -79,11 +116,16 @@ public class MoveMessage {
      * @return MoveMessage
      * @throws IOException
      */
-    static MoveMessage read(InputStream is) throws IOException {
+    static MoveMessageWithResult read(InputStream is) throws IOException {
         MoveType moveType = MoveType.fromValue(is.read());
         Piece piece = Piece.fromValue(is.read());
         int row = is.read();
         int column = is.read();
-        return new MoveMessage(moveType, piece, new Move(row, column));
+        int blackScore = is.read();
+        int whiteScore = is.read();
+        int blackStones = is.read();
+        int whiteStones = is.read();        
+        return new MoveMessageWithResult(moveType, piece, new Move(row, column), new Result(whiteScore, blackScore), blackStones, whiteStones);
     }
 }
+
