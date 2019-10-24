@@ -102,9 +102,10 @@ public class NetworkServerPlayer extends AbstractPlayer {
      */
     @Override
     public void prepareMove(Board board) throws IOException {
-        if (board.getLastMove() != null) {
+        Move lastMove = board.getLastMove();
+        if (lastMove != null) {
             Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending last move");
-            MoveMessage mvoeMessage = new MoveMessage(MoveType.LAST_MOVE_AND_CONTINUE, board.getLastStonePlayed(), board.getLastMove());
+            MoveMessage mvoeMessage = new MoveMessage(MoveType.LAST_MOVE_AND_CONTINUE, board.getPiece(lastMove), lastMove);
             mvoeMessage.write(clientOut);
         }
     }
@@ -118,7 +119,8 @@ public class NetworkServerPlayer extends AbstractPlayer {
     @Override
     public void gameOver(Board board, Result result) throws IOException {
         Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending game over");
-        MoveMessage mm = new MoveMessage(MoveType.LAST_MOVE_AND_GAME_OVER, board.getLastStonePlayed(), board.getLastMove());
+        Move lastMove = board.getLastMove();
+        MoveMessage mm = new MoveMessage(MoveType.LAST_MOVE_AND_GAME_OVER, board.getPiece(lastMove), lastMove);
         mm.write(clientOut);
 
         Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending result");
