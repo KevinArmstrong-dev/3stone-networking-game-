@@ -10,7 +10,7 @@ import java.util.Arrays;
  */
 public class Board {
 
-    private final Piece[][] pieces;
+    private Piece[][] pieces;
 
     private int playerWhitePieces = 15;
     private int playerBlackPieces = 15;
@@ -336,6 +336,16 @@ public class Board {
         } else {
             return false;
         }
+    }
+    
+    public void resetBoard(){
+      this.pieces = new Piece[numberOfRows][numberOfColumns];
+        for (Piece[] row : this.pieces) {
+            Arrays.fill(row, Piece.BLANK);
+        }
+
+        //place in the center of the board is barred
+        this.pieces[numberOfRows / 2][numberOfColumns / 2] = Piece.BARRED;
     }
 
     /**
