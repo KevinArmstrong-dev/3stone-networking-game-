@@ -99,7 +99,6 @@ public class Computer extends AbstractPlayer {
                 if (board.isPlayLegal(Piece.BLACK, tempMove)) {
                     return tempMove;
                 }
-                //return tempMove; 
             }
         } else {
             System.out.println("No where to play");
@@ -173,12 +172,18 @@ public class Computer extends AbstractPlayer {
         int pointLeft = countPointLeft(board);
         int pointRight = countPointRight(board);
         Move left = blockLeft(board);
+        Move across = betterBlockMoveAcross(board);
+        Move upDown = betterBlockMoveUpDown(board);
         Move right = blockRight(board);
         Move up = blockUp(board);
 
-        if (left != null && board.isPlayLegal(Piece.BLACK, left) && pointLeft == 2) {
+        if (upDown != null && board.isPlayLegal(Piece.BLACK, upDown)) {
+            return across;
+        } else if (across != null && board.isPlayLegal(Piece.BLACK, across)) {
+            return across;
+        } else if (left != null && board.isPlayLegal(Piece.BLACK, left) && pointLeft >= 2) {
             return left;
-        } else if (right != null && board.isPlayLegal(Piece.BLACK, right) && pointRight == 2) {
+        } else if (right != null && board.isPlayLegal(Piece.BLACK, right) && pointRight >= 2) {
             return right;
         } else if (up != null && board.isPlayLegal(Piece.BLACK, up)) {
             return up;
@@ -214,10 +219,10 @@ public class Computer extends AbstractPlayer {
         Piece[][] pieces = board.getPieces();
         for (int i = 0; i < 11; i++) {
             if (i + 1 < 11) {
-                tempMove = new Move(lastMove.getRow(), i+1);
+                tempMove = new Move(lastMove.getRow(), i + 1);
                 if (pieces[lastMove.getRow()][i] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
                     pointX += 1;
-                    if (pointX == 2) {
+                    if (pointX >= 2) {
                         return tempMove;
                     }
                 }
@@ -226,10 +231,10 @@ public class Computer extends AbstractPlayer {
         int pointYX = 0;
         for (int i = 10; i >= 0; i--) {
             if (i - 1 >= 0) {
-                tempMove = new Move(lastMove.getRow(), i-1);
+                tempMove = new Move(lastMove.getRow(), i - 1);
                 if (pieces[lastMove.getRow()][i] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
                     pointYX += 1;
-                    if (pointYX == 2) {
+                    if (pointYX >= 2) {
                         return tempMove;
                     }
                 }
@@ -253,10 +258,10 @@ public class Computer extends AbstractPlayer {
         Piece[][] pieces = board.getPieces();
         for (int i = 0; i < 11; i++) {
             if (i + 1 < 11) {
-                tempMove = new Move(i+1, lastMove.getColumn());
+                tempMove = new Move(i + 1, lastMove.getColumn());
                 if (pieces[i][lastMove.getColumn()] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
                     pointX += 1;
-                    if (pointX == 2) {
+                    if (pointX >= 2) {
                         return tempMove;
                     }
                 }
@@ -265,10 +270,10 @@ public class Computer extends AbstractPlayer {
         int pointYX = 0;
         for (int i = 10; i >= 0; i--) {
             if (i - 1 >= 0) {
-                tempMove = new Move(i-1, lastMove.getColumn());
+                tempMove = new Move(i - 1, lastMove.getColumn());
                 if (pieces[i][lastMove.getColumn()] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
                     pointYX += 1;
-                    if (pointYX == 2) {
+                    if (pointYX >= 2) {
                         return tempMove;
                     }
                 }
@@ -330,7 +335,7 @@ public class Computer extends AbstractPlayer {
         Piece[][] pieces = board.getPieces();
         for (int i = 0; i < 11; i++) {
             if (i + 1 < 11) {
-                tempMove = new Move(lastMove.getRow(), i+1);
+                tempMove = new Move(lastMove.getRow(), i + 1);
                 if (pieces[lastMove.getRow()][i] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
                     pointX += 1;
                     if (pointX == 1) {
@@ -342,7 +347,7 @@ public class Computer extends AbstractPlayer {
         int pointYX = 0;
         for (int i = 10; i >= 0; i--) {
             if (i - 1 >= 0) {
-                tempMove = new Move(lastMove.getRow(), i-1);
+                tempMove = new Move(lastMove.getRow(), i - 1);
                 if (pieces[lastMove.getRow()][i] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
                     pointYX += 1;
                     if (pointYX == 1) {
@@ -352,6 +357,7 @@ public class Computer extends AbstractPlayer {
             }
         }
 
+        //If there is no option play at a random allowed space
         while (true) {
             Move move = new Move(r.nextInt(board.numberOfRows), r.nextInt(board.numberOfColumns));
             if (board.getPiece(move) == Piece.BLANK) {
@@ -361,8 +367,9 @@ public class Computer extends AbstractPlayer {
     }
 
     /**
-     * This helper method will play the stone next to one Black stone
-     * in case it doesn't find two black stones in a row
+     * This helper method will play the stone next to one Black stone in case it
+     * doesn't find two black stones in a row
+     *
      * @param board
      * @return tempMove
      */
@@ -395,5 +402,100 @@ public class Computer extends AbstractPlayer {
             }
         }
         return goodMoveAcross(board);
+    }
+
+    /**
+     * This method will block the client player on the y-axis
+     *
+     * @param board
+     * @return
+     */
+    private Move betterBlockMoveAcross(Board board) {
+        Move lastMove = board.getLastMove();
+        Move tempMove = null;
+        int pointX = 0;
+        Piece[][] pieces = board.getPieces();
+        for (int i = 0; i < 11; i++) {
+            if (i + 1 < 11) {
+                tempMove = new Move(lastMove.getRow(), i + 1);
+                if (pieces[lastMove.getRow()][i] == Piece.WHITE && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointX += 1;
+                    if (pointX == 2) {
+                        return tempMove;
+                    }
+                } else if (i + 2 < 11) {
+                    if (pieces[lastMove.getRow()][i] == Piece.WHITE && pieces[lastMove.getRow()][i + 2] == Piece.WHITE
+                            && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        int pointYX = 0;
+        for (int i = 10; i >= 0; i--) {
+            if (i - 1 >= 0) {
+                tempMove = new Move(lastMove.getRow(), i - 1);
+                if (pieces[lastMove.getRow()][i] == Piece.WHITE && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointYX += 1;
+                    if (pointYX == 2) {
+                        return tempMove;
+                    }
+                } else if (i - 2 >= 0) {
+                    if (pieces[lastMove.getRow()][i] == Piece.WHITE && pieces[lastMove.getRow()][i - 2] == Piece.WHITE
+                            && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Find better move in the column
+     *
+     * @param board
+     * @param goodMove
+     * @return
+     */
+    private Move betterBlockMoveUpDown(Board board) {
+        Move lastMove = board.getLastMove();
+        Move tempMove = null;
+        int pointX = 0;
+        Piece[][] pieces = board.getPieces();
+        for (int i = 0; i < 11; i++) {
+            if (i + 1 < 11) {
+                tempMove = new Move(i + 1, lastMove.getColumn());
+                if (pieces[i][lastMove.getColumn()] == Piece.WHITE && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointX += 1;
+                    if (pointX >= 2) {
+                        return tempMove;
+                    }
+                } else if (i + 2 < 11) {
+                    if (pieces[i][lastMove.getColumn()] == Piece.WHITE && pieces[i + 2][lastMove.getColumn()] == Piece.WHITE
+                            && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        int pointYX = 0;
+        for (int i = 10; i >= 0; i--) {
+            if (i - 1 >= 0) {
+                tempMove = new Move(i - 1, lastMove.getColumn());
+                if (pieces[i][lastMove.getColumn()] == Piece.WHITE && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointYX += 1;
+                    if (pointYX >= 2) {
+                        return tempMove;
+                    }
+                } else if (i - 2 > 0) {
+                    if (pieces[i][lastMove.getColumn()] == Piece.WHITE && pieces[i - 2][lastMove.getColumn()] == Piece.WHITE
+                            && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }
