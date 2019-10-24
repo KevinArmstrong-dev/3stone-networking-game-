@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -13,16 +13,13 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="638.0" styleClass="gameview" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.GameViewFXMLController">
     <stylesheets>
         <URL value="@gameviewfxml.css" />
     </stylesheets>
     <children>
-        <GridPane fx:id="gameGrid" gridLinesVisible="true" layoutX="22.0" layoutY="39.0" prefHeight="290.0" prefWidth="486.0" style="-fx-background-color: grey;" stylesheets="@gameviewfxml.css">
+        <GridPane fx:id="gameGrid" gridLinesVisible="true" layoutX="47.0" layoutY="50.0" prefHeight="285.0" prefWidth="480.0" style="-fx-background-color: grey;" stylesheets="@gameviewfxml.css">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
@@ -63,17 +60,6 @@
                 </RadialGradient>
             </textFill>
         </Label>
-        <Button id="exit" fx:id="exitButton" layoutX="569.0" layoutY="299.0" mnemonicParsing="false" onAction="#exitButtonHandle" prefHeight="36.0" prefWidth="57.0" stylesheets="@gameviewfxml.css" text="Exit" />
-      <Label fx:id="scoreLbl" layoutX="528.0" layoutY="38.0" prefHeight="25.0" prefWidth="78.0" style="-fx-background-color: white;" text="Stones Left" />
-      <Label fx:id="white" layoutX="526.0" layoutY="78.0" prefHeight="17.0" prefWidth="41.0" style="-fx-background-color: white;" text="White" />
-      <Label fx:id="blackL" layoutX="526.0" layoutY="114.0" prefHeight="17.0" prefWidth="41.0" style="-fx-background-color: white;" text="Black" />
-      <Label fx:id="whiteLbl" layoutX="593.0" layoutY="224.0" style="-fx-background-color: white;" text="0" />
-      <Label fx:id="blackLbl" layoutX="589.0" layoutY="114.0" style="-fx-background-color: white;" text="0" />
-      <Label fx:id="scoreLbl1" layoutX="528.0" layoutY="139.0" prefHeight="25.0" prefWidth="78.0" style="-fx-background-color: white;" text="score" />
-      <Label fx:id="white1" layoutX="526.0" layoutY="192.0" prefHeight="17.0" prefWidth="41.0" style="-fx-background-color: white;" text="White" />
-      <Label fx:id="blackL1" layoutX="526.0" layoutY="224.0" prefHeight="17.0" prefWidth="41.0" style="-fx-background-color: white;" text="Black" />
-      <Label fx:id="whiteLbl1" layoutX="593.0" layoutY="192.0" style="-fx-background-color: white;" text="0" />
-      <Label fx:id="whiteLbl11" layoutX="590.0" layoutY="78.0" style="-fx-background-color: white;" text="0" />
-      <Button id="exit" layoutX="508.0" layoutY="299.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="57.0" stylesheets="@gameviewfxml.css" text="Restart" />
+        <Button id="exit" fx:id="exitButton" layoutX="553.0" layoutY="299.0" mnemonicParsing="false" onAction="#exitButtonHandle" prefHeight="36.0" prefWidth="57.0" stylesheets="@gameviewfxml.css" text="Exit" />
     </children>
 </AnchorPane>
