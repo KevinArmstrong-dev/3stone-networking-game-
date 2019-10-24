@@ -35,6 +35,24 @@ public class Board {
     }
 
     /**
+     * Get Wite stone
+     *
+     * @return
+     */
+    public int getPlayerWhitePieces(){
+        return this.playerWhitePieces;
+    }
+            
+    /**
+     * Get Black stone
+     *
+     * @return
+     */
+    public int getPlayerBlackPieces(){
+        return this.playerBlackPieces;
+    }
+    
+    /**
      * Returns last move
      *
      * @return Move

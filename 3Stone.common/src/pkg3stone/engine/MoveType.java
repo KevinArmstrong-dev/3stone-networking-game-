@@ -9,7 +9,7 @@ public enum MoveType {
     PROPOSED(0),
     ILLEGAL(1),
     CONFIRMED(2),
-    LAST_MOVE_AND_CONTINUE(3),
+    LAST_MOVE_AND_CONTINUE(3),  //////////////////////////////
     LAST_MOVE_AND_GAME_OVER(4);
 
     private final int value;
