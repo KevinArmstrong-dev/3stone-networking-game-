@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pkg3stone.engine.Move;
 import pkg3stone.engine.MoveType;
 import pkg3stone.engine.Piece;
@@ -45,7 +47,7 @@ public class NetworkClient {
      * @param move
      * @param client
      * @throws IOException
-     */                                                         
+     */
     public void makeMove(Move move, INetworkClientClient client) throws IOException {
         //Propose move to server                                                           
         {
@@ -61,7 +63,7 @@ public class NetworkClient {
                 client.reportIllegalMove(move);
                 return;
             }
-            if (moveMessage.getMoveType() != MoveType.CONFIRMED ) {
+            if (moveMessage.getMoveType() != MoveType.CONFIRMED) {
                 throw new IllegalStateException("Wrong responce received");
             }
         }
@@ -72,15 +74,16 @@ public class NetworkClient {
             //Read move of other player and current result
             MoveMessageWithResult moveMessageWithResult = readMoveMessageWithResult();
             client.updateResult(moveMessageWithResult.getResult(), moveMessageWithResult.getBlackStones(), moveMessageWithResult.getWhiteStones());
-            
+
             if (moveMessageWithResult.getMoveType() != MoveType.LAST_MOVE_AND_CONTINUE
                     && moveMessageWithResult.getMoveType() != MoveType.LAST_MOVE_AND_GAME_OVER) {
                 throw new IllegalStateException("Reeived wrong move message");
             }
             client.placeStone(moveMessageWithResult.getPiece(), moveMessageWithResult.getMove());
 
-            if(moveMessageWithResult.getMoveType() == MoveType.LAST_MOVE_AND_CONTINUE)
+            if (moveMessageWithResult.getMoveType() == MoveType.LAST_MOVE_AND_CONTINUE) {
                 return;
+            }
         }
 
         {
@@ -116,7 +119,7 @@ public class NetworkClient {
     private MoveMessage readMoveMessage() throws IOException {
         return MoveMessage.read(in);
     }
-    
+
     /**
      * Read MoveMessageWithResult
      *
@@ -144,8 +147,15 @@ public class NetworkClient {
     public void write(MoveMessage moveMessage) throws IOException {
         moveMessage.write(out);
     }
+
+    public void closeConnection() {
+        try {
+            socket.close();
+                in.close();
+        out.close();
+        } catch (IOException ex) {
+            Logger.getLogger(NetworkClient.class.getName()).log(Level.SEVERE, "Failed to close resource", ex);
+        }
     
-    public String getServerIp(){
-        return null;
     }
 }

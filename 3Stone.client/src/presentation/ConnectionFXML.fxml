@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
@@ -16,7 +17,10 @@
         <URL value="@connectionfxml.css" />
     </stylesheets>
     <children>
-        <Label id="title" layoutX="120.0" layoutY="-1.0" prefHeight="30.0" prefWidth="156.0" stylesheets="@connectionfxml.css" text="Welcome To 3 stones Game" />
+        <Label id="title" layoutX="120.0" layoutY="-1.0" prefHeight="30.0" prefWidth="156.0" stylesheets="@connectionfxml.css" text="Welcome To 3 stones Game">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font></Label>
         <Label id="labels" layoutX="14.0" layoutY="68.0" prefHeight="30.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Server address" />
         <TextField fx:id="serverAddressTxt" layoutX="134.0" layoutY="62.0" prefHeight="42.0" prefWidth="231.0" promptText="ip" text="127.0.0.1" />
         <Label id="labels" layoutX="14.0" layoutY="128.0" prefHeight="30.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Server port" />
@@ -25,7 +29,7 @@
             
         </Button>
         <Button id="exit" fx:id="exitBtn" layoutX="276.0" layoutY="188.0" mnemonicParsing="false" onAction="#exitBtnHandler" prefHeight="25.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Exit" />
-      <Label layoutX="94.0" layoutY="35.0" prefHeight="25.0" prefWidth="64.0" text="Server's Ip" />
-      <Label layoutX="186.0" layoutY="35.0" prefHeight="25.0" prefWidth="167.0" text="local" />
+      <Label layoutX="94.0" layoutY="35.0" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: white;" text="Server's Ip" />
+      <Label fx:id="serverIp" layoutX="186.0" layoutY="35.0" prefHeight="25.0" prefWidth="167.0" style="-fx-background-color: white;" text="127.0.0.1" />
     </children>
 </AnchorPane>
