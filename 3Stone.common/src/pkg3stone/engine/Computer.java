@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 /**
  * Computer Class
- * 
+ *
  * @author Svitlana Myronova
  */
 public class Computer extends AbstractPlayer {
@@ -35,20 +35,20 @@ public class Computer extends AbstractPlayer {
      * @param board
      * @return Move
      */
-    @Override    
+    @Override
     public Move chooseMove(Board board) {
         Move block = bestPlaceToBlock(board);
 
         while (true) {
             if (block != null) {
-                int temp =betterMove(board,block);
-                Logger.getLogger(Game.class.getName()).log(Level.INFO, "Tried To Block {0}",temp);
+                int temp = betterMove(board, block);
+                Logger.getLogger(Game.class.getName()).log(Level.INFO, "Tried To Block {0}", temp);
                 return block;
             }
             Move move = new Move(r.nextInt(board.numberOfRows), r.nextInt(board.numberOfColumns));
             if (board.getPiece(move) == Piece.BLANK) {
-                int temp =betterMove(board,block);
-                Logger.getLogger(Game.class.getName()).log(Level.INFO, "Tried To random {0}",temp);
+                int temp = betterMove(board, block);
+                Logger.getLogger(Game.class.getName()).log(Level.INFO, "Tried To random {0}", temp);
                 return move;
             }
         }
@@ -67,6 +67,7 @@ public class Computer extends AbstractPlayer {
 
     /**
      * Called by Game to notify about game result
+     *
      * @param board
      * @param result
      */
@@ -83,7 +84,7 @@ public class Computer extends AbstractPlayer {
 
     /**
      * Block player from the left side
-     * 
+     *
      * @author Kevin Armstrong
      * @param board
      * @return tempMove
@@ -110,14 +111,13 @@ public class Computer extends AbstractPlayer {
 
     /**
      * Block player from the right side
-     * 
+     *
      * @author Kevin Armstrong
      * @param board
      * @return tempMove
      */
     private Move blockRight(Board board) {
         Move lastMove = board.getLastMove();
-
         if (lastMove.getColumn() - 1 > 0) {
             Move tempMove = new Move(lastMove.getColumn() - 1, lastMove.getRow());
             if (board.getPiece(tempMove) == Piece.BLANK) {
@@ -137,12 +137,12 @@ public class Computer extends AbstractPlayer {
 
     /**
      * Block player from the top
-     * 
+     *
      * @author Kevin Armstrong
      * @param board
      * @return tempMove
      */
-     private Move blockUp(Board board) {
+    private Move blockUp(Board board) {
         Move lastMove = board.getLastMove();
 
         if (lastMove.getRow() + 1 < board.numberOfRows) {
@@ -171,14 +171,15 @@ public class Computer extends AbstractPlayer {
      * @return Move
      */
     private Move bestPlaceToBlock(Board board) {
-
+        int pointLeft = countPointLeft(board);
+        int pointRight = countPointRight(board);
         Move left = blockLeft(board);
         Move right = blockRight(board);
         Move up = blockUp(board);
 
-        if (left != null && board.isPlayLegal(Piece.BLACK, left)) {
+        if (left != null && board.isPlayLegal(Piece.BLACK, left) && pointLeft == 2) {
             return left;
-        } else if (right != null && board.isPlayLegal(Piece.BLACK, right)) {
+        } else if (right != null && board.isPlayLegal(Piece.BLACK, right) && pointRight == 2) {
             return right;
         } else if (up != null && board.isPlayLegal(Piece.BLACK, up)) {
             return up;
@@ -195,12 +196,12 @@ public class Computer extends AbstractPlayer {
      * @param move
      * @return int
      */
-    private int betterMove(Board board, Move move){
-        int count1  = betterMoveAcross(board, move);
+    private int betterMove(Board board, Move move) {
+        int count1 = betterMoveAcross(board, move);
         int count2 = betterMoveUpDown(board, move);
-        return count1>count2?count1:count2;
+        return count1 > count2 ? count1 : count2;
     }
-    
+
     /**
      * Find the better move in the row
      *
@@ -209,7 +210,7 @@ public class Computer extends AbstractPlayer {
      * @param move
      * @return int
      */
-     private int betterMoveAcross(Board board, Move goodMove) {
+    private int betterMoveAcross(Board board, Move goodMove) {
         Move lastMove = board.getLastMove();
         int countBlack = 0;
 
@@ -224,8 +225,8 @@ public class Computer extends AbstractPlayer {
                     break;
                 case BLANK:
                     if (countBlack == 2) {
-                       Logger.getLogger(Game.class.getName()).log(Level.INFO, "Found a great spot to play at {0} {1}", 
-                               new Object[]{lastMove.getRow(), lastMove.getRow()});
+                        Logger.getLogger(Game.class.getName()).log(Level.INFO, "Found a great spot to play at {0} {1}",
+                                new Object[]{lastMove.getRow(), lastMove.getRow()});
                         return 1;
                     }
                     break;
@@ -235,9 +236,10 @@ public class Computer extends AbstractPlayer {
         }
         return -404;
     }
-    
+
     /**
      * Find better move in the column
+     *
      * @param board
      * @param goodMove
      * @return
@@ -257,8 +259,8 @@ public class Computer extends AbstractPlayer {
                     break;
                 case BLANK:
                     if (countBlack == 2) {
-                       Logger.getLogger(Game.class.getName()).log(Level.INFO, "Found a great spot to play at {0} {1}", 
-                               new Object[]{lastMove.getRow(), lastMove.getRow()});
+                        Logger.getLogger(Game.class.getName()).log(Level.INFO, "Found a great spot to play at {0} {1}",
+                                new Object[]{lastMove.getRow(), lastMove.getRow()});
                         return 1;
                     }
                     break;
@@ -269,6 +271,46 @@ public class Computer extends AbstractPlayer {
             }
         }
         return -404;
-    }    
+    }
+
+    private int countPointRight(Board board) {
+        int point = 0;
+        int row = board.getLastMove().getRow();
+        Piece[][] piece = board.getPieces();
+        for (int col = 0; col < 11; col++) {
+            if (col + 1 < 11) {
+                if (piece[row][col] == Piece.WHITE && piece[row][col + 1] == Piece.BLANK) {
+                    point += 1;
+                }
+            }
+
+        }
+         Logger.getLogger(Game.class.getName()).log(Level.INFO, "number of available points on the Right {0}",point);
+        return point;
+    }
+
+    /**
+     * This helper method scans the board and return how many stones are close
+     * @param board
+     * @return 
+     */
+    private int countPointLeft(Board board) {
+        int point = 0;
+        int row = board.getLastMove().getRow();
+        Piece[][] piece = board.getPieces();
+        for (int col = 10; col >= 0 ; col--) {
+            if (col - 1 >= 0) {
+                if (piece[row][col] == Piece.WHITE && piece[row][col - 1] == Piece.BLANK) {
+                    point += 1;
+                }
+            }
+
+        }
+        Logger.getLogger(Game.class.getName()).log(Level.INFO, "number of available points on the left {0}",point);
+        return point;
+    }
     
+    private Move calculateMove(Board board){
+        return null;
+    }
 }
