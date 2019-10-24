@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pkg3stone.network;
 
 import java.io.IOException;
@@ -11,6 +6,7 @@ import java.io.OutputStream;
 import pkg3stone.engine.Result;
 
 /**
+ * ResultMessage Class
  *
  * @author Svitlana Myronova
  */
@@ -23,7 +19,7 @@ public class ResultMessage {
     }
 
     /**
-     * Returns result
+     * Result getter
      *
      * @return
      */
@@ -31,12 +27,25 @@ public class ResultMessage {
         return this.result;
     }
 
+    /**
+     * Write OutputStream
+     *
+     * @param os
+     * @throws IOException
+     */
     public void write(OutputStream os) throws IOException
     {
         os.write(this.result.getWhiteScore());
         os.write(this.result.getBlackScore());
     }
     
+    /**
+     * Read InputStream
+     * 
+     * @param is
+     * @return ResultMessage
+     * @throws IOException
+     */
     public static ResultMessage read(InputStream is) throws IOException
     {
         int whiteScore = is.read();

@@ -18,9 +18,7 @@
         <Label id="labels" layoutX="14.0" layoutY="113.0" prefHeight="30.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Server port" />
         <TextField fx:id="serverPortTxt" layoutX="134.0" layoutY="107.0" prefHeight="42.0" prefWidth="231.0" promptText="port" text="50000" />
         <Button id="connect" fx:id="connectBtn" layoutX="177.0" layoutY="162.0" mnemonicParsing="false" onAction="#connectBtnHandler" prefHeight="25.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Connect">
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
+            
         </Button>
         <Button id="exit" fx:id="exitBtn" layoutX="277.0" layoutY="162.0" mnemonicParsing="false" onAction="#exitBtnHandler" prefHeight="25.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Exit" />
     </children>

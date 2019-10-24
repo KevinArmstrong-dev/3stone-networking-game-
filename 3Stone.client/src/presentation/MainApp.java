@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package presentation;
 
 import java.io.IOException;
@@ -15,11 +10,17 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
+ * MainApp Class
  *
- * @author 1638876
+ * @author Kevin Armstrong
  */
 public class MainApp extends Application {
 
+    /**
+    * Start application
+    *
+    * @param  primaryStage
+    */
     @Override
     public void start(Stage primaryStage) {
 
@@ -54,6 +55,8 @@ public class MainApp extends Application {
     }
 
     /**
+     * Main method of the MainApp Class
+     * 
      * @param args the command line arguments
      */
     public static void main(String[] args) {

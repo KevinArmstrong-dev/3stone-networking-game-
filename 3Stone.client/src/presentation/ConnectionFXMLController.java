@@ -16,11 +16,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-/**
+/*
  * This controller will display the window to the client
  * to connect to a server
- * 
- * @author KEVIN
+ *
+ * @author Kevin Armstrong
  */
 public class ConnectionFXMLController {
 
@@ -44,11 +44,16 @@ public class ConnectionFXMLController {
 
     private Stage primaryStage;
 
+    /**
+     * Set PrimaryStage
+     *
+     * @param primaryStage
+     */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
-    @FXML
+    @FXML //Handler on the connect button
     void connectBtnHandler(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("GameViewFXML.fxml"));
@@ -63,10 +68,9 @@ public class ConnectionFXMLController {
             Logger.getLogger(ConnectionFXMLController.class.getName()).log(Level.SEVERE, null, ex);
             Platform.exit();
         }
-
     }
 
-    @FXML
+    @FXML //Handler on the exit button
     void exitBtnHandler(ActionEvent event) {
         Platform.exit();
     }

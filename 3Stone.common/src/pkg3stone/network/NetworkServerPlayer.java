@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pkg3stone.network;
 
 import java.io.IOException;
@@ -20,6 +15,7 @@ import pkg3stone.engine.Piece;
 import pkg3stone.engine.Result;
 
 /**
+ * NetworkServerPlayer Class
  *
  * @author Svitlana Myronova
  */
@@ -33,6 +29,7 @@ public class NetworkServerPlayer extends AbstractPlayer {
     private OutputStream clientOut;
 
     /**
+     * Constructor
      *
      * @param port
      * @throws IOException
@@ -43,6 +40,12 @@ public class NetworkServerPlayer extends AbstractPlayer {
         serverSocket = new ServerSocket(port);
     }
 
+    /**
+     * Called once by Game before game begins to notify player about it's color
+     *
+     * @param piece
+     * @throws java.lang.Exception
+     */
     @Override
     public void startTheGame(Piece piece) throws Exception {
         super.startTheGame(piece);
@@ -57,6 +60,13 @@ public class NetworkServerPlayer extends AbstractPlayer {
         startTheGameMessage.write(clientOut);
     }
 
+    /**
+     * Method called by Game to ask player about its next move
+     *
+     * @param board
+     * @return Move
+     * @throws java.lang.Exception
+     */
     @Override
     public Move chooseMove(Board board) throws IOException {
         Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Waiting the MoveMessge from client");
@@ -69,6 +79,14 @@ public class NetworkServerPlayer extends AbstractPlayer {
         return moveMessage.getMove();
     }
 
+    /**
+     * Called by Game if Move returned by chooseMove is illegal for current game
+     * state.
+     *
+     * @param moveType
+     * @param move
+     * @throws java.lang.Exception
+     */
     @Override
     public void moveOutcome(MoveType moveType, Move move) throws IOException {
         Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending moveOutcome");
@@ -76,6 +94,12 @@ public class NetworkServerPlayer extends AbstractPlayer {
         mm.write(clientOut);
     }
 
+    /**
+     * Called by Game to ask player to prepare for new chooseMove call
+     *
+     * @param board
+     * @throws java.lang.Exception
+     */
     @Override
     public void prepareMove(Board board) throws IOException {
         if (board.getLastMove() != null) {
@@ -85,6 +109,12 @@ public class NetworkServerPlayer extends AbstractPlayer {
         }
     }
 
+    /**
+     * Called by Game to notify about game result
+     * @param board
+     * @param result
+     * @throws java.lang.Exception
+     */
     @Override
     public void gameOver(Board board, Result result) throws IOException {
         Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending game over");
@@ -96,6 +126,9 @@ public class NetworkServerPlayer extends AbstractPlayer {
         resultMessage.write(clientOut);
     }
 
+    /**
+     * Needs to be called to cleanup resources created by this player.
+     */
     @Override
     public void close() {
         try {

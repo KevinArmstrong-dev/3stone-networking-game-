@@ -5,8 +5,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author svitl
+ * Computer Class
+ * 
+ * @author Svitlana Myronova
  */
 public class Computer extends AbstractPlayer {
 
@@ -19,11 +20,22 @@ public class Computer extends AbstractPlayer {
         this.r = new Random();
     }
 
+    /**
+     * Called by Game to ask to prepare for new chooseMove call
+     *
+     * @param board
+     */
     @Override
     public void prepareMove(Board board) {
     }
-
-    @Override     
+     
+    /**
+     * Method called by Game to ask about next move
+     *
+     * @param board
+     * @return Move
+     */
+    @Override    
     public Move chooseMove(Board board) {
         Move block = bestPlaceToBlock(board);
 
@@ -42,14 +54,29 @@ public class Computer extends AbstractPlayer {
         }
     }
 
+    /**
+     * Called by Game if Move returned by chooseMove is illegal for current game
+     * state.
+     *
+     * @param moveType
+     * @param move
+     */
     @Override
     public void moveOutcome(MoveType moveType, Move move) {
     }
 
+    /**
+     * Called by Game to notify about game result
+     * @param board
+     * @param result
+     */
     @Override
     public void gameOver(Board board, Result result) {
     }
 
+    /**
+     * Needs to be called to cleanup resources created by this player.
+     */
     @Override
     public void close() {
     }
@@ -57,6 +84,8 @@ public class Computer extends AbstractPlayer {
     /**
      *This Method will scan the board from left to right, to find 
      * a legal spot to play
+     * Block player from the left side
+     * 
      * @author Kevin Armstrong
      * @param board
      * @return tempMove
@@ -85,8 +114,9 @@ public class Computer extends AbstractPlayer {
      * This method will scan the board from right to left in order to find 
      * a spot to block
      * 
+     * @author Kevin Armstrong
      * @param board
-     * @return 
+     * @return tempMove
      */
     private Move blockRight(Board board) {
         Move lastMove = board.getLastMove();
@@ -109,12 +139,18 @@ public class Computer extends AbstractPlayer {
     }
 
     /**
+<<<<<<< HEAD
      * This method will look for a place to block on the x-axis
      * 
+=======
+     * Block player from the top
+     * 
+     * @author Kevin Armstrong
+>>>>>>> fda27c1378b6f1cedbf2ac6730b091881ea652d3
      * @param board
-     * @return
+     * @return tempMove
      */
-    private Move blockUp(Board board) {
+     private Move blockUp(Board board) {
         Move lastMove = board.getLastMove();
 
         if (lastMove.getRow() + 1 < board.numberOfRows) {
@@ -140,7 +176,7 @@ public class Computer extends AbstractPlayer {
      *
      * @author Kevin Armstrong
      * @param board
-     * @return
+     * @return Move
      */
     private Move bestPlaceToBlock(Board board) {
 
@@ -159,12 +195,29 @@ public class Computer extends AbstractPlayer {
         }
     }
 
+    /**
+     * Choose the better move
+     *
+     * @author Kevin Armstrong
+     * @param board
+     * @param move
+     * @return int
+     */
     private int betterMove(Board board, Move move){
         int count1  = betterMoveAcross(board, move);
         int count2 = betterMoveUpDown(board, move);
         return count1>count2?count1:count2;
     }
-    private int betterMoveAcross(Board board, Move goodMove) {
+    
+    /**
+     * Find the better move in the row
+     *
+     * @author Kevin Armstrong
+     * @param board
+     * @param move
+     * @return int
+     */
+     private int betterMoveAcross(Board board, Move goodMove) {
         Move lastMove = board.getLastMove();
         int countBlack = 0;
 
@@ -191,7 +244,13 @@ public class Computer extends AbstractPlayer {
         return -404;
     }
     
-     private int betterMoveUpDown(Board board, Move goodMove) {
+    /**
+     * Find better move in the column
+     * @param board
+     * @param goodMove
+     * @return
+     */
+    private int betterMoveUpDown(Board board, Move goodMove) {
         Move lastMove = board.getLastMove();
         int countBlack = 0;
 
@@ -218,7 +277,6 @@ public class Computer extends AbstractPlayer {
             }
         }
         return -404;
-    }
-    
+    }    
     
 }
