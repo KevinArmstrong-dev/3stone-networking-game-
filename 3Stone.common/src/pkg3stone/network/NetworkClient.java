@@ -61,7 +61,7 @@ public class NetworkClient {
                 client.reportIllegalMove(move);
                 return;
             }
-            if (moveMessage.getMoveType() != MoveType.CONFIRMED) {
+            if (moveMessage.getMoveType() != MoveType.CONFIRMED ) {
                 throw new IllegalStateException("Wrong responce received");
             }
         }
@@ -143,5 +143,9 @@ public class NetworkClient {
      */
     public void write(MoveMessage moveMessage) throws IOException {
         moveMessage.write(out);
+    }
+    
+    public String getServerIp(){
+        return null;
     }
 }

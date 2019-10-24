@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -7,19 +11,21 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="206.0" prefWidth="381.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.ConnectionFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="237.0" prefWidth="396.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.ConnectionFXMLController">
     <stylesheets>
         <URL value="@connectionfxml.css" />
     </stylesheets>
     <children>
-        <Label id="title" layoutX="121.0" layoutY="6.0" prefHeight="30.0" prefWidth="156.0" stylesheets="@connectionfxml.css" text="Welcome To 3 stones Game" />
-        <Label id="labels" layoutX="14.0" layoutY="62.0" prefHeight="30.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Server address" />
-        <TextField fx:id="serverAddressTxt" layoutX="134.0" layoutY="56.0" prefHeight="42.0" prefWidth="231.0" promptText="ip" text="127.0.0.1" />
-        <Label id="labels" layoutX="14.0" layoutY="113.0" prefHeight="30.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Server port" />
-        <TextField fx:id="serverPortTxt" layoutX="134.0" layoutY="107.0" prefHeight="42.0" prefWidth="231.0" promptText="port" text="50000" />
-        <Button id="connect" fx:id="connectBtn" layoutX="177.0" layoutY="162.0" mnemonicParsing="false" onAction="#connectBtnHandler" prefHeight="25.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Connect">
+        <Label id="title" layoutX="120.0" layoutY="-1.0" prefHeight="30.0" prefWidth="156.0" stylesheets="@connectionfxml.css" text="Welcome To 3 stones Game" />
+        <Label id="labels" layoutX="14.0" layoutY="68.0" prefHeight="30.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Server address" />
+        <TextField fx:id="serverAddressTxt" layoutX="134.0" layoutY="62.0" prefHeight="42.0" prefWidth="231.0" promptText="ip" text="127.0.0.1" />
+        <Label id="labels" layoutX="14.0" layoutY="128.0" prefHeight="30.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Server port" />
+        <TextField fx:id="serverPortTxt" layoutX="134.0" layoutY="122.0" prefHeight="42.0" prefWidth="231.0" promptText="port" text="50000" />
+        <Button id="connect" fx:id="connectBtn" layoutX="181.0" layoutY="188.0" mnemonicParsing="false" onAction="#connectBtnHandler" prefHeight="25.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Connect">
             
         </Button>
-        <Button id="exit" fx:id="exitBtn" layoutX="277.0" layoutY="162.0" mnemonicParsing="false" onAction="#exitBtnHandler" prefHeight="25.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Exit" />
+        <Button id="exit" fx:id="exitBtn" layoutX="276.0" layoutY="188.0" mnemonicParsing="false" onAction="#exitBtnHandler" prefHeight="25.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Exit" />
+      <Label layoutX="94.0" layoutY="35.0" prefHeight="25.0" prefWidth="64.0" text="Server's Ip" />
+      <Label layoutX="186.0" layoutY="35.0" prefHeight="25.0" prefWidth="167.0" text="local" />
     </children>
 </AnchorPane>

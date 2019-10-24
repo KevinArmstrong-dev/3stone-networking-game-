@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -39,8 +40,19 @@ public class ConnectionFXMLController {
 
     @FXML // fx:id="serverPortTxt"
     private TextField serverPortTxt; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="serverIp"
+    private Label serverIp; // Value injected by FXMLLoader
 
     private Stage primaryStage;
+    
+    @FXML // fx:id="restartBtn"
+    private Button restartBtn; // Value injected by FXMLLoader
+    
+    @FXML
+    void handleRestartBtn(ActionEvent event) {
+
+    }
 
     /**
      * Set PrimaryStage

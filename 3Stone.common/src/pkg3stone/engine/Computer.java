@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 /**
  * Computer Class
- * 
+ *
  * @author Svitlana Myronova
  */
 public class Computer extends AbstractPlayer {
@@ -35,22 +35,21 @@ public class Computer extends AbstractPlayer {
      * @param board
      * @return Move
      */
-    @Override    
+    @Override
     public Move chooseMove(Board board) {
         Move block = bestPlaceToBlock(board);
 
         while (true) {
             if (block != null) {
-                int temp =betterMove(board,block);
-                Logger.getLogger(Game.class.getName()).log(Level.INFO, "Tried To Block {0}",temp);
+
                 return block;
             }
-            Move move = new Move(r.nextInt(board.numberOfRows), r.nextInt(board.numberOfColumns));
-            if (board.getPiece(move) == Piece.BLANK) {
-                int temp =betterMove(board,block);
-                Logger.getLogger(Game.class.getName()).log(Level.INFO, "Tried To random {0}",temp);
-                return move;
-            }
+            return betterMove(board);
+
+//            Move move = new Move(r.nextInt(board.numberOfRows), r.nextInt(board.numberOfColumns));
+//            if (board.getPiece(move) == Piece.BLANK) {
+//                return move;
+//            }
         }
     }
 
@@ -67,6 +66,7 @@ public class Computer extends AbstractPlayer {
 
     /**
      * Called by Game to notify about game result
+     *
      * @param board
      * @param result
      */
@@ -83,7 +83,7 @@ public class Computer extends AbstractPlayer {
 
     /**
      * Block player from the left side
-     * 
+     *
      * @author Kevin Armstrong
      * @param board
      * @return tempMove
@@ -99,7 +99,6 @@ public class Computer extends AbstractPlayer {
                 if (board.isPlayLegal(Piece.BLACK, tempMove)) {
                     return tempMove;
                 }
-                //return tempMove; 
             }
         } else {
             System.out.println("No where to play");
@@ -110,14 +109,13 @@ public class Computer extends AbstractPlayer {
 
     /**
      * Block player from the right side
-     * 
+     *
      * @author Kevin Armstrong
      * @param board
      * @return tempMove
      */
     private Move blockRight(Board board) {
         Move lastMove = board.getLastMove();
-
         if (lastMove.getColumn() - 1 > 0) {
             Move tempMove = new Move(lastMove.getColumn() - 1, lastMove.getRow());
             if (board.getPiece(tempMove) == Piece.BLANK) {
@@ -137,12 +135,12 @@ public class Computer extends AbstractPlayer {
 
     /**
      * Block player from the top
-     * 
+     *
      * @author Kevin Armstrong
      * @param board
      * @return tempMove
      */
-     private Move blockUp(Board board) {
+    private Move blockUp(Board board) {
         Move lastMove = board.getLastMove();
 
         if (lastMove.getRow() + 1 < board.numberOfRows) {
@@ -171,14 +169,21 @@ public class Computer extends AbstractPlayer {
      * @return Move
      */
     private Move bestPlaceToBlock(Board board) {
-
+        int pointLeft = countPointLeft(board);
+        int pointRight = countPointRight(board);
         Move left = blockLeft(board);
+        Move across = betterBlockMoveAcross(board);
+        Move upDown = betterBlockMoveUpDown(board);
         Move right = blockRight(board);
         Move up = blockUp(board);
 
-        if (left != null && board.isPlayLegal(Piece.BLACK, left)) {
+        if (upDown != null && board.isPlayLegal(Piece.BLACK, upDown)) {
+            return across;
+        } else if (across != null && board.isPlayLegal(Piece.BLACK, across)) {
+            return across;
+        } else if (left != null && board.isPlayLegal(Piece.BLACK, left) && pointLeft >= 2) {
             return left;
-        } else if (right != null && board.isPlayLegal(Piece.BLACK, right)) {
+        } else if (right != null && board.isPlayLegal(Piece.BLACK, right) && pointRight >= 2) {
             return right;
         } else if (up != null && board.isPlayLegal(Piece.BLACK, up)) {
             return up;
@@ -193,14 +198,12 @@ public class Computer extends AbstractPlayer {
      * @author Kevin Armstrong
      * @param board
      * @param move
-     * @return int
+     * @return Move
      */
-    private int betterMove(Board board, Move move){
-        int count1  = betterMoveAcross(board, move);
-        int count2 = betterMoveUpDown(board, move);
-        return count1>count2?count1:count2;
+    private Move betterMove(Board board) {
+        return betterMoveUpDown(board);
     }
-    
+
     /**
      * Find the better move in the row
      *
@@ -209,66 +212,290 @@ public class Computer extends AbstractPlayer {
      * @param move
      * @return int
      */
-     private int betterMoveAcross(Board board, Move goodMove) {
+    private Move betterMoveAcross(Board board) {
         Move lastMove = board.getLastMove();
-        int countBlack = 0;
-
-        for (int col = 0; col < 11; col++) {
-
-            switch (board.getPieces()[lastMove.getRow()][col]) {
-                case BLACK:
-                    countBlack += 1;
-                    break;
-                case WHITE:
-                    countBlack = 0;
-                    break;
-                case BLANK:
-                    if (countBlack == 2) {
-                       Logger.getLogger(Game.class.getName()).log(Level.INFO, "Found a great spot to play at {0} {1}", 
-                               new Object[]{lastMove.getRow(), lastMove.getRow()});
-                        return 1;
+        Move tempMove = null;
+        int pointX = 0;
+        Piece[][] pieces = board.getPieces();
+        for (int i = 0; i < 11; i++) {
+            if (i + 1 < 11) {
+                tempMove = new Move(lastMove.getRow(), i + 1);
+                if (pieces[lastMove.getRow()][i] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointX += 1;
+                    if (pointX >= 2) {
+                        return tempMove;
                     }
-                    break;
-                default:
-                    return 0;
+                }
             }
         }
-        return -404;
+        int pointYX = 0;
+        for (int i = 10; i >= 0; i--) {
+            if (i - 1 >= 0) {
+                tempMove = new Move(lastMove.getRow(), i - 1);
+                if (pieces[lastMove.getRow()][i] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointYX += 1;
+                    if (pointYX >= 2) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        return goodMoveUpDown(board);
+
     }
-    
+
     /**
      * Find better move in the column
+     *
      * @param board
      * @param goodMove
      * @return
      */
-    private int betterMoveUpDown(Board board, Move goodMove) {
+    private Move betterMoveUpDown(Board board) {
         Move lastMove = board.getLastMove();
-        int countBlack = 0;
-
-        for (int row = 0; row < 11; row++) {
-
-            switch (board.getPieces()[row][lastMove.getRow()]) {
-                case BLACK:
-                    countBlack += 1;
-                    break;
-                case WHITE:
-                    countBlack = 0;
-                    break;
-                case BLANK:
-                    if (countBlack == 2) {
-                       Logger.getLogger(Game.class.getName()).log(Level.INFO, "Found a great spot to play at {0} {1}", 
-                               new Object[]{lastMove.getRow(), lastMove.getRow()});
-                        return 1;
+        Move tempMove = null;
+        int pointX = 0;
+        Piece[][] pieces = board.getPieces();
+        for (int i = 0; i < 11; i++) {
+            if (i + 1 < 11) {
+                tempMove = new Move(i + 1, lastMove.getColumn());
+                if (pieces[i][lastMove.getColumn()] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointX += 1;
+                    if (pointX >= 2) {
+                        return tempMove;
                     }
-                    break;
-                case BARRED:
-                    break;
-                default:
-                    return 0;
+                }
             }
         }
-        return -404;
-    }    
-    
+        int pointYX = 0;
+        for (int i = 10; i >= 0; i--) {
+            if (i - 1 >= 0) {
+                tempMove = new Move(i - 1, lastMove.getColumn());
+                if (pieces[i][lastMove.getColumn()] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointYX += 1;
+                    if (pointYX >= 2) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        //if there is no good move on the x-axis try finding one the y-axis
+        return betterMoveAcross(board);
+    }
+
+    private int countPointRight(Board board) {
+        int point = 0;
+        int row = board.getLastMove().getRow();
+        Piece[][] piece = board.getPieces();
+        for (int col = 0; col < 11; col++) {
+            if (col + 1 < 11) {
+                if (piece[row][col] == Piece.WHITE && piece[row][col + 1] == Piece.BLANK) {
+                    point += 1;
+                }
+            }
+
+        }
+        Logger.getLogger(Game.class.getName()).log(Level.INFO, "number of available points on the Right {0}", point);
+        return point;
+    }
+
+    /**
+     * This helper method scans the board and return how many stones are close
+     *
+     * @param board
+     * @return
+     */
+    private int countPointLeft(Board board) {
+        int point = 0;
+        int row = board.getLastMove().getRow();
+        Piece[][] piece = board.getPieces();
+        for (int col = 10; col >= 0; col--) {
+            if (col - 1 >= 0) {
+                if (piece[row][col] == Piece.WHITE && piece[row][col - 1] == Piece.BLANK) {
+                    point += 1;
+                }
+            }
+
+        }
+        Logger.getLogger(Game.class.getName()).log(Level.INFO, "number of available points on the left {0}", point);
+        return point;
+    }
+
+    private Move calculateMove(Board board) {
+
+        Move lastMove = board.getLastMove();
+
+        return bestPlaceToBlock(board);
+    }
+
+    private Move goodMoveAcross(Board board) {
+        Move lastMove = board.getLastMove();
+        Move tempMove = null;
+        int pointX = 0;
+        Piece[][] pieces = board.getPieces();
+        for (int i = 0; i < 11; i++) {
+            if (i + 1 < 11) {
+                tempMove = new Move(lastMove.getRow(), i + 1);
+                if (pieces[lastMove.getRow()][i] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointX += 1;
+                    if (pointX == 1) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        int pointYX = 0;
+        for (int i = 10; i >= 0; i--) {
+            if (i - 1 >= 0) {
+                tempMove = new Move(lastMove.getRow(), i - 1);
+                if (pieces[lastMove.getRow()][i] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointYX += 1;
+                    if (pointYX == 1) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+
+        //If there is no option play at a random allowed space
+        while (true) {
+            Move move = new Move(r.nextInt(board.numberOfRows), r.nextInt(board.numberOfColumns));
+            if (board.getPiece(move) == Piece.BLANK) {
+                return move;
+            }
+        }
+    }
+
+    /**
+     * This helper method will play the stone next to one Black stone in case it
+     * doesn't find two black stones in a row
+     *
+     * @param board
+     * @return tempMove
+     */
+    private Move goodMoveUpDown(Board board) {
+        Move lastMove = board.getLastMove();
+        Move tempMove = null;
+        int pointX = 0;
+        Piece[][] pieces = board.getPieces();
+        for (int i = 0; i < 11; i++) {
+            if (i + 1 < 11) {
+                tempMove = new Move(i, lastMove.getColumn());
+                if (pieces[i][lastMove.getColumn()] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointX += 1;
+                    if (pointX == 1) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        int pointYX = 0;
+        for (int i = 10; i >= 0; i--) {
+            if (i - 1 >= 0) {
+                tempMove = new Move(i, lastMove.getColumn());
+                if (pieces[i][lastMove.getColumn()] == Piece.BLACK && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointYX += 1;
+                    if (pointYX == 1) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        return goodMoveAcross(board);
+    }
+
+    /**
+     * This method will block the client player on the y-axis
+     *
+     * @param board
+     * @return
+     */
+    private Move betterBlockMoveAcross(Board board) {
+        Move lastMove = board.getLastMove();
+        Move tempMove = null;
+        int pointX = 0;
+        Piece[][] pieces = board.getPieces();
+        for (int i = 0; i < 11; i++) {
+            if (i + 1 < 11) {
+                tempMove = new Move(lastMove.getRow(), i + 1);
+                if (pieces[lastMove.getRow()][i] == Piece.WHITE && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointX += 1;
+                    if (pointX == 2) {
+                        return tempMove;
+                    }
+                } else if (i + 2 < 11) {
+                    if (pieces[lastMove.getRow()][i] == Piece.WHITE && pieces[lastMove.getRow()][i + 2] == Piece.WHITE
+                            && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        int pointYX = 0;
+        for (int i = 10; i >= 0; i--) {
+            if (i - 1 >= 0) {
+                tempMove = new Move(lastMove.getRow(), i - 1);
+                if (pieces[lastMove.getRow()][i] == Piece.WHITE && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointYX += 1;
+                    if (pointYX == 2) {
+                        return tempMove;
+                    }
+                } else if (i - 2 >= 0) {
+                    if (pieces[lastMove.getRow()][i] == Piece.WHITE && pieces[lastMove.getRow()][i - 2] == Piece.WHITE
+                            && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Find better move in the column
+     *
+     * @param board
+     * @param goodMove
+     * @return
+     */
+    private Move betterBlockMoveUpDown(Board board) {
+        Move lastMove = board.getLastMove();
+        Move tempMove = null;
+        int pointX = 0;
+        Piece[][] pieces = board.getPieces();
+        for (int i = 0; i < 11; i++) {
+            if (i + 1 < 11) {
+                tempMove = new Move(i + 1, lastMove.getColumn());
+                if (pieces[i][lastMove.getColumn()] == Piece.WHITE && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointX += 1;
+                    if (pointX >= 2) {
+                        return tempMove;
+                    }
+                } else if (i + 2 < 11) {
+                    if (pieces[i][lastMove.getColumn()] == Piece.WHITE && pieces[i + 2][lastMove.getColumn()] == Piece.WHITE
+                            && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        int pointYX = 0;
+        for (int i = 10; i >= 0; i--) {
+            if (i - 1 >= 0) {
+                tempMove = new Move(i - 1, lastMove.getColumn());
+                if (pieces[i][lastMove.getColumn()] == Piece.WHITE && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                    pointYX += 1;
+                    if (pointYX >= 2) {
+                        return tempMove;
+                    }
+                } else if (i - 2 > 0) {
+                    if (pieces[i][lastMove.getColumn()] == Piece.WHITE && pieces[i - 2][lastMove.getColumn()] == Piece.WHITE
+                            && board.isPlayLegal(Piece.BLACK, tempMove)) {
+                        return tempMove;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }

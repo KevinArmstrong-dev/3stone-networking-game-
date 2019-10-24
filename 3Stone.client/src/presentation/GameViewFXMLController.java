@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -30,7 +29,7 @@ import pkg3stone.network.NetworkClient;
 
 /**
  * GameViewFXMLController Class
- * 
+ *
  * @author Kevin Armstrong
  */
 public class GameViewFXMLController implements INetworkClientClient {
@@ -40,13 +39,13 @@ public class GameViewFXMLController implements INetworkClientClient {
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
-    
+
     @FXML // fx:id="whiteScoreLbl"
     private Label whiteScoreLbl; // Value injected by FXMLLoader
 
     @FXML // fx:id="blackScoreLbl"
     private Label blackScoreLbl; // Value injected by FXMLLoader
-    
+
     @FXML // fx:id="whiteStonesLbl"
     private Label whiteStonesLbl; // Value injected by FXMLLoader
 
@@ -63,6 +62,10 @@ public class GameViewFXMLController implements INetworkClientClient {
     @FXML // fx:id="exitButton"
     private Button exitButton; // Value injected by FXMLLoader
 
+    
+    @FXML // fx:id="gamesPlayedlbl"
+    private Label gamesPlayedlbl; // Value injected by FXMLLoader
+    
     @FXML // Handler on exit button
     void exitButtonHandle(ActionEvent event) {
         System.out.println("Closing the Game");
@@ -70,12 +73,27 @@ public class GameViewFXMLController implements INetworkClientClient {
     }
     private NetworkClient networkClient;
 
+    @FXML // fx:id="restartBtn"
+    private Button restartBtn; // Value injected by FXMLLoader
+    
+    int gameCount = 1;
+
+    @FXML
+    void handleRestartBtn(ActionEvent event) {
+        gameCount+=1;
+         gamesPlayedlbl.setText(gameCount+ "");
+        gameGrid.getChildren().clear();
+        initGrid();
+        enableAllButtons();
+    }
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert gameGrid != null : "fx:id=\"gameGrid\" was not injected: check your FXML file 'GameViewFXML.fxml'.";
-
+     
         initGrid();
-    }     
+       gamesPlayedlbl.setText(gameCount+ "");
+    }
 
     /**
      * Action on a click button
@@ -138,13 +156,13 @@ public class GameViewFXMLController implements INetworkClientClient {
      * @param result
      */
     @Override
-    public void updateResult(Result result, int whiteStones, int blackStones){
-        this.whiteScoreLbl.setText(""+result.getWhiteScore()); 
-        this.blackScoreLbl.setText(""+result.getBlackScore());
-        this.whiteStonesLbl.setText(""+whiteStones); 
-        this.blackStonesLbl.setText(""+blackStones);
-    }   
-    
+    public void updateResult(Result result, int whiteStones, int blackStones) {
+        this.whiteScoreLbl.setText("" + result.getWhiteScore());
+        this.blackScoreLbl.setText("" + result.getBlackScore());
+        this.whiteStonesLbl.setText("" + whiteStones);
+        this.blackStonesLbl.setText("" + blackStones);
+    }
+
     /**
      * Method will be called to place the stone on the board
      *
@@ -175,7 +193,7 @@ public class GameViewFXMLController implements INetworkClientClient {
                 break;
             case BARRED:
                 button.setText("  X  ");
-                button.setId("barred");                
+                button.setId("barred");
                 break;
         }
         button.setDisable(true);
@@ -225,4 +243,16 @@ public class GameViewFXMLController implements INetworkClientClient {
             }
         }
     }
+    
+        /**
+     * Disable all buttons
+     */
+    private void enableAllButtons() {
+        for (Button[] row : this.buttons) {
+            for (Button b : row) {
+                b.setDisable(false);
+            }
+        }
+    }
+    
 }

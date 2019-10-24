@@ -83,8 +83,9 @@ public class Game {
 
         whitePlayer.gameOver(board, result);
         blackPlayer.gameOver(board, result);
-
+        board.resetBoard();//adde
         whitePlayer.close();
         blackPlayer.close();
     }
+    
 }

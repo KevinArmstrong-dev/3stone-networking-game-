@@ -58,6 +58,7 @@ public class NetworkServerPlayer extends AbstractPlayer {
         Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending startTheGame");
         StartTheGameMessage startTheGameMessage = new StartTheGameMessage(piece);
         startTheGameMessage.write(clientOut);
+        
     }
 
     /**
@@ -139,7 +140,7 @@ public class NetworkServerPlayer extends AbstractPlayer {
             clientIn.close();
             clientOut.close();
             connectedClientSocket.close();
-            serverSocket.close();
+           serverSocket.close();
         } catch (IOException ex) {
             Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, null, ex);
         }
