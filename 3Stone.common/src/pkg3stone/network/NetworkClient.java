@@ -151,11 +151,15 @@ public class NetworkClient {
     public void closeConnection() {
         try {
             socket.close();
-                in.close();
-        out.close();
+            in.close();
+            out.close();
         } catch (IOException ex) {
             Logger.getLogger(NetworkClient.class.getName()).log(Level.SEVERE, "Failed to close resource", ex);
         }
-    
+
+    }
+
+    public String findIp() {
+        return this.socket.getInetAddress().getHostAddress();
     }
 }

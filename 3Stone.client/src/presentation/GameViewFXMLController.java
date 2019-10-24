@@ -271,5 +271,7 @@ public class GameViewFXMLController implements INetworkClientClient {
             }
         }
     }
-    
+    public String findIpServer(){
+        return networkClient.findIp();
+    }
 }
