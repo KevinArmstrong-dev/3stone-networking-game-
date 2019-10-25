@@ -3,13 +3,13 @@ package pkg3stone.network;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pkg3stone.engine.Move;
 import pkg3stone.engine.MoveType;
 import pkg3stone.engine.Piece;
-import pkg3stone.engine.Result;
 
 /**
  * NetworkClient Class
@@ -27,13 +27,12 @@ public class NetworkClient {
     /**
      * Creates NetworkClient object and connects to requested server
      *
-     * @param hostServer
-     * @param port
+     * @param serverAddress
      * @throws java.io.IOException
      */
-    public NetworkClient(String hostServer, int port) throws IOException {
+    public NetworkClient(InetSocketAddress serverAddress) throws IOException {
         // Create socket that is connected to server on specified port
-        this.socket = new Socket(hostServer, port);
+        this.socket = new Socket(serverAddress.getAddress(), serverAddress.getPort());
 
         this.in = socket.getInputStream();
         this.out = socket.getOutputStream();
@@ -151,11 +150,11 @@ public class NetworkClient {
     public void closeConnection() {
         try {
             socket.close();
-                in.close();
-        out.close();
+            in.close();
+            out.close();
         } catch (IOException ex) {
             Logger.getLogger(NetworkClient.class.getName()).log(Level.SEVERE, "Failed to close resource", ex);
         }
-    
+
     }
 }
