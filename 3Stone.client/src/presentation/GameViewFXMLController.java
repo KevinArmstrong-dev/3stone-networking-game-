@@ -1,6 +1,7 @@
 package presentation;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -12,8 +13,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -54,46 +53,46 @@ public class GameViewFXMLController implements INetworkClientClient {
 
     @FXML // fx:id="gameGrid"
     private GridPane gameGrid; // Value injected by FXMLLoader
-    String playing; 
-    int portUsed = 50000; 
-    private Piece[][] pieces;
-    private Button[][] buttons;
-    private Button lastPlacedStone;
 
     @FXML // fx:id="exitButton"
     private Button exitButton; // Value injected by FXMLLoader
 
-    
     @FXML // fx:id="gamesPlayedlbl"
     private Label gamesPlayedlbl; // Value injected by FXMLLoader
-    
+
     @FXML // Handler on exit button
     void exitButtonHandle(ActionEvent event) {
-        networkClient.closeConnection();
         System.out.println("Closing the Game");
         Platform.exit();
     }
-    private NetworkClient networkClient;
 
     @FXML // fx:id="restartBtn"
     private Button restartBtn; // Value injected by FXMLLoader
     
+    InetSocketAddress serverAddress;
+    
+    private Piece[][] pieces;
+    private Button[][] buttons;
+    private Button lastPlacedStone;
+
+    private NetworkClient networkClient;
+
     int gameCount = 1;
 
     @FXML
     void handleRestartBtn(ActionEvent event) {
-        try{
-         this.networkClient = new NetworkClient(playing, portUsed);
-        }catch(IOException ex){
-             Logger.getLogger(GameViewFXMLController.class.getName()).log(Level.SEVERE, "Failed to restart", ex);
+        try {
+            this.networkClient = new NetworkClient(this.serverAddress);
+        } catch (IOException ex) {
+            Logger.getLogger(GameViewFXMLController.class.getName()).log(Level.SEVERE, "Failed to restart", ex);
         }
-         
-        gameCount+=1;
-         gamesPlayedlbl.setText(gameCount+ "");
+
+        gameCount += 1;
+        gamesPlayedlbl.setText(gameCount + "");
         gameGrid.getChildren().clear();
         initGrid();
         enableAllButtons();
-        
+
         restartBtn.setDisable(true);
         restartBtn.setStyle("-fx-color: red");
     }
@@ -101,10 +100,10 @@ public class GameViewFXMLController implements INetworkClientClient {
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert gameGrid != null : "fx:id=\"gameGrid\" was not injected: check your FXML file 'GameViewFXML.fxml'.";
-     
+
         initGrid();
-       gamesPlayedlbl.setText(gameCount+ "");
-       restartBtn.setDisable(true);
+        gamesPlayedlbl.setText(gameCount + "");
+        restartBtn.setDisable(true);
         restartBtn.setStyle("-fx-color: red");
     }
 
@@ -159,16 +158,17 @@ public class GameViewFXMLController implements INetworkClientClient {
      * @param port
      * @throws IOException
      */
-    public void connectToServer(String address, int port) throws IOException {
-        this.networkClient = new NetworkClient(address, port);
-        String playing = address;
-        portUsed = port;
+    public void connectToServer(InetSocketAddress serverAddress) throws IOException {
+        this.networkClient = new NetworkClient(serverAddress);
+        this.serverAddress = serverAddress;
     }
 
     /**
      * Method will be called to show result
      *
      * @param result
+     * @param whiteStones
+     * @param blackStones
      */
     @Override
     public void updateResult(Result result, int whiteStones, int blackStones) {
@@ -248,6 +248,8 @@ public class GameViewFXMLController implements INetworkClientClient {
         alert.showAndWait();
         restartBtn.setDisable(false);
         restartBtn.setStyle("-fx-background-color: #00ff00");
+        
+        networkClient.closeConnection();
     }
 
     /**
@@ -260,8 +262,8 @@ public class GameViewFXMLController implements INetworkClientClient {
             }
         }
     }
-    
-        /**
+
+    /**
      * Disable all buttons
      */
     private void enableAllButtons() {
@@ -271,5 +273,5 @@ public class GameViewFXMLController implements INetworkClientClient {
             }
         }
     }
-    
+
 }

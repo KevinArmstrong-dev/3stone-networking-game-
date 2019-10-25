@@ -21,8 +21,8 @@ import pkg3stone.engine.Result;
  */
 public class NetworkServerPlayer extends AbstractPlayer {
 
-    private static final int BUFSIZE = 32;
-
+    public static final int DEFAULT_PORT = 50000;
+    
     private final ServerSocket serverSocket;
     private Socket connectedClientSocket;
     private InputStream clientIn;
@@ -35,9 +35,8 @@ public class NetworkServerPlayer extends AbstractPlayer {
      * @throws IOException
      */
     public NetworkServerPlayer(int port) throws IOException {
-
         // Create a server socket to accept client connection requests
-        serverSocket = new ServerSocket(port);
+        this.serverSocket = new ServerSocket(port);
     }
 
     /**
@@ -66,7 +65,7 @@ public class NetworkServerPlayer extends AbstractPlayer {
      *
      * @param board
      * @return Move
-     * @throws java.lang.Exception
+     * @throws java.io.IOException
      */
     @Override
     public Move chooseMove(Board board) throws IOException {
@@ -86,7 +85,7 @@ public class NetworkServerPlayer extends AbstractPlayer {
      *
      * @param moveType
      * @param move
-     * @throws java.lang.Exception
+     * @throws java.io.IOException
      */
     @Override
     public void moveOutcome(MoveType moveType, Move move) throws IOException {
@@ -99,7 +98,7 @@ public class NetworkServerPlayer extends AbstractPlayer {
      * Called by Game to ask player to prepare for new chooseMove call
      *
      * @param board
-     * @throws java.lang.Exception
+     * @throws java.io.IOException
      */
     @Override
     public void prepareMove(Board board) throws IOException {
@@ -116,7 +115,7 @@ public class NetworkServerPlayer extends AbstractPlayer {
      * Called by Game to notify about game result
      * @param board
      * @param result
-     * @throws java.lang.Exception
+     * @throws java.io.IOException
      */
     @Override
     public void gameOver(Board board, Result result) throws IOException {

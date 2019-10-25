@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="237.0" prefWidth="396.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.ConnectionFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="237.0" prefWidth="396.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.ConnectionFXMLController">
     <stylesheets>
         <URL value="@connectionfxml.css" />
     </stylesheets>
@@ -21,15 +19,39 @@
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font></Label>
-        <Label id="labels" layoutX="14.0" layoutY="68.0" prefHeight="30.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Server address" />
-        <TextField fx:id="serverAddressTxt" layoutX="134.0" layoutY="62.0" prefHeight="42.0" prefWidth="231.0" promptText="ip" text="127.0.0.1" />
-        <Label id="labels" layoutX="14.0" layoutY="128.0" prefHeight="30.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Server port" />
-        <TextField fx:id="serverPortTxt" layoutX="134.0" layoutY="122.0" prefHeight="42.0" prefWidth="231.0" promptText="port" text="50000" />
-        <Button id="connect" fx:id="connectBtn" layoutX="181.0" layoutY="188.0" mnemonicParsing="false" onAction="#connectBtnHandler" prefHeight="25.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Connect">
+      <Accordion fx:id="accordion" layoutY="37.0" prefHeight="219.0" prefWidth="396.0">
+        <panes>
+          <TitledPane fx:id="findServerPane" animated="false" text="Find server">
+               <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ComboBox fx:id="serverComboBox" layoutX="176.0" layoutY="51.0" prefHeight="25.0" prefWidth="189.0" />
+                        <Button layoutX="23.0" layoutY="84.0" mnemonicParsing="false" onAction="#refreshBtnHandler" text="Refresh" />
+                        <Button layoutX="311.0" layoutY="85.0" mnemonicParsing="false" onAction="#connectFoundServerBtnHandler" text="Conect" />
+                        <TextField fx:id="broadcasterPortTxt" layoutX="176.0" layoutY="15.0" prefHeight="25.0" prefWidth="189.0" />
+                        <Label layoutX="23.0" layoutY="18.0" text="Broadcaster port" />
+                        <Label layoutX="23.0" layoutY="54.0" text="Found servers" />
+                     </children>
+                  </AnchorPane>
+               </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Connect manually">
+               <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                          <Label id="labels" layoutX="32.0" layoutY="21.0" prefHeight="30.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Server address" />
+                          <TextField fx:id="serverAddressTxt" layoutX="149.0" layoutY="15.0" prefHeight="42.0" prefWidth="231.0" promptText="ip" text="127.0.0.1" />
+                          <Label id="labels" layoutX="32.0" layoutY="69.0" prefHeight="30.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Server port" />
+                          <TextField fx:id="serverPortTxt" layoutX="149.0" layoutY="63.0" prefHeight="42.0" prefWidth="231.0" promptText="port" text="50000" />
+                          <Button id="connect" fx:id="connectBtn" layoutX="153.0" layoutY="119.0" mnemonicParsing="false" onAction="#connectBtnHandler" prefHeight="25.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Connect">
             
         </Button>
-        <Button id="exit" fx:id="exitBtn" layoutX="276.0" layoutY="188.0" mnemonicParsing="false" onAction="#exitBtnHandler" prefHeight="25.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Exit" />
-      <Label layoutX="94.0" layoutY="35.0" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: white;" text="Server's Ip" />
-      <Label fx:id="serverIp" layoutX="186.0" layoutY="35.0" prefHeight="25.0" prefWidth="167.0" style="-fx-background-color: white;" text="127.0.0.1" />
+                     </children>
+                  </AnchorPane>
+               </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+        <Button id="exit" fx:id="exitBtn" layoutX="308.0" layoutY="274.0" mnemonicParsing="false" onAction="#exitBtnHandler" prefHeight="25.0" prefWidth="88.0" stylesheets="@connectionfxml.css" text="Exit" />
     </children>
 </AnchorPane>
