@@ -1,0 +1,59 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+#stone{
+    -fx-color : wheat;
+    -fx-border:solid 3px black;
+    -fx-background-radius:50px;
+}
+
+#black{
+    -fx-color:black;
+}
+.stone{
+    -fx-background-image:url("/img/black.jpg")
+}
+#barred{
+    -fx-color:red;
+    -fx-border:solid 3px black;
+    -fx-background-radius:50px;
+}
+
+#whiteStone{
+    -fx-color: white; 
+    -fx-background-radius:50px;
+}
+
+#blackStone{
+    -fx-color: black; 
+    -fx-background-radius:50px;
+}
+
+.gameview{
+    -fx-background-color : skyblue
+}
+#titleLbl{
+    -fx-font-color : red
+}
+
+#exit:hover{
+    -fx-background-color :red;
+}
+.allStone:hover{
+    -fx-background-color:#4b42f5;
+}
+#AnchorPane{
+    -fx-background-image:url("/img/bgtest.jpg");
+}
+#barred:active{
+    -fx-color:red
+}
+.white{
+    -fx-color:white
+}
+
+#title{
+    -fx-background-color: #e7e7e7;
+    -fx-color: black;
+}

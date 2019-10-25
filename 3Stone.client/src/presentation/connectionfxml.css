@@ -1,0 +1,19 @@
+#connect:hover{
+    -fx-background-color :green;
+}
+#exit:hover{
+    -fx-background-color :red;
+}
+
+#AnchorPane{
+    -fx-background-image:url("/img/stone.jpg");
+}
+
+#labels,#title{
+    -fx-background-color: #e7e7e7;
+    -fx-color: black;
+}
+
+#title{
+    -fx-color: red;
+}
