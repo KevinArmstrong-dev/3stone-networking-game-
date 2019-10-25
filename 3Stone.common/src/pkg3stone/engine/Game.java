@@ -87,6 +87,9 @@ public class Game {
        // blackPlayer.close();
     }
     
+    /**
+     * This method will clear the board by creating a new one
+     */
     public void Restart(){
        this.board = new Board();
     }

@@ -38,11 +38,17 @@ public class NetworkServerBroadcaster implements Runnable {
         this.broadcastSocket = new DatagramSocket(broadcasterPort);
     }
 
+    /**
+     * This method will start a new thread
+     */
     public void start() {
         this.thread = new Thread(this);
         this.thread.start();
     }
 
+    /**
+     * This will start the server a specified buffer size
+     */
     @Override
     public void run() {
         while (true) {

@@ -145,6 +145,10 @@ public class NetworkServerPlayer extends AbstractPlayer {
         }
     }
     
+    /**
+     * This method will close the client resources 
+     * like the streams and socket
+     */
     public void closeClient(){
         try {
             clientIn.close();

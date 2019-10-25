@@ -49,7 +49,7 @@ public class Server {
             Game g = new Game(display, whitePlayer, blackPlayer);
             while (true) {
                 g.play();
-                g.Restart();
+                g.Restart(); //clear and restart the game
             }
         } catch (Exception ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);

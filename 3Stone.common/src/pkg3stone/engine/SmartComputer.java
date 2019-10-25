@@ -74,6 +74,14 @@ public class SmartComputer extends AbstractPlayer {
     public void close() {
     }
 
+    /**
+     * This Helper method will calculate the best move to make
+     * give the board and the difficulty level of the game
+     * 
+     * @param board
+     * @param level
+     * @return 
+     */
     private MoveAndResult findBestMove(final Board board, final int level) {
         if (board.isGameOver() || level == 0) {
             return new MoveAndResult(null, board.resultOfGame());
@@ -146,6 +154,15 @@ public class SmartComputer extends AbstractPlayer {
         return bestMoveAndResult;
     }
 
+    /**
+     * This method will play a random move in case there
+     * is no appropriate move to play. Meaning if there is no good
+     * blocking move or winning move, the move that is made by the server will be
+     * random
+     * 
+     * @param board
+     * @return 
+     */
     private Move findRandomMove(Board board) {
         ArrayList<Move> possibleMoves = new ArrayList<>();
         for (int col = 0; col < board.numberOfColumns; col++) {

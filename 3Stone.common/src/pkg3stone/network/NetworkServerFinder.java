@@ -33,6 +33,14 @@ public class NetworkServerFinder {
         this.finderSocket.setSoTimeout(RECEIVE_TIMEOUT);
     }
 
+    /**
+     * This method will look for the listening severs and return their ip and 
+     * port
+     * 
+     * @param broadcasterPort
+     * @return
+     * @throws IOException 
+     */
     public ArrayList<InetSocketAddress> findServers(int broadcasterPort) throws IOException {
         ArrayList<InetSocketAddress> result = new ArrayList<>();
         
@@ -58,12 +66,24 @@ public class NetworkServerFinder {
         return result;
     }
 
+    /**
+     * This method will search for all servers listening to a specific port
+     * 
+     * 
+     * @param broadcasterPort
+     * @throws IOException
+     * @throws UnknownHostException 
+     */
     private void sendSearchBroadcast(int broadcasterPort) throws IOException, UnknownHostException {
         byte[] data = new byte[1];
         DatagramPacket broadcastPacket = new DatagramPacket(data, data.length, InetAddress.getByName("255.255.255.255"), broadcasterPort);
         this.finderSocket.send(broadcastPacket);
     }
     
+    /**
+     * This method will close any socket found during the broadcast 
+     * 
+     */
     public void close()
     {
         this.finderSocket.close();

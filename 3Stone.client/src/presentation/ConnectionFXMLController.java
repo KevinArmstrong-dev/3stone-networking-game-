@@ -123,6 +123,11 @@ public class ConnectionFXMLController {
         this.primaryStage = primaryStage;
     }
 
+    /**
+     * This helper method will look for listening severs 
+     * on a specific port number
+     * 
+     */
     private void findServers() {
         try {
             this.serverComboBox.getItems().clear();
@@ -142,6 +147,13 @@ public class ConnectionFXMLController {
         }
     }
 
+    /**
+     * This helper method helps in starting the game by passing the 
+     * inetAdderess or IP address
+     * 
+     * 
+     * @param serverAddress 
+     */
     private void startTheGame(InetSocketAddress serverAddress) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("GameViewFXML.fxml"));

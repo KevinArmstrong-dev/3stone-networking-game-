@@ -49,6 +49,11 @@ public enum Piece {
         return BLANK;
     }
 
+    /**
+     * This method will get an opposite piece Given a piece
+     * 
+     * @return 
+     */
     public Piece getOpposite()
     {
         if(this == WHITE)

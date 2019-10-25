@@ -132,6 +132,9 @@ public class Board {
         this.playedMoves.add(move);
     }
 
+    /**
+     * This helper method will reverse the last move made
+     */
     void undoLastMove() {
         if (this.playedMoves.isEmpty()) {
             return;
@@ -338,6 +341,9 @@ public class Board {
         }
     }
     
+    /**
+     * This method Will reset/Clear the board by creating a new Board object
+     */
     public void resetBoard(){
       this.pieces = new Piece[numberOfRows][numberOfColumns];
         for (Piece[] row : this.pieces) {

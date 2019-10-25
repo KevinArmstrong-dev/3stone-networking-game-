@@ -147,6 +147,9 @@ public class NetworkClient {
         moveMessage.write(out);
     }
 
+    /**
+     *This method will close the resources used by the client
+     */
     public void closeConnection() {
         try {
             socket.close();

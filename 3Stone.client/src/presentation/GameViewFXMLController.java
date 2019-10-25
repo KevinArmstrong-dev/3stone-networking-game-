@@ -108,7 +108,7 @@ public class GameViewFXMLController implements INetworkClientClient {
     }
 
     /**
-     * Action on a click button
+     * Action on a click button handler method
      *
      * @param button
      * @param row
@@ -125,7 +125,8 @@ public class GameViewFXMLController implements INetworkClientClient {
     }
 
     /**
-     * Initialize Grid
+     * Initialize Grid with buttons that have an action event event 
+     * attached on them
      */
     private void initGrid() {
         this.buttons = new Button[11][11];
@@ -154,8 +155,7 @@ public class GameViewFXMLController implements INetworkClientClient {
     /**
      * Connect to server
      *
-     * @param address
-     * @param port
+     * @param serverAddress
      * @throws IOException
      */
     public void connectToServer(InetSocketAddress serverAddress) throws IOException {
@@ -264,7 +264,7 @@ public class GameViewFXMLController implements INetworkClientClient {
     }
 
     /**
-     * Disable all buttons
+     * Enable  all buttons at the beginning of a new Game
      */
     private void enableAllButtons() {
         for (Button[] row : this.buttons) {

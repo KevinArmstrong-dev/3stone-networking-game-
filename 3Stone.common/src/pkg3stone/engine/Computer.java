@@ -283,6 +283,12 @@ public class Computer extends AbstractPlayer {
         return betterMoveAcross(board);
     }
 
+    /**
+     * This helper method will helper in counting points on the right
+     * 
+     * @param board
+     * @return 
+     */
     private int countPointRight(Board board) {
         int point = 0;
         int row = board.getLastMove().getRow();
@@ -321,6 +327,11 @@ public class Computer extends AbstractPlayer {
         return point;
     }
 
+    /**
+     * This method will do the computation for a move
+     * @param board
+     * @return 
+     */
     private Move calculateMove(Board board) {
 
         Move lastMove = board.getLastMove();
@@ -328,6 +339,11 @@ public class Computer extends AbstractPlayer {
         return bestPlaceToBlock(board);
     }
 
+    /**
+     * This method will find a good across
+     * @param board
+     * @return 
+     */
     private Move goodMoveAcross(Board board) {
         Move lastMove = board.getLastMove();
         Move tempMove = null;
