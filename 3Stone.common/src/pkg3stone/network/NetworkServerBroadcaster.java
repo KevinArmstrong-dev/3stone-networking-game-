@@ -6,10 +6,8 @@
 package pkg3stone.network;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +17,11 @@ import java.util.logging.Logger;
  * @author Svitlana Myronova
  */
 public class NetworkServerBroadcaster implements Runnable {
+
+        /**
+     * Logger
+     */
+    private static final Logger LOG = Logger.getLogger(NetworkServerBroadcaster.class.getName());
 
     public static final int DEFAULT_PORT = 50001;
     private static final int BUFFER_SIZE = 256;
@@ -60,7 +63,7 @@ public class NetworkServerBroadcaster implements Runnable {
                 DatagramPacket replyPacket = new DatagramPacket(serverPortBytes, serverPortBytes.length, packet.getSocketAddress());
                 this.broadcastSocket.send(replyPacket);
             } catch (IOException ex) {
-                Logger.getLogger(NetworkServerBroadcaster.class.getName()).log(Level.SEVERE, null, ex);
+                LOG.log(Level.SEVERE, null, ex);
             }
         }
     }

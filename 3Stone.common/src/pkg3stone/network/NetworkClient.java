@@ -18,6 +18,11 @@ import pkg3stone.engine.Piece;
  */
 public class NetworkClient {
 
+        /**
+     * Logger
+     */
+    private static final Logger LOG = Logger.getLogger(NetworkClient.class.getName());
+
     private final Socket socket;
     private final InputStream in;
     private final OutputStream out;
@@ -156,7 +161,7 @@ public class NetworkClient {
             in.close();
             out.close();
         } catch (IOException ex) {
-            Logger.getLogger(NetworkClient.class.getName()).log(Level.SEVERE, "Failed to close resource", ex);
+            LOG.log(Level.SEVERE, "Failed to close resource", ex);
         }
 
     }

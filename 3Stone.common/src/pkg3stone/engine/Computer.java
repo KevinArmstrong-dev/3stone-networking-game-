@@ -3,6 +3,7 @@ package pkg3stone.engine;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import pkg3stone.console.LogDisplay;
 
 /**
  * Computer Class
@@ -10,6 +11,11 @@ import java.util.logging.Logger;
  * @author Svitlana Myronova
  */
 public class Computer extends AbstractPlayer {
+
+    /**
+     * Logger
+     */
+    private static final Logger LOG = Logger.getLogger(Computer.class.getName());
 
     private final Random r;
 
@@ -94,15 +100,13 @@ public class Computer extends AbstractPlayer {
         if (lastMove.getColumn() + 1 < board.numberOfColumns) {
             Move tempMove = new Move(lastMove.getColumn() + 1, lastMove.getRow());
             if (board.getPiece(tempMove) == Piece.BLANK) {
-                System.out.println("Play here " + tempMove);
-                Logger.getLogger(Game.class.getName()).log(Level.INFO, "Play here {0}", tempMove);
+                LOG.log(Level.INFO, "Play here {0}", tempMove);
                 if (board.isPlayLegal(Piece.BLACK, tempMove)) {
                     return tempMove;
                 }
             }
         } else {
-            System.out.println("No where to play");
-            Logger.getLogger(Game.class.getName()).log(Level.INFO, "No Spaces On the right");
+            LOG.log(Level.INFO, "No Spaces On the right");
         }
         return null;
     }
@@ -119,16 +123,14 @@ public class Computer extends AbstractPlayer {
         if (lastMove.getColumn() - 1 > 0) {
             Move tempMove = new Move(lastMove.getColumn() - 1, lastMove.getRow());
             if (board.getPiece(tempMove) == Piece.BLANK) {
-                System.out.println("Play here " + tempMove);
-                Logger.getLogger(Game.class.getName()).log(Level.INFO, "Play here {0}", tempMove);
+                LOG.log(Level.INFO, "Play here {0}", tempMove);
                 if (board.isPlayLegal(Piece.BLACK, tempMove)) {
                     return tempMove;
                 }
                 //return tempMove; 
             }
         } else {
-            System.out.println("No where to play");
-            Logger.getLogger(Game.class.getName()).log(Level.INFO, "No Spaces On the right");
+            LOG.log(Level.INFO, "No Spaces On the right");
         }
         return null;
     }
@@ -146,15 +148,13 @@ public class Computer extends AbstractPlayer {
         if (lastMove.getRow() + 1 < board.numberOfRows) {
             Move tempMove = new Move(lastMove.getColumn(), lastMove.getRow() + 1);
             if (board.getPiece(tempMove) == Piece.BLANK) {
-                System.out.println("Play here " + tempMove);
-                Logger.getLogger(Game.class.getName()).log(Level.INFO, "Play here {0}", tempMove);
+                LOG.log(Level.INFO, "Play here {0}", tempMove);
                 if (board.isPlayLegal(Piece.BLACK, tempMove)) {
                     return tempMove;
                 }
             }
         } else {
-            System.out.println("No where to play");
-            Logger.getLogger(Game.class.getName()).log(Level.INFO, "No Spaces To Block On the bottom");
+            LOG.log(Level.INFO, "No Spaces To Block On the bottom");
         }
         return null;
     }
@@ -210,7 +210,7 @@ public class Computer extends AbstractPlayer {
      * @author Kevin Armstrong
      * @param board
      * @param move
-     * @return int
+     * @return Move
      */
     private Move betterMoveAcross(Board board) {
         Move lastMove = board.getLastMove();
@@ -285,9 +285,9 @@ public class Computer extends AbstractPlayer {
 
     /**
      * This helper method will helper in counting points on the right
-     * 
+     *
      * @param board
-     * @return 
+     * @return
      */
     private int countPointRight(Board board) {
         int point = 0;
@@ -301,7 +301,7 @@ public class Computer extends AbstractPlayer {
             }
 
         }
-        Logger.getLogger(Game.class.getName()).log(Level.INFO, "number of available points on the Right {0}", point);
+        LOG.log(Level.INFO, "number of available points on the Right {0}", point);
         return point;
     }
 
@@ -323,14 +323,15 @@ public class Computer extends AbstractPlayer {
             }
 
         }
-        Logger.getLogger(Game.class.getName()).log(Level.INFO, "number of available points on the left {0}", point);
+        LOG.log(Level.INFO, "number of available points on the left {0}", point);
         return point;
     }
 
     /**
      * This method will do the computation for a move
+     *
      * @param board
-     * @return 
+     * @return
      */
     private Move calculateMove(Board board) {
 
@@ -341,8 +342,9 @@ public class Computer extends AbstractPlayer {
 
     /**
      * This method will find a good across
+     *
      * @param board
-     * @return 
+     * @return
      */
     private Move goodMoveAcross(Board board) {
         Move lastMove = board.getLastMove();
