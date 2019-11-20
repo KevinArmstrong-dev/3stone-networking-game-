@@ -76,7 +76,6 @@ public class GameViewFXMLController implements INetworkClientClient {
 
     InetSocketAddress serverAddress;
 
-    private Piece[][] pieces;
     private Button[][] buttons;
     private Button lastPlacedStone;
 

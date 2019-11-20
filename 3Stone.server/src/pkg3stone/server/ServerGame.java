@@ -41,12 +41,7 @@ public class ServerGame implements Runnable {
             IPlayer whitePlayer = new NetworkServerPlayer(connectedClientSocket);
             IPlayer blackPlayer = new SmartComputer();
             Game g = new Game(display, whitePlayer, blackPlayer);
-            while (true) {
-                LOG.log(Level.INFO, "Play game");
-                g.play();
-                LOG.log(Level.INFO, "Restart game");
-                g.Restart(); //clear and restart the game
-            }
+            g.play();
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, null, ex);
         }
@@ -56,5 +51,4 @@ public class ServerGame implements Runnable {
             LOG.log(Level.SEVERE, null, ex);
         }
     }
-
 }
