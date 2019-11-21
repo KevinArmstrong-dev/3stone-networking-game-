@@ -12,6 +12,11 @@ import java.util.logging.Logger;
  */
 public class SmartComputer extends AbstractPlayer {
 
+        /**
+     * Logger
+     */
+    private static final Logger LOG = Logger.getLogger(SmartComputer.class.getName());
+
     private final Random r;
     private final int maxLevel = 5;
 
@@ -100,9 +105,9 @@ public class SmartComputer extends AbstractPlayer {
             }
 
             if (level == maxLevel) {
-                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Evaluating move:" + newMove);
+                LOG.log(Level.INFO, "Evaluating move:{0}", newMove);
                 if (bestMoveAndResult != null) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.INFO, " Current best:" + bestMoveAndResult.move + " " + bestMoveAndResult.result);
+                    LOG.log(Level.INFO, " Current best:{0} {1}", new Object[]{bestMoveAndResult.move, bestMoveAndResult.result});
                 }
             }
 
@@ -111,7 +116,7 @@ public class SmartComputer extends AbstractPlayer {
             MoveAndResult newMoveAndResult = findBestMove(board, level - 1);
             if (newMoveAndResult != null) {
                 if (level == maxLevel) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.INFO, " newMoveAndResult:" + newMoveAndResult.move + " " + newMoveAndResult.result);
+                    LOG.log(Level.INFO, " newMoveAndResult:{0} {1}", new Object[]{newMoveAndResult.move, newMoveAndResult.result});
                 }
                 if (bestMoveAndResult == null
                         || bestMoveAndResult.result.getScoreForPiece(getCurrentColor()) < newMoveAndResult.result.getScoreForPiece(getCurrentColor())) {
@@ -129,9 +134,9 @@ public class SmartComputer extends AbstractPlayer {
             }
 
             if (level == maxLevel) {
-                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Evaluating move:" + newMove);
+                LOG.log(Level.INFO, "Evaluating move:{0}", newMove);
                 if (bestMoveAndResult != null) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.INFO, " Current best:" + bestMoveAndResult.move + " " + bestMoveAndResult.result);
+                    LOG.log(Level.INFO, " Current best:{0} {1}", new Object[]{bestMoveAndResult.move, bestMoveAndResult.result});
                 }
             }
 
@@ -140,7 +145,7 @@ public class SmartComputer extends AbstractPlayer {
             MoveAndResult newMoveAndResult = findBestMove(board, level - 1);
             if (newMoveAndResult != null) {
                 if (level == maxLevel) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.INFO, " newMoveAndResult:" + newMoveAndResult.move + " " + newMoveAndResult.result);
+                    LOG.log(Level.INFO, " newMoveAndResult:{0} {1}", new Object[]{newMoveAndResult.move, newMoveAndResult.result});
                 }
                 if (bestMoveAndResult == null
                         || bestMoveAndResult.result.getScoreForPiece(getCurrentColor()) < newMoveAndResult.result.getScoreForPiece(getCurrentColor())) {

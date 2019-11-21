@@ -15,7 +15,7 @@ public class Game {
     private final IDisplay display;
     private final IPlayer whitePlayer;
     private final IPlayer blackPlayer;
-    private Board board;
+    private final Board board;
 
     /**
      * Constructor
@@ -83,15 +83,8 @@ public class Game {
 
         whitePlayer.gameOver(board, result);
         blackPlayer.gameOver(board, result);
-       // whitePlayer.close();
-       // blackPlayer.close();
+        
+        whitePlayer.close();
+        blackPlayer.close();
     }
-    
-    /**
-     * This method will clear the board by creating a new one
-     */
-    public void Restart(){
-       this.board = new Board();
-    }
-    
 }
