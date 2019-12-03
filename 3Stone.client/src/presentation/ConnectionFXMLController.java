@@ -33,6 +33,11 @@ import pkg3stone.network.NetworkServerPlayer;
  */
 public class ConnectionFXMLController {
 
+    /**
+     * Logger
+     */
+    private static final Logger LOG = Logger.getLogger(ConnectionFXMLController.class.getName());
+
     private Stage primaryStage;
     private ArrayList<InetSocketAddress> foundServers;
 
@@ -87,7 +92,7 @@ public class ConnectionFXMLController {
             InetSocketAddress serverAddress = new InetSocketAddress(InetAddress.getByName(serverAddressTxt.getText()), Integer.parseInt(serverPortTxt.getText()));
             startTheGame(serverAddress);
         } catch (UnknownHostException ex) {
-            Logger.getLogger(ConnectionFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -110,7 +115,7 @@ public class ConnectionFXMLController {
         serverPortTxt.setText(Integer.toString(NetworkServerPlayer.DEFAULT_PORT));
 
         findServers();
-        
+
         accordion.setExpandedPane(findServerPane);
     }
 
@@ -124,9 +129,9 @@ public class ConnectionFXMLController {
     }
 
     /**
-     * This helper method will look for listening severs 
-     * on a specific port number
-     * 
+     * This helper method will look for listening severs on a specific port
+     * number
+     *
      */
     private void findServers() {
         try {
@@ -141,18 +146,18 @@ public class ConnectionFXMLController {
                 this.serverComboBox.setValue(this.foundServers.get(0).toString());
             }
         } catch (SocketException ex) {
-            Logger.getLogger(ConnectionFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }
 
     /**
-     * This helper method helps in starting the game by passing the 
-     * inetAdderess or IP address
-     * 
-     * 
-     * @param serverAddress 
+     * This helper method helps in starting the game by passing the inetAdderess
+     * or IP address
+     *
+     *
+     * @param serverAddress
      */
     private void startTheGame(InetSocketAddress serverAddress) {
         try {
@@ -165,7 +170,7 @@ public class ConnectionFXMLController {
             Scene scene = new Scene(root);
             this.primaryStage.setScene(scene);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
             Platform.exit();
         }
     }

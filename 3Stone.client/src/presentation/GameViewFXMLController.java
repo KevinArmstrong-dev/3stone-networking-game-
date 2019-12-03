@@ -33,6 +33,11 @@ import pkg3stone.network.NetworkClient;
  */
 public class GameViewFXMLController implements INetworkClientClient {
 
+    /**
+     * Logger
+     */
+    private static final Logger LOG = Logger.getLogger(GameViewFXMLController.class.getName());
+
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -62,16 +67,15 @@ public class GameViewFXMLController implements INetworkClientClient {
 
     @FXML // Handler on exit button
     void exitButtonHandle(ActionEvent event) {
-        System.out.println("Closing the Game");
+        LOG.log(Level.INFO, "Closing the Game");
         Platform.exit();
     }
 
     @FXML // fx:id="restartBtn"
     private Button restartBtn; // Value injected by FXMLLoader
-    
+
     InetSocketAddress serverAddress;
-    
-    private Piece[][] pieces;
+
     private Button[][] buttons;
     private Button lastPlacedStone;
 
@@ -84,7 +88,7 @@ public class GameViewFXMLController implements INetworkClientClient {
         try {
             this.networkClient = new NetworkClient(this.serverAddress);
         } catch (IOException ex) {
-            Logger.getLogger(GameViewFXMLController.class.getName()).log(Level.SEVERE, "Failed to restart", ex);
+            LOG.log(Level.SEVERE, "Failed to restart", ex);
         }
 
         gameCount += 1;
@@ -119,14 +123,14 @@ public class GameViewFXMLController implements INetworkClientClient {
             Move move = new Move(row, col);
             networkClient.makeMove(move, this);
         } catch (IOException ex) {
-            Logger.getLogger(GameViewFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
             Platform.exit();
         }
     }
 
     /**
-     * Initialize Grid with buttons that have an action event event 
-     * attached on them
+     * Initialize Grid with buttons that have an action event event attached on
+     * them
      */
     private void initGrid() {
         this.buttons = new Button[11][11];
@@ -248,7 +252,7 @@ public class GameViewFXMLController implements INetworkClientClient {
         alert.showAndWait();
         restartBtn.setDisable(false);
         restartBtn.setStyle("-fx-background-color: #00ff00");
-        
+
         networkClient.closeConnection();
     }
 
@@ -264,7 +268,7 @@ public class GameViewFXMLController implements INetworkClientClient {
     }
 
     /**
-     * Enable  all buttons at the beginning of a new Game
+     * Enable all buttons at the beginning of a new Game
      */
     private void enableAllButtons() {
         for (Button[] row : this.buttons) {

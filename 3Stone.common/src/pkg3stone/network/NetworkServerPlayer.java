@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import pkg3stone.console.LogDisplay;
 import pkg3stone.engine.AbstractPlayer;
 import pkg3stone.engine.Board;
 import pkg3stone.engine.Move;
@@ -21,22 +22,24 @@ import pkg3stone.engine.Result;
  */
 public class NetworkServerPlayer extends AbstractPlayer {
 
+    /**
+     * Logger
+     */
+    private static final Logger LOG = Logger.getLogger(NetworkServerPlayer.class.getName());
+
     public static final int DEFAULT_PORT = 50000;
-    
-    private final ServerSocket serverSocket;
-    private Socket connectedClientSocket;
+
+    private final Socket connectedClientSocket;
     private InputStream clientIn;
     private OutputStream clientOut;
 
     /**
      * Constructor
      *
-     * @param port
-     * @throws IOException
+     * @param connectedClientSocket
      */
-    public NetworkServerPlayer(int port) throws IOException {
-        // Create a server socket to accept client connection requests
-        this.serverSocket = new ServerSocket(port);
+    public NetworkServerPlayer(Socket connectedClientSocket) {
+        this.connectedClientSocket = connectedClientSocket;
     }
 
     /**
@@ -49,15 +52,14 @@ public class NetworkServerPlayer extends AbstractPlayer {
     public void startTheGame(Piece piece) throws Exception {
         super.startTheGame(piece);
 
-        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Waiting player connection");
-        connectedClientSocket = serverSocket.accept();     // Get client connection
+        LOG.log(Level.INFO, "Waiting player connection");
         clientIn = connectedClientSocket.getInputStream();
         clientOut = connectedClientSocket.getOutputStream();
 
-        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending startTheGame");
+        LOG.log(Level.INFO, "Sending startTheGame");
         StartTheGameMessage startTheGameMessage = new StartTheGameMessage(piece);
         startTheGameMessage.write(clientOut);
-        
+
     }
 
     /**
@@ -69,13 +71,13 @@ public class NetworkServerPlayer extends AbstractPlayer {
      */
     @Override
     public Move chooseMove(Board board) throws IOException {
-        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Waiting the MoveMessge from client");
+        LOG.log(Level.INFO, "Waiting the MoveMessge from client");
         MoveMessage moveMessage = MoveMessage.read(clientIn);
         if (moveMessage.getMoveType() != MoveType.PROPOSED) {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, "Wrong moveType received");
+            LOG.log(Level.SEVERE, "Wrong moveType received");
             return null;
         }
-        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Got MoveMessge from client: {0}", moveMessage.getMove());
+        LOG.log(Level.INFO, "Got MoveMessge from client: {0}", moveMessage.getMove());
         return moveMessage.getMove();
     }
 
@@ -89,7 +91,7 @@ public class NetworkServerPlayer extends AbstractPlayer {
      */
     @Override
     public void moveOutcome(MoveType moveType, Move move) throws IOException {
-        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending moveOutcome");
+        LOG.log(Level.INFO, "Sending moveOutcome");
         MoveMessage mm = new MoveMessage(moveType, getCurrentColor(), move);
         mm.write(clientOut);
     }
@@ -104,8 +106,8 @@ public class NetworkServerPlayer extends AbstractPlayer {
     public void prepareMove(Board board) throws IOException {
         Move lastMove = board.getLastMove();
         if (lastMove != null) {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending last move");
-            MoveMessageWithResult moveMessageWithResult = new MoveMessageWithResult(MoveType.LAST_MOVE_AND_CONTINUE, 
+            LOG.log(Level.INFO, "Sending last move");
+            MoveMessageWithResult moveMessageWithResult = new MoveMessageWithResult(MoveType.LAST_MOVE_AND_CONTINUE,
                     board.getPiece(lastMove), lastMove, board.resultOfGame(), board.getPlayerBlackPieces(), board.getPlayerWhitePieces());
             moveMessageWithResult.write(clientOut);
         }
@@ -113,19 +115,20 @@ public class NetworkServerPlayer extends AbstractPlayer {
 
     /**
      * Called by Game to notify about game result
+     *
      * @param board
      * @param result
      * @throws java.io.IOException
      */
     @Override
     public void gameOver(Board board, Result result) throws IOException {
-        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending game over");
+        LOG.log(Level.INFO, "Sending game over");
         Move lastMove = board.getLastMove();
-        MoveMessageWithResult moveMessageWithResult = new MoveMessageWithResult(MoveType.LAST_MOVE_AND_GAME_OVER, 
+        MoveMessageWithResult moveMessageWithResult = new MoveMessageWithResult(MoveType.LAST_MOVE_AND_GAME_OVER,
                 board.getPiece(lastMove), lastMove, result, board.getPlayerBlackPieces(), board.getPlayerWhitePieces());
         moveMessageWithResult.write(clientOut);
 
-        Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.INFO, "Sending result");
+        LOG.log(Level.INFO, "Sending result");
         ResultMessage resultMessage = new ResultMessage(result);
         resultMessage.write(clientOut);
     }
@@ -139,24 +142,22 @@ public class NetworkServerPlayer extends AbstractPlayer {
             clientIn.close();
             clientOut.close();
             connectedClientSocket.close();
-           serverSocket.close();
         } catch (IOException ex) {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
-     * This method will close the client resources 
-     * like the streams and socket
+     * This method will close the client resources like the streams and socket
      */
-    public void closeClient(){
+    public void closeClient() {
         try {
             clientIn.close();
-             clientOut.close();
+            clientOut.close();
             connectedClientSocket.close();
         } catch (IOException ex) {
-            Logger.getLogger(NetworkServerPlayer.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
-        
+
     }
 }
